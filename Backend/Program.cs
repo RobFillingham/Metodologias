@@ -31,6 +31,12 @@ builder.Services.AddSwaggerGen(options =>
 // Add CORS
 builder.Services.AddCorsPolicy();
 
+// Add database context
+builder.Services.AddDatabaseContext(builder.Configuration);
+
+// Add JWT authentication
+builder.Services.AddJwtAuthentication(builder.Configuration);
+
 // Add application services
 builder.Services.AddApplicationServices();
 
@@ -58,9 +64,9 @@ app.UseHttpsRedirection();
 // Enable CORS
 app.UseCors("AllowFrontend");
 
+// Enable authentication and authorization
+app.UseAuthentication();
 app.UseAuthorization();
-
-app.MapControllers();
 
 app.MapControllers();
 
