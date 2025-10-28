@@ -1,3 +1,13 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Backend.Data.Context;
+using Backend.Repositories.Implementations;
+using Backend.Repositories.Interfaces;
+using Backend.Services.Implementations;
+using Backend.Services.Interfaces;
+
 namespace Backend.Extensions;
 
 /// <summary>
@@ -11,7 +21,7 @@ public static class ServiceExtensions
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         // Register services here
-        // Example: services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IAuthService, AuthService>();
         
         return services;
     }
@@ -22,8 +32,53 @@ public static class ServiceExtensions
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         // Register repositories here
-        // Example: services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
         
+        return services;
+    }
+
+    /// <summary>
+    /// Configure database context
+    /// </summary>
+    public static IServiceCollection AddDatabaseContext(this IServiceCollection services, IConfiguration configuration)
+    {
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        
+        services.AddDbContext<ApplicationDbContext>(options =>
+        {
+            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+        });
+
+        return services;
+    }
+
+    /// <summary>
+    /// Configure JWT authentication
+    /// </summary>
+    public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
+    {
+        var jwtSettings = configuration.GetSection("JwtSettings");
+        var secretKey = jwtSettings["SecretKey"] ?? throw new InvalidOperationException("JWT SecretKey not configured");
+
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = jwtSettings["Issuer"],
+                ValidAudience = jwtSettings["Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+            };
+        });
+
         return services;
     }
 
