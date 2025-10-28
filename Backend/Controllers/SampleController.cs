@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Backend.Models.Responses;
 
@@ -9,6 +10,7 @@ namespace Backend.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
+[Authorize] // Require authentication for all endpoints in this controller
 public class SampleController : ControllerBase
 {
     private readonly ILogger<SampleController> _logger;
@@ -23,8 +25,10 @@ public class SampleController : ControllerBase
     /// </summary>
     /// <returns>A greeting message</returns>
     /// <response code="200">Returns a successful response with greeting</response>
+    /// <response code="401">If user is not authenticated</response>
     [HttpGet]
     [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public ActionResult<ApiResponse<string>> Get()
     {
         _logger.LogInformation("Sample GET endpoint called");
@@ -42,9 +46,11 @@ public class SampleController : ControllerBase
     /// <returns>A personalized greeting message</returns>
     /// <response code="200">Returns a successful response with personalized greeting</response>
     /// <response code="400">If the name is empty or null</response>
+    /// <response code="401">If user is not authenticated</response>
     [HttpGet("{name}")]
     [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public ActionResult<ApiResponse<string>> GetByName(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
@@ -71,9 +77,11 @@ public class SampleController : ControllerBase
     /// <returns>Created item confirmation</returns>
     /// <response code="201">Returns confirmation of creation</response>
     /// <response code="400">If the data is invalid</response>
+    /// <response code="401">If user is not authenticated</response>
     [HttpPost]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public ActionResult<ApiResponse<object>> Post([FromBody] SampleData data)
     {
         if (data == null || string.IsNullOrWhiteSpace(data.Value))
