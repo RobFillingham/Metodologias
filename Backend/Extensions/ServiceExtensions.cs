@@ -22,6 +22,7 @@ public static class ServiceExtensions
     {
         // Register services here
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IParameterSetService, ParameterSetService>();
         
         return services;
     }
@@ -33,6 +34,7 @@ public static class ServiceExtensions
     {
         // Register repositories here
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IParameterSetRepository, ParameterSetRepository>();
         
         return services;
     }

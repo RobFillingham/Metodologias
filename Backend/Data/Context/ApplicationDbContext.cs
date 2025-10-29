@@ -14,6 +14,7 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<User> Users { get; set; }
+    public DbSet<ParameterSet> ParameterSets { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -45,15 +46,249 @@ public class ApplicationDbContext : DbContext
             
             entity.Property(e => e.CreatedAt)
                 .IsRequired()
-                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
             
             entity.Property(e => e.UpdatedAt)
                 .IsRequired()
-                .HasDefaultValueSql("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP");
+                .HasDefaultValueSql("CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)");
             
             entity.Property(e => e.IsActive)
                 .IsRequired()
                 .HasDefaultValue(true);
+        });
+
+        // ParameterSet entity configuration
+        modelBuilder.Entity<ParameterSet>(entity =>
+        {
+            entity.HasKey(e => e.ParamSetId);
+
+            entity.Property(e => e.SetName)
+                .IsRequired()
+                .HasMaxLength(255);
+
+            entity.Property(e => e.IsDefault)
+                .IsRequired()
+                .HasDefaultValue(false);
+
+            // COCOMO Constants with defaults and precision
+            entity.Property(e => e.ConstA)
+                .HasPrecision(10, 4)
+                .HasDefaultValue(2.94m);
+
+            entity.Property(e => e.ConstB)
+                .HasPrecision(10, 4)
+                .HasDefaultValue(0.91m);
+
+            entity.Property(e => e.ConstC)
+                .HasPrecision(10, 4)
+                .HasDefaultValue(3.67m);
+
+            entity.Property(e => e.ConstD)
+                .HasPrecision(10, 4)
+                .HasDefaultValue(0.28m);
+
+            // Scale Factors with precision
+            entity.Property(e => e.SfPrecVlo).HasPrecision(10, 4);
+            entity.Property(e => e.SfPrecLo).HasPrecision(10, 4);
+            entity.Property(e => e.SfPrecNom).HasPrecision(10, 4);
+            entity.Property(e => e.SfPrecHi).HasPrecision(10, 4);
+            entity.Property(e => e.SfPrecVhi).HasPrecision(10, 4);
+            entity.Property(e => e.SfPrecXhi).HasPrecision(10, 4);
+
+            entity.Property(e => e.SfFlexVlo).HasPrecision(10, 4);
+            entity.Property(e => e.SfFlexLo).HasPrecision(10, 4);
+            entity.Property(e => e.SfFlexNom).HasPrecision(10, 4);
+            entity.Property(e => e.SfFlexHi).HasPrecision(10, 4);
+            entity.Property(e => e.SfFlexVhi).HasPrecision(10, 4);
+            entity.Property(e => e.SfFlexXhi).HasPrecision(10, 4);
+
+            entity.Property(e => e.SfReslVlo).HasPrecision(10, 4);
+            entity.Property(e => e.SfReslLo).HasPrecision(10, 4);
+            entity.Property(e => e.SfReslNom).HasPrecision(10, 4);
+            entity.Property(e => e.SfReslHi).HasPrecision(10, 4);
+            entity.Property(e => e.SfReslVhi).HasPrecision(10, 4);
+            entity.Property(e => e.SfReslXhi).HasPrecision(10, 4);
+
+            entity.Property(e => e.SfTeamVlo).HasPrecision(10, 4);
+            entity.Property(e => e.SfTeamLo).HasPrecision(10, 4);
+            entity.Property(e => e.SfTeamNom).HasPrecision(10, 4);
+            entity.Property(e => e.SfTeamHi).HasPrecision(10, 4);
+            entity.Property(e => e.SfTeamVhi).HasPrecision(10, 4);
+            entity.Property(e => e.SfTeamXhi).HasPrecision(10, 4);
+
+            entity.Property(e => e.SfPmatVlo).HasPrecision(10, 4);
+            entity.Property(e => e.SfPmatLo).HasPrecision(10, 4);
+            entity.Property(e => e.SfPmatNom).HasPrecision(10, 4);
+            entity.Property(e => e.SfPmatHi).HasPrecision(10, 4);
+            entity.Property(e => e.SfPmatVhi).HasPrecision(10, 4);
+            entity.Property(e => e.SfPmatXhi).HasPrecision(10, 4);
+
+            // Effort Multipliers with precision
+            entity.Property(e => e.EmPersXlo).HasPrecision(10, 4);
+            entity.Property(e => e.EmPersVlo).HasPrecision(10, 4);
+            entity.Property(e => e.EmPersLo).HasPrecision(10, 4);
+            entity.Property(e => e.EmPersNom).HasPrecision(10, 4);
+            entity.Property(e => e.EmPersHi).HasPrecision(10, 4);
+            entity.Property(e => e.EmPersVhi).HasPrecision(10, 4);
+            entity.Property(e => e.EmPersXhi).HasPrecision(10, 4);
+
+            entity.Property(e => e.EmRcpxXlo).HasPrecision(10, 4);
+            entity.Property(e => e.EmRcpxVlo).HasPrecision(10, 4);
+            entity.Property(e => e.EmRcpxLo).HasPrecision(10, 4);
+            entity.Property(e => e.EmRcpxNom).HasPrecision(10, 4);
+            entity.Property(e => e.EmRcpxHi).HasPrecision(10, 4);
+            entity.Property(e => e.EmRcpxVhi).HasPrecision(10, 4);
+            entity.Property(e => e.EmRcpxXhi).HasPrecision(10, 4);
+
+            entity.Property(e => e.EmPdifXlo).HasPrecision(10, 4);
+            entity.Property(e => e.EmPdifVlo).HasPrecision(10, 4);
+            entity.Property(e => e.EmPdifLo).HasPrecision(10, 4);
+            entity.Property(e => e.EmPdifNom).HasPrecision(10, 4);
+            entity.Property(e => e.EmPdifHi).HasPrecision(10, 4);
+            entity.Property(e => e.EmPdifVhi).HasPrecision(10, 4);
+            entity.Property(e => e.EmPdifXhi).HasPrecision(10, 4);
+
+            entity.Property(e => e.EmPrexXlo).HasPrecision(10, 4);
+            entity.Property(e => e.EmPrexVlo).HasPrecision(10, 4);
+            entity.Property(e => e.EmPrexLo).HasPrecision(10, 4);
+            entity.Property(e => e.EmPrexNom).HasPrecision(10, 4);
+            entity.Property(e => e.EmPrexHi).HasPrecision(10, 4);
+            entity.Property(e => e.EmPrexVhi).HasPrecision(10, 4);
+            entity.Property(e => e.EmPrexXhi).HasPrecision(10, 4);
+
+            entity.Property(e => e.EmRuseXlo).HasPrecision(10, 4);
+            entity.Property(e => e.EmRuseVlo).HasPrecision(10, 4);
+            entity.Property(e => e.EmRuseLo).HasPrecision(10, 4);
+            entity.Property(e => e.EmRuseNom).HasPrecision(10, 4);
+            entity.Property(e => e.EmRuseHi).HasPrecision(10, 4);
+            entity.Property(e => e.EmRuseVhi).HasPrecision(10, 4);
+            entity.Property(e => e.EmRuseXhi).HasPrecision(10, 4);
+
+            entity.Property(e => e.EmFcilXlo).HasPrecision(10, 4);
+            entity.Property(e => e.EmFcilVlo).HasPrecision(10, 4);
+            entity.Property(e => e.EmFcilLo).HasPrecision(10, 4);
+            entity.Property(e => e.EmFcilNom).HasPrecision(10, 4);
+            entity.Property(e => e.EmFcilHi).HasPrecision(10, 4);
+            entity.Property(e => e.EmFcilVhi).HasPrecision(10, 4);
+            entity.Property(e => e.EmFcilXhi).HasPrecision(10, 4);
+
+            entity.Property(e => e.EmScedXlo).HasPrecision(10, 4);
+            entity.Property(e => e.EmScedVlo).HasPrecision(10, 4);
+            entity.Property(e => e.EmScedLo).HasPrecision(10, 4);
+            entity.Property(e => e.EmScedNom).HasPrecision(10, 4);
+            entity.Property(e => e.EmScedHi).HasPrecision(10, 4);
+            entity.Property(e => e.EmScedVhi).HasPrecision(10, 4);
+            entity.Property(e => e.EmScedXhi).HasPrecision(10, 4);
+
+            // Foreign key relationship
+            entity.HasOne(e => e.User)
+                .WithMany()
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            // Explicit column mappings to match the SQL schema
+            entity.Property(e => e.ParamSetId).HasColumnName("param_set_id");
+            entity.Property(e => e.UserId).HasColumnName("UserId");
+            entity.Property(e => e.SetName).HasColumnName("set_name");
+            entity.Property(e => e.IsDefault).HasColumnName("is_default");
+
+            entity.Property(e => e.ConstA).HasColumnName("const_A");
+            entity.Property(e => e.ConstB).HasColumnName("const_B");
+            entity.Property(e => e.ConstC).HasColumnName("const_C");
+            entity.Property(e => e.ConstD).HasColumnName("const_D");
+
+            // Scale Factors
+            entity.Property(e => e.SfPrecVlo).HasColumnName("sf_prec_vlo");
+            entity.Property(e => e.SfPrecLo).HasColumnName("sf_prec_lo");
+            entity.Property(e => e.SfPrecNom).HasColumnName("sf_prec_nom");
+            entity.Property(e => e.SfPrecHi).HasColumnName("sf_prec_hi");
+            entity.Property(e => e.SfPrecVhi).HasColumnName("sf_prec_vhi");
+            entity.Property(e => e.SfPrecXhi).HasColumnName("sf_prec_xhi");
+
+            entity.Property(e => e.SfFlexVlo).HasColumnName("sf_flex_vlo");
+            entity.Property(e => e.SfFlexLo).HasColumnName("sf_flex_lo");
+            entity.Property(e => e.SfFlexNom).HasColumnName("sf_flex_nom");
+            entity.Property(e => e.SfFlexHi).HasColumnName("sf_flex_hi");
+            entity.Property(e => e.SfFlexVhi).HasColumnName("sf_flex_vhi");
+            entity.Property(e => e.SfFlexXhi).HasColumnName("sf_flex_xhi");
+
+            entity.Property(e => e.SfReslVlo).HasColumnName("sf_resl_vlo");
+            entity.Property(e => e.SfReslLo).HasColumnName("sf_resl_lo");
+            entity.Property(e => e.SfReslNom).HasColumnName("sf_resl_nom");
+            entity.Property(e => e.SfReslHi).HasColumnName("sf_resl_hi");
+            entity.Property(e => e.SfReslVhi).HasColumnName("sf_resl_vhi");
+            entity.Property(e => e.SfReslXhi).HasColumnName("sf_resl_xhi");
+
+            entity.Property(e => e.SfTeamVlo).HasColumnName("sf_team_vlo");
+            entity.Property(e => e.SfTeamLo).HasColumnName("sf_team_lo");
+            entity.Property(e => e.SfTeamNom).HasColumnName("sf_team_nom");
+            entity.Property(e => e.SfTeamHi).HasColumnName("sf_team_hi");
+            entity.Property(e => e.SfTeamVhi).HasColumnName("sf_team_vhi");
+            entity.Property(e => e.SfTeamXhi).HasColumnName("sf_team_xhi");
+
+            entity.Property(e => e.SfPmatVlo).HasColumnName("sf_pmat_vlo");
+            entity.Property(e => e.SfPmatLo).HasColumnName("sf_pmat_lo");
+            entity.Property(e => e.SfPmatNom).HasColumnName("sf_pmat_nom");
+            entity.Property(e => e.SfPmatHi).HasColumnName("sf_pmat_hi");
+            entity.Property(e => e.SfPmatVhi).HasColumnName("sf_pmat_vhi");
+            entity.Property(e => e.SfPmatXhi).HasColumnName("sf_pmat_xhi");
+
+            // Effort Multipliers
+            entity.Property(e => e.EmPersXlo).HasColumnName("em_pers_xlo");
+            entity.Property(e => e.EmPersVlo).HasColumnName("em_pers_vlo");
+            entity.Property(e => e.EmPersLo).HasColumnName("em_pers_lo");
+            entity.Property(e => e.EmPersNom).HasColumnName("em_pers_nom");
+            entity.Property(e => e.EmPersHi).HasColumnName("em_pers_hi");
+            entity.Property(e => e.EmPersVhi).HasColumnName("em_pers_vhi");
+            entity.Property(e => e.EmPersXhi).HasColumnName("em_pers_xhi");
+
+            entity.Property(e => e.EmRcpxXlo).HasColumnName("em_rcpx_xlo");
+            entity.Property(e => e.EmRcpxVlo).HasColumnName("em_rcpx_vlo");
+            entity.Property(e => e.EmRcpxLo).HasColumnName("em_rcpx_lo");
+            entity.Property(e => e.EmRcpxNom).HasColumnName("em_rcpx_nom");
+            entity.Property(e => e.EmRcpxHi).HasColumnName("em_rcpx_hi");
+            entity.Property(e => e.EmRcpxVhi).HasColumnName("em_rcpx_vhi");
+            entity.Property(e => e.EmRcpxXhi).HasColumnName("em_rcpx_xhi");
+
+            entity.Property(e => e.EmPdifXlo).HasColumnName("em_pdif_xlo");
+            entity.Property(e => e.EmPdifVlo).HasColumnName("em_pdif_vlo");
+            entity.Property(e => e.EmPdifLo).HasColumnName("em_pdif_lo");
+            entity.Property(e => e.EmPdifNom).HasColumnName("em_pdif_nom");
+            entity.Property(e => e.EmPdifHi).HasColumnName("em_pdif_hi");
+            entity.Property(e => e.EmPdifVhi).HasColumnName("em_pdif_vhi");
+            entity.Property(e => e.EmPdifXhi).HasColumnName("em_pdif_xhi");
+
+            entity.Property(e => e.EmPrexXlo).HasColumnName("em_prex_xlo");
+            entity.Property(e => e.EmPrexVlo).HasColumnName("em_prex_vlo");
+            entity.Property(e => e.EmPrexLo).HasColumnName("em_prex_lo");
+            entity.Property(e => e.EmPrexNom).HasColumnName("em_prex_nom");
+            entity.Property(e => e.EmPrexHi).HasColumnName("em_prex_hi");
+            entity.Property(e => e.EmPrexVhi).HasColumnName("em_prex_vhi");
+            entity.Property(e => e.EmPrexXhi).HasColumnName("em_prex_xhi");
+
+            entity.Property(e => e.EmRuseXlo).HasColumnName("em_ruse_xlo");
+            entity.Property(e => e.EmRuseVlo).HasColumnName("em_ruse_vlo");
+            entity.Property(e => e.EmRuseLo).HasColumnName("em_ruse_lo");
+            entity.Property(e => e.EmRuseNom).HasColumnName("em_ruse_nom");
+            entity.Property(e => e.EmRuseHi).HasColumnName("em_ruse_hi");
+            entity.Property(e => e.EmRuseVhi).HasColumnName("em_ruse_vhi");
+            entity.Property(e => e.EmRuseXhi).HasColumnName("em_ruse_xhi");
+
+            entity.Property(e => e.EmFcilXlo).HasColumnName("em_fcil_xlo");
+            entity.Property(e => e.EmFcilVlo).HasColumnName("em_fcil_vlo");
+            entity.Property(e => e.EmFcilLo).HasColumnName("em_fcil_lo");
+            entity.Property(e => e.EmFcilNom).HasColumnName("em_fcil_nom");
+            entity.Property(e => e.EmFcilHi).HasColumnName("em_fcil_hi");
+            entity.Property(e => e.EmFcilVhi).HasColumnName("em_fcil_vhi");
+            entity.Property(e => e.EmFcilXhi).HasColumnName("em_fcil_xhi");
+
+            entity.Property(e => e.EmScedXlo).HasColumnName("em_sced_xlo");
+            entity.Property(e => e.EmScedVlo).HasColumnName("em_sced_vlo");
+            entity.Property(e => e.EmScedLo).HasColumnName("em_sced_lo");
+            entity.Property(e => e.EmScedNom).HasColumnName("em_sced_nom");
+            entity.Property(e => e.EmScedHi).HasColumnName("em_sced_hi");
+            entity.Property(e => e.EmScedVhi).HasColumnName("em_sced_vhi");
+            entity.Property(e => e.EmScedXhi).HasColumnName("em_sced_xhi");
         });
     }
 }
