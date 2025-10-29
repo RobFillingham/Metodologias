@@ -61,10 +61,9 @@ public class ParameterSetsController : ControllerBase
     /// </summary>
     /// <returns>List of default parameter sets</returns>
     /// <response code="200">Returns the list of default parameter sets</response>
-    /// <response code="401">If user is not authenticated</response>
     [HttpGet("default")]
+    [AllowAnonymous]
     [ProducesResponseType(typeof(ApiResponse<IEnumerable<ParameterSetDto>>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<ApiResponse<IEnumerable<ParameterSetDto>>>> GetDefaultParameterSets()
     {
         try
@@ -348,11 +347,23 @@ public class ParameterSetsController : ControllerBase
     /// </summary>
     private int GetCurrentUserId()
     {
-        var userIdClaim = User.FindFirst("userId") ?? User.FindFirst("sub");
-        if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out var userId))
+        // Try both the standard claim name and the mapped claim name
+        var userIdClaim = User.FindFirst("sub") 
+            ?? User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
+        
+        if (userIdClaim == null)
         {
+            var claims = User.Claims.Select(c => $"{c.Type}: {c.Value}").ToList();
+            _logger.LogWarning("User ID claim not found. Available claims: {Claims}", string.Join(", ", claims));
             throw new UnauthorizedAccessException("Invalid user token");
         }
+        
+        if (!int.TryParse(userIdClaim.Value, out var userId))
+        {
+            _logger.LogWarning("User ID claim value is not a valid integer: {Value}", userIdClaim.Value);
+            throw new UnauthorizedAccessException("Invalid user token");
+        }
+        
         return userId;
     }
 }

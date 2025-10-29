@@ -77,8 +77,12 @@ public static class ServiceExtensions
                 ValidateIssuerSigningKey = true,
                 ValidIssuer = jwtSettings["Issuer"],
                 ValidAudience = jwtSettings["Audience"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+                NameClaimType = "sub" // Map the 'sub' claim to User.Identity.Name
             };
+            
+            // Disable claim type mapping to preserve original claim types
+            options.MapInboundClaims = false;
         });
 
         return services;
