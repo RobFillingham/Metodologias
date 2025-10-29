@@ -16,3 +16,14 @@ CREATE TABLE IF NOT EXISTS Users (
 );
 
 
+-- Tabla de Proyectos: Contenedor principal para las estimaciones.
+CREATE TABLE Project (
+    project_id INT PRIMARY KEY AUTO_INCREMENT,
+    UserId INT NOT NULL, -- Modificado para referenciar Users(Id)
+    project_name VARCHAR(255) NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (UserId) REFERENCES Users(Id) -- Modificado
+);
+
