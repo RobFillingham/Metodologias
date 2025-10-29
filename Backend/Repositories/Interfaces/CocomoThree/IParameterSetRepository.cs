@@ -1,6 +1,6 @@
-using Backend.Models.Entities;
+using Backend.Models.Entities.CocomoThree;
 
-namespace Backend.Repositories.Interfaces;
+namespace Backend.Repositories.Interfaces.CocomoThree;
 
 /// <summary>
 /// Interface for ParameterSet repository operations

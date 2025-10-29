@@ -1,7 +1,7 @@
-using Backend.Models.DTOs;
-using Backend.Models.Entities;
+using Backend.Models.DTOs.CocomoThree;
+using Backend.Models.Entities.CocomoThree;
 
-namespace Backend.Services.Interfaces;
+namespace Backend.Services.Interfaces.CocomoThree;
 
 /// <summary>
 /// Interface for ParameterSet service operations

@@ -1,20 +1,19 @@
-namespace Backend.Models.DTOs;
+namespace Backend.Models.DTOs.CocomoThree;
 
 /// <summary>
-/// DTO for ParameterSet response (read operations)
+/// DTO for updating an existing ParameterSet
 /// </summary>
-public class ParameterSetDto
+public class UpdateParameterSetDto
 {
     public int ParamSetId { get; set; }
-    public int? UserId { get; set; }
     public string SetName { get; set; } = string.Empty;
     public bool IsDefault { get; set; } = false;
 
     // COCOMO Constants
-    public decimal ConstA { get; set; }
-    public decimal ConstB { get; set; }
-    public decimal ConstC { get; set; }
-    public decimal ConstD { get; set; }
+    public decimal ConstA { get; set; } = 2.94m;
+    public decimal ConstB { get; set; } = 0.91m;
+    public decimal ConstC { get; set; } = 3.67m;
+    public decimal ConstD { get; set; } = 0.28m;
 
     // Scale Factors (SF) - All ratings for each factor
     // PREC (Precedentedness)

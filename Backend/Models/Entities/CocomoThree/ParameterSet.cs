@@ -1,11 +1,15 @@
-namespace Backend.Models.DTOs;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Backend.Models.Entities.CocomoThree;
 
 /// <summary>
-/// DTO for updating an existing ParameterSet
+/// ParameterSet entity representing COCOMO II parameter configurations
 /// </summary>
-public class UpdateParameterSetDto
+[Table("parameterset")]
+public class ParameterSet
 {
     public int ParamSetId { get; set; }
+    public int? UserId { get; set; } // NULL for system default sets
     public string SetName { get; set; } = string.Empty;
     public bool IsDefault { get; set; } = false;
 
@@ -119,4 +123,7 @@ public class UpdateParameterSetDto
     public decimal? EmScedHi { get; set; }
     public decimal? EmScedVhi { get; set; }
     public decimal? EmScedXhi { get; set; }
+
+    // Navigation property
+    public User? User { get; set; }
 }

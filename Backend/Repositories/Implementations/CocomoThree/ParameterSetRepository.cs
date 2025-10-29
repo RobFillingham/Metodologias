@@ -1,9 +1,9 @@
 using Backend.Data.Context;
-using Backend.Models.Entities;
-using Backend.Repositories.Interfaces;
+using Backend.Models.Entities.CocomoThree;
+using Backend.Repositories.Interfaces.CocomoThree;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Repositories.Implementations;
+namespace Backend.Repositories.Implementations.CocomoThree;
 
 /// <summary>
 /// Implementation of ParameterSet repository

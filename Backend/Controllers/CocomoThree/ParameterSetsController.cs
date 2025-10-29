@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Backend.Models.DTOs;
+using Backend.Models.DTOs.CocomoThree;
 using Backend.Models.Responses;
-using Backend.Services.Interfaces;
+using Backend.Services.Interfaces.CocomoThree;
 
-namespace Backend.Controllers;
+namespace Backend.Controllers.CocomoThree;
 
 /// <summary>
 /// Controller for managing COCOMO II Parameter Sets

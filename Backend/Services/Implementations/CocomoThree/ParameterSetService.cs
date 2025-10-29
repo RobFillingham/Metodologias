@@ -1,9 +1,9 @@
-using Backend.Models.DTOs;
-using Backend.Models.Entities;
-using Backend.Repositories.Interfaces;
-using Backend.Services.Interfaces;
+using Backend.Models.DTOs.CocomoThree;
+using Backend.Models.Entities.CocomoThree;
+using Backend.Repositories.Interfaces.CocomoThree;
+using Backend.Services.Interfaces.CocomoThree;
 
-namespace Backend.Services.Implementations;
+namespace Backend.Services.Implementations.CocomoThree;
 
 /// <summary>
 /// Implementation of ParameterSet service
