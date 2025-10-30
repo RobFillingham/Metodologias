@@ -325,12 +325,15 @@ public class CocomoCalculationService : ICocomoCalculationService
 
     private decimal GetSFValue(ParameterSet paramSet, string factor, string rating)
     {
-        var propertyName = $"Sf{factor}{rating}";
+        // Convert to PascalCase: "PREC" -> "Prec", "NOM" -> "Nom"
+        var factorPascal = ToPascalCase(factor);
+        var ratingPascal = ToPascalCase(rating);
+        var propertyName = $"Sf{factorPascal}{ratingPascal}";
         var property = typeof(ParameterSet).GetProperty(propertyName);
         
         if (property == null)
         {
-            throw new ArgumentException($"Invalid SF factor/rating combination: {factor}/{rating}");
+            throw new ArgumentException($"Invalid SF factor/rating combination: {factor}/{rating} (looking for property: {propertyName})");
         }
 
         var value = property.GetValue(paramSet) as decimal?;
@@ -344,12 +347,15 @@ public class CocomoCalculationService : ICocomoCalculationService
 
     private decimal GetEMValue(ParameterSet paramSet, string factor, string rating)
     {
-        var propertyName = $"Em{factor}{rating}";
+        // Convert to PascalCase: "PERS" -> "Pers", "NOM" -> "Nom"
+        var factorPascal = ToPascalCase(factor);
+        var ratingPascal = ToPascalCase(rating);
+        var propertyName = $"Em{factorPascal}{ratingPascal}";
         var property = typeof(ParameterSet).GetProperty(propertyName);
         
         if (property == null)
         {
-            throw new ArgumentException($"Invalid EM factor/rating combination: {factor}/{rating}");
+            throw new ArgumentException($"Invalid EM factor/rating combination: {factor}/{rating} (looking for property: {propertyName})");
         }
 
         var value = property.GetValue(paramSet) as decimal?;
@@ -359,6 +365,17 @@ public class CocomoCalculationService : ICocomoCalculationService
         }
 
         return value.Value;
+    }
+
+    /// <summary>
+    /// Convert a string to PascalCase (first letter uppercase, rest lowercase)
+    /// </summary>
+    private string ToPascalCase(string input)
+    {
+        if (string.IsNullOrEmpty(input))
+            return input;
+
+        return char.ToUpper(input[0]) + input.Substring(1).ToLower();
     }
 
     #endregion
