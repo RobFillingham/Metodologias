@@ -39,6 +39,10 @@ public static class ServiceExtensions
         // Register repositories here
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IParameterSetRepository, ParameterSetRepository>();
+        services.AddScoped<ILanguageRepository, LanguageRepository>();
+        services.AddScoped<IProjectRepository, ProjectRepository>();
+        services.AddScoped<IEstimationRepository, EstimationRepository>();
+        services.AddScoped<IEstimationFunctionRepository, EstimationFunctionRepository>();
         
         return services;
     }
