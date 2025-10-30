@@ -16,6 +16,10 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<User> Users { get; set; }
     public DbSet<ParameterSet> ParameterSets { get; set; }
+    public DbSet<Language> Languages { get; set; }
+    public DbSet<Project> Projects { get; set; }
+    public DbSet<Estimation> Estimations { get; set; }
+    public DbSet<EstimationFunction> EstimationFunctions { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -290,6 +294,177 @@ public class ApplicationDbContext : DbContext
             entity.Property(e => e.EmScedHi).HasColumnName("em_sced_hi");
             entity.Property(e => e.EmScedVhi).HasColumnName("em_sced_vhi");
             entity.Property(e => e.EmScedXhi).HasColumnName("em_sced_xhi");
+        });
+
+        // Language entity configuration
+        modelBuilder.Entity<Language>(entity =>
+        {
+            entity.HasKey(e => e.LanguageId);
+
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            entity.Property(e => e.SlocPerUfp)
+                .IsRequired()
+                .HasPrecision(10, 2);
+        });
+
+        // Project entity configuration
+        modelBuilder.Entity<Project>(entity =>
+        {
+            entity.HasKey(e => e.ProjectId);
+
+            entity.Property(e => e.ProjectName)
+                .IsRequired()
+                .HasMaxLength(255);
+
+            entity.Property(e => e.Description)
+                .HasColumnType("TEXT");
+
+            entity.Property(e => e.CreatedAt)
+                .IsRequired()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+            // Foreign key relationship
+            entity.HasOne(e => e.User)
+                .WithMany()
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        // Estimation entity configuration
+        modelBuilder.Entity<Estimation>(entity =>
+        {
+            entity.HasKey(e => e.EstimationId);
+
+            entity.Property(e => e.EstimationName)
+                .IsRequired()
+                .HasMaxLength(255);
+
+            entity.Property(e => e.CreatedAt)
+                .IsRequired()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+            // Selected ratings - SF
+            entity.Property(e => e.SelectedSfPrec)
+                .IsRequired()
+                .HasMaxLength(10)
+                .HasDefaultValue("NOM");
+
+            entity.Property(e => e.SelectedSfFlex)
+                .IsRequired()
+                .HasMaxLength(10)
+                .HasDefaultValue("NOM");
+
+            entity.Property(e => e.SelectedSfResl)
+                .IsRequired()
+                .HasMaxLength(10)
+                .HasDefaultValue("NOM");
+
+            entity.Property(e => e.SelectedSfTeam)
+                .IsRequired()
+                .HasMaxLength(10)
+                .HasDefaultValue("NOM");
+
+            entity.Property(e => e.SelectedSfPmat)
+                .IsRequired()
+                .HasMaxLength(10)
+                .HasDefaultValue("NOM");
+
+            // Selected ratings - EM
+            entity.Property(e => e.SelectedEmPers)
+                .IsRequired()
+                .HasMaxLength(10)
+                .HasDefaultValue("NOM");
+
+            entity.Property(e => e.SelectedEmRcpx)
+                .IsRequired()
+                .HasMaxLength(10)
+                .HasDefaultValue("NOM");
+
+            entity.Property(e => e.SelectedEmPdif)
+                .IsRequired()
+                .HasMaxLength(10)
+                .HasDefaultValue("NOM");
+
+            entity.Property(e => e.SelectedEmPrex)
+                .IsRequired()
+                .HasMaxLength(10)
+                .HasDefaultValue("NOM");
+
+            entity.Property(e => e.SelectedEmRuse)
+                .IsRequired()
+                .HasMaxLength(10)
+                .HasDefaultValue("NOM");
+
+            entity.Property(e => e.SelectedEmFcil)
+                .IsRequired()
+                .HasMaxLength(10)
+                .HasDefaultValue("NOM");
+
+            entity.Property(e => e.SelectedEmSced)
+                .IsRequired()
+                .HasMaxLength(10)
+                .HasDefaultValue("NOM");
+
+            // Calculated results with precision
+            entity.Property(e => e.TotalUfp).HasPrecision(10, 2);
+            entity.Property(e => e.Sloc).HasPrecision(10, 2);
+            entity.Property(e => e.Ksloc).HasPrecision(10, 4);
+            entity.Property(e => e.SumSf).HasPrecision(10, 4);
+            entity.Property(e => e.ExponentE).HasPrecision(10, 4);
+            entity.Property(e => e.Eaf).HasPrecision(10, 4);
+            entity.Property(e => e.EffortPm).HasPrecision(10, 2);
+            entity.Property(e => e.TdevMonths).HasPrecision(10, 2);
+            entity.Property(e => e.AvgTeamSize).HasPrecision(10, 2);
+
+            // Actual results with precision
+            entity.Property(e => e.ActualEffortPm).HasPrecision(10, 2);
+            entity.Property(e => e.ActualTdevMonths).HasPrecision(10, 2);
+            entity.Property(e => e.ActualSloc).HasPrecision(10, 2);
+
+            // Foreign key relationships
+            entity.HasOne(e => e.Project)
+                .WithMany(p => p.Estimations)
+                .HasForeignKey(e => e.ProjectId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.ParameterSet)
+                .WithMany()
+                .HasForeignKey(e => e.ParamSetId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(e => e.Language)
+                .WithMany()
+                .HasForeignKey(e => e.LanguageId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        // EstimationFunction entity configuration
+        modelBuilder.Entity<EstimationFunction>(entity =>
+        {
+            entity.HasKey(e => e.FunctionId);
+
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(255);
+
+            entity.Property(e => e.Type)
+                .IsRequired()
+                .HasMaxLength(10);
+
+            entity.Property(e => e.Complexity)
+                .HasMaxLength(20);
+
+            entity.Property(e => e.CalculatedPoints)
+                .HasPrecision(10, 2);
+
+            // Foreign key relationship
+            entity.HasOne(e => e.Estimation)
+                .WithMany(est => est.EstimationFunctions)
+                .HasForeignKey(e => e.EstimationId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }

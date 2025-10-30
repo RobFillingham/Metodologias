@@ -1,0 +1,600 @@
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ 1. FLUJO COMPLETO DEL USUARIO                                              │
+└────────────────────────────────────────────────────────────────────────────┘
+
+1. Usuario crea un PROYECTO
+   ↓
+2. Usuario crea una ESTIMACIÓN dentro del proyecto
+   ↓
+3. Usuario agrega FUNCIONES (EI, EO, EQ, ILF, EIF) a la estimación
+   ↓
+4. Usuario selecciona RATINGS (SF y EM)
+   ↓
+5. Backend CALCULA automáticamente los resultados
+   ↓
+6. Usuario puede ver/editar/versionar la estimación
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ 2. ENDPOINTS DE LA API                                                     │
+└────────────────────────────────────────────────────────────────────────────┘
+
+═══════════════════════════════════════════════════════════════════════════
+2.1 PROYECTOS (/api/Projects)
+═══════════════════════════════════════════════════════════════════════════
+
+GET    /api/Projects                    → Listar proyectos del usuario
+GET    /api/Projects/{id}               → Obtener proyecto específico
+POST   /api/Projects                    → Crear proyecto
+PUT    /api/Projects/{id}               → Actualizar proyecto
+DELETE /api/Projects/{id}               → Eliminar proyecto
+
+Autenticación: Requerida (JWT)
+Autorización: Usuario solo ve sus propios proyectos
+
+
+═══════════════════════════════════════════════════════════════════════════
+2.2 LENGUAJES (/api/Languages) - Solo lectura
+═══════════════════════════════════════════════════════════════════════════
+
+GET    /api/Languages                   → Listar todos los lenguajes
+GET    /api/Languages/{id}              → Obtener lenguaje específico
+
+Autenticación: No requerida (datos públicos)
+Datos precargados:
+  - .NET: 57 SLOC/UFP
+  - Java: 53 SLOC/UFP
+  - C++: 50 SLOC/UFP
+  - JavaScript: 47 SLOC/UFP
+  - Python: 38 SLOC/UFP
+  - SQL: 13 SLOC/UFP
+
+
+═══════════════════════════════════════════════════════════════════════════
+2.3 SETS DE PARÁMETROS (/api/ParameterSets) - YA IMPLEMENTADO ✓
+═══════════════════════════════════════════════════════════════════════════
+
+GET    /api/ParameterSets/my            → Sets del usuario
+GET    /api/ParameterSets/default       → Sets del sistema (públicos)
+GET    /api/ParameterSets/{id}          → Set específico
+POST   /api/ParameterSets               → Crear set personalizado
+PUT    /api/ParameterSets/{id}          → Actualizar set
+DELETE /api/ParameterSets/{id}          → Eliminar set
+
+
+═══════════════════════════════════════════════════════════════════════════
+2.4 ESTIMACIONES (/api/Projects/{projectId}/Estimations)
+═══════════════════════════════════════════════════════════════════════════
+
+GET    /api/Projects/{projectId}/Estimations
+       → Listar todas las estimaciones del proyecto
+
+GET    /api/Projects/{projectId}/Estimations/{id}
+       → Obtener estimación específica con todos los datos:
+         • Información general (nombre, fecha, etc.)
+         • Lista de funciones
+         • Ratings seleccionados (SF y EM)
+         • Resultados calculados (UFP, SLOC, PM, TDEV, etc.)
+         • Resultados reales (si existen)
+
+POST   /api/Projects/{projectId}/Estimations
+       → Crear nueva estimación
+       Body: {
+         "estimationName": "v1.0 - Estimación inicial",
+         "paramSetId": 1,
+         "languageId": 1,
+         "selectedSfPrec": "NOM",
+         "selectedSfFlex": "NOM",
+         "selectedSfResl": "NOM",
+         "selectedSfTeam": "NOM",
+         "selectedSfPmat": "NOM",
+         "selectedEmPers": "NOM",
+         "selectedEmRcpx": "NOM",
+         "selectedEmPdif": "NOM",
+         "selectedEmPrex": "NOM",
+         "selectedEmRuse": "NOM",
+         "selectedEmFcil": "NOM",
+         "selectedEmSced": "NOM"
+       }
+       → Backend crea la estimación con valores por defecto
+
+PUT    /api/Projects/{projectId}/Estimations/{id}/Ratings
+       → Actualizar los ratings seleccionados (SF y EM)
+       → ⚡ RECALCULA AUTOMÁTICAMENTE toda la estimación
+       Body: {
+         "selectedSfPrec": "HI",
+         "selectedEmPers": "VHI",
+         ...
+       }
+
+PUT    /api/Projects/{projectId}/Estimations/{id}/ActualResults
+       → Guardar resultados reales del proyecto (post-mortem)
+       Body: {
+         "actualEffortPm": 22.5,
+         "actualTdevMonths": 10.2,
+         "actualSloc": 6200
+       }
+
+DELETE /api/Projects/{projectId}/Estimations/{id}
+       → Eliminar estimación
+
+
+═══════════════════════════════════════════════════════════════════════════
+2.5 FUNCIONES DE ESTIMACIÓN (/api/Estimations/{estimationId}/Functions)
+═══════════════════════════════════════════════════════════════════════════
+
+GET    /api/Estimations/{estimationId}/Functions
+       → Listar todas las funciones de la estimación
+
+GET    /api/Estimations/{estimationId}/Functions/{id}
+       → Obtener función específica
+
+POST   /api/Estimations/{estimationId}/Functions
+       → Agregar nueva función
+       Body: {
+         "name": "Crear proyecto",
+         "type": "EI",
+         "det": 8,
+         "retFtr": 2
+       }
+       → ⚡ CALCULA AUTOMÁTICAMENTE:
+         • Complejidad (Baja/Media/Alta)
+         • Puntos de función (calculated_points)
+       → ⚡ RECALCULA AUTOMÁTICAMENTE toda la estimación
+
+PUT    /api/Estimations/{estimationId}/Functions/{id}
+       → Actualizar función existente
+       → ⚡ RECALCULA AUTOMÁTICAMENTE toda la estimación
+
+DELETE /api/Estimations/{estimationId}/Functions/{id}
+       → Eliminar función
+       → ⚡ RECALCULA AUTOMÁTICAMENTE toda la estimación
+
+POST   /api/Estimations/{estimationId}/Functions/Batch
+       → Agregar múltiples funciones en una sola petición (optimización)
+       Body: {
+         "functions": [
+           { "name": "Crear proyecto", "type": "EI", "det": 8, "retFtr": 2 },
+           { "name": "Login", "type": "EI", "det": 3, "retFtr": 1 },
+           ...
+         ]
+       }
+       → ⚡ RECALCULA UNA SOLA VEZ al final
+
+
+
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ 3. FLUJO DE CÁLCULO AUTOMÁTICO                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ EVENTO: POST /api/Estimations/{id}/Functions                           │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│ 1. Usuario envía datos de la función:                                  │
+│    { "name": "Crear proyecto", "type": "EI", "det": 8, "retFtr": 2 }   │
+│                                                                         │
+│ 2. Backend guarda la función en EstimationFunction                     │
+│                                                                         │
+│ 3. Backend calcula AUTOMÁTICAMENTE:                                    │
+│    ┌───────────────────────────────────────────────────────────────┐   │
+│    │ 3.1 Determinar Complejidad según reglas IFPUG                 │   │
+│    │     - EI con DET=8, FTR=2 → Complejidad = "Media"             │   │
+│    │                                                                │   │
+│    │ 3.2 Asignar Puntos de Función según complejidad               │   │
+│    │     - EI Media → 4 PF                                          │   │
+│    │                                                                │   │
+│    │ 3.3 Actualizar EstimationFunction:                             │   │
+│    │     - complexity = "Media"                                     │   │
+│    │     - calculated_points = 4                                    │   │
+│    └───────────────────────────────────────────────────────────────┘   │
+│                                                                         │
+│ 4. Backend RECALCULA toda la estimación:                               │
+│    ┌───────────────────────────────────────────────────────────────┐   │
+│    │ 4.1 Sumar UFP total:                                           │   │
+│    │     total_ufp = SUM(calculated_points) de todas las funciones  │   │
+│    │                                                                │   │
+│    │ 4.2 Convertir a SLOC:                                          │   │
+│    │     sloc = total_ufp × language.sloc_per_ufp                   │   │
+│    │     ksloc = sloc / 1000                                        │   │
+│    │                                                                │   │
+│    │ 4.3 Calcular Sum SF:                                           │   │
+│    │     sum_sf = valor_sf_prec + valor_sf_flex + ... (5 valores)  │   │
+│    │                                                                │   │
+│    │ 4.4 Calcular Exponente E:                                      │   │
+│    │     exponent_E = const_B + (0.01 × sum_sf)                     │   │
+│    │                                                                │   │
+│    │ 4.5 Calcular EAF:                                              │   │
+│    │     eaf = valor_em_pers × valor_em_rcpx × ... (7 valores)     │   │
+│    │                                                                │   │
+│    │ 4.6 Calcular Esfuerzo (PM):                                    │   │
+│    │     effort_pm = const_A × (ksloc ^ exponent_E) × eaf           │   │
+│    │                                                                │   │
+│    │ 4.7 Calcular Duración (TDEV):                                  │   │
+│    │     F = const_D + 0.2 × (exponent_E - const_B)                 │   │
+│    │     tdev_months = const_C × (effort_pm ^ F)                    │   │
+│    │                                                                │   │
+│    │ 4.8 Calcular Tamaño de Equipo:                                 │   │
+│    │     avg_team_size = effort_pm / tdev_months                    │   │
+│    │                                                                │   │
+│    │ 4.9 Actualizar tabla Estimation con todos los resultados      │   │
+│    └───────────────────────────────────────────────────────────────┘   │
+│                                                                         │
+│ 5. Backend retorna la función creada con puntos calculados             │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ EVENTO: PUT /api/Estimations/{id}/Ratings                              │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│ 1. Usuario envía nuevos ratings:                                       │
+│    { "selectedSfPrec": "HI", "selectedEmPers": "VHI", ... }             │
+│                                                                         │
+│ 2. Backend actualiza los campos selected_* en Estimation               │
+│                                                                         │
+│ 3. Backend RECALCULA automáticamente (pasos 4.3 a 4.9 de arriba)       │
+│                                                                         │
+│ 4. Backend retorna la estimación actualizada con nuevos resultados     │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ 4. REGLAS DE NEGOCIO - CÁLCULO DE COMPLEJIDAD Y PUNTOS                    │
+└────────────────────────────────────────────────────────────────────────────┘
+
+═══════════════════════════════════════════════════════════════════════════
+4.1 ENTRADAS EXTERNAS (EI)
+═══════════════════════════════════════════════════════════════════════════
+
+Complejidad BAJA → 3 PF
+  - DET ≤ 4 Y FTR ≤ 1
+
+Complejidad MEDIA → 4 PF
+  - (DET 5-15) O (FTR 2-3)
+
+Complejidad ALTA → 6 PF
+  - DET ≥ 16 O FTR ≥ 4
+
+
+═══════════════════════════════════════════════════════════════════════════
+4.2 SALIDAS EXTERNAS (EO)
+═══════════════════════════════════════════════════════════════════════════
+
+Complejidad BAJA → 4 PF
+  - DET ≤ 5 Y FTR ≤ 1
+
+Complejidad MEDIA → 5 PF
+  - (DET 6-19) O (FTR 2-3)
+
+Complejidad ALTA → 7 PF
+  - DET ≥ 20 O FTR ≥ 4
+
+
+═══════════════════════════════════════════════════════════════════════════
+4.3 CONSULTAS EXTERNAS (EQ)
+═══════════════════════════════════════════════════════════════════════════
+
+Complejidad BAJA → 3 PF
+  - DET ≤ 5 Y FTR ≤ 1
+
+Complejidad MEDIA → 4 PF
+  - (DET 6-19) O (FTR 2-3)
+
+Complejidad ALTA → 6 PF
+  - DET ≥ 20 O FTR ≥ 4
+
+
+═══════════════════════════════════════════════════════════════════════════
+4.4 ARCHIVOS LÓGICOS INTERNOS (ILF)
+═══════════════════════════════════════════════════════════════════════════
+
+Complejidad BAJA → 7 PF
+  - DET ≤ 19 Y RET = 1
+
+Complejidad MEDIA → 10 PF
+  - (DET 20-50) O (RET 2-5)
+
+Complejidad ALTA → 15 PF
+  - DET ≥ 51 O RET ≥ 6
+
+
+═══════════════════════════════════════════════════════════════════════════
+4.5 ARCHIVOS DE INTERFAZ EXTERNOS (EIF)
+═══════════════════════════════════════════════════════════════════════════
+
+Complejidad BAJA → 5 PF
+  - DET ≤ 19 Y RET = 1
+
+Complejidad MEDIA → 7 PF
+  - (DET 20-50) O (RET 2-5)
+
+Complejidad ALTA → 10 PF
+  - DET ≥ 51 O RET ≥ 6
+
+
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ 8. PLAN DE IMPLEMENTACIÓN (ORDEN SUGERIDO)                                │
+└────────────────────────────────────────────────────────────────────────────┘
+
+FASE 1: ENTIDADES Y BASE DE DATOS
+──────────────────────────────────
+□ Crear entidad Project
+□ Crear entidad Language
+□ Crear entidad Estimation
+□ Crear entidad EstimationFunction
+□ Actualizar ApplicationDbContext con las nuevas entidades
+□ Generar migración
+□ Aplicar migración a la base de datos
+□ Insertar datos iniciales (Lenguajes y ParameterSet default)
+
+
+FASE 2: REPOSITORIOS
+────────────────────
+□ Crear IProjectRepository + ProjectRepository
+□ Crear ILanguageRepository + LanguageRepository
+□ Crear IEstimationRepository + EstimationRepository
+□ Crear IEstimationFunctionRepository + EstimationFunctionRepository
+□ Registrar repositorios en ServiceExtensions
+
+
+FASE 3: SERVICIO DE CÁLCULO (CEREBRO DEL SISTEMA) ⭐
+───────────────────────────────────────────────────
+□ Crear ICocomoCalculationService
+□ Implementar CocomoCalculationService con todos los métodos:
+  □ DetermineComplexity()
+  □ GetFunctionPoints()
+  □ CalculateFunctionComplexityAsync()
+  □ CalculateTotalUFP()
+  □ ConvertToSLOC()
+  □ CalculateSumSF()
+  □ CalculateExponent()
+  □ CalculateEAF()
+  □ CalculateEffort()
+  □ CalculateDuration()
+  □ CalculateTeamSize()
+  □ RecalculateEstimationAsync()
+□ Registrar servicio en ServiceExtensions
+
+
+FASE 4: SERVICIOS DE NEGOCIO
+────────────────────────────
+□ Crear IProjectService + ProjectService
+□ Crear ILanguageService + LanguageService
+□ Crear IEstimationService + EstimationService
+□ Crear IEstimationFunctionService + EstimationFunctionService
+□ Registrar servicios en ServiceExtensions
+
+
+FASE 5: DTOs
+────────────
+□ Crear DTOs para Project (ProjectDto, CreateProjectDto, UpdateProjectDto)
+□ Crear DTOs para Language (LanguageDto)
+□ Crear DTOs para Estimation (EstimationDto, CreateEstimationDto, etc.)
+□ Crear DTOs para Function (FunctionDto, CreateFunctionDto, etc.)
+
+
+FASE 6: CONTROLADORES
+─────────────────────
+□ Crear ProjectsController
+□ Crear LanguagesController
+□ Crear EstimationsController
+□ Crear EstimationFunctionsController
+
+
+
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ 9. EJEMPLO DE USO DE LA API (FLUJO COMPLETO)                              │
+└────────────────────────────────────────────────────────────────────────────┘
+
+// ═══════════════════════════════════════════════════════════════════════
+// 1. CREAR PROYECTO
+// ═══════════════════════════════════════════════════════════════════════
+
+POST /api/Projects
+Authorization: Bearer {token}
+{
+  "projectName": "Sistema de Gestión de Proyectos",
+  "description": "Aplicación web para gestión de proyectos"
+}
+
+→ Response 201:
+{
+  "success": true,
+  "message": "Project created successfully",
+  "data": {
+    "projectId": 1,
+    "userId": 5,
+    "projectName": "Sistema de Gestión de Proyectos",
+    "description": "Aplicación web para gestión de proyectos",
+    "createdAt": "2025-10-29T10:00:00Z"
+  }
+}
+
+
+// ═══════════════════════════════════════════════════════════════════════
+// 2. LISTAR LENGUAJES DISPONIBLES
+// ═══════════════════════════════════════════════════════════════════════
+
+GET /api/Languages
+
+→ Response 200:
+{
+  "success": true,
+  "data": [
+    { "languageId": 1, "name": ".NET", "slocPerUfp": 57 },
+    { "languageId": 2, "name": "Java", "slocPerUfp": 53 },
+    { "languageId": 3, "name": "C++", "slocPerUfp": 50 },
+    { "languageId": 4, "name": "JavaScript", "slocPerUfp": 47 },
+    { "languageId": 5, "name": "Python", "slocPerUfp": 38 },
+    { "languageId": 6, "name": "SQL", "slocPerUfp": 13 }
+  ]
+}
+
+
+// ═══════════════════════════════════════════════════════════════════════
+// 3. CREAR ESTIMACIÓN
+// ═══════════════════════════════════════════════════════════════════════
+
+POST /api/Projects/1/Estimations
+Authorization: Bearer {token}
+{
+  "estimationName": "v1.0 - Estimación inicial",
+  "paramSetId": 1,
+  "languageId": 1,
+  "selectedSfPrec": "NOM",
+  "selectedSfFlex": "NOM",
+  "selectedSfResl": "NOM",
+  "selectedSfTeam": "NOM",
+  "selectedSfPmat": "NOM",
+  "selectedEmPers": "NOM",
+  "selectedEmRcpx": "NOM",
+  "selectedEmPdif": "NOM",
+  "selectedEmPrex": "NOM",
+  "selectedEmRuse": "NOM",
+  "selectedEmFcil": "NOM",
+  "selectedEmSced": "NOM"
+}
+
+→ Response 201:
+{
+  "success": true,
+  "data": {
+    "estimationId": 1,
+    "projectId": 1,
+    "estimationName": "v1.0 - Estimación inicial",
+    "totalUfp": 0,
+    "sloc": 0,
+    "effortPm": 0,
+    "tdevMonths": 0,
+    ...
+  }
+}
+
+
+// ═══════════════════════════════════════════════════════════════════════
+// 4. AGREGAR FUNCIONES (una por una)
+// ═══════════════════════════════════════════════════════════════════════
+
+POST /api/Estimations/1/Functions
+{
+  "name": "Crear proyecto",
+  "type": "EI",
+  "det": 8,
+  "retFtr": 2
+}
+
+→ ⚡ Backend calcula automáticamente:
+    - Complejidad: "Media" (DET=8, FTR=2 → EI Media)
+    - Puntos: 4
+→ ⚡ Backend recalcula la estimación completa
+
+→ Response 201:
+{
+  "success": true,
+  "data": {
+    "functionId": 1,
+    "name": "Crear proyecto",
+    "type": "EI",
+    "det": 8,
+    "retFtr": 2,
+    "complexity": "Media",
+    "calculatedPoints": 4
+  }
+}
+
+
+// ═══════════════════════════════════════════════════════════════════════
+// 5. AGREGAR MÚLTIPLES FUNCIONES (batch)
+// ═══════════════════════════════════════════════════════════════════════
+
+POST /api/Estimations/1/Functions/Batch
+{
+  "functions": [
+    { "name": "Login", "type": "EI", "det": 3, "retFtr": 1 },
+    { "name": "Reporte resumen", "type": "EO", "det": 20, "retFtr": 3 },
+    { "name": "Buscar proyectos", "type": "EQ", "det": 5, "retFtr": 1 }
+  ]
+}
+
+→ Response 201:
+{
+  "success": true,
+  "data": {
+    "functionsCreated": 3,
+    "totalUfp": 17,
+    "sloc": 969
+  }
+}
+
+
+// ═══════════════════════════════════════════════════════════════════════
+// 6. ACTUALIZAR RATINGS
+// ═══════════════════════════════════════════════════════════════════════
+
+PUT /api/Projects/1/Estimations/1/Ratings
+{
+  "selectedSfPrec": "HI",
+  "selectedEmPers": "VHI"
+}
+
+→ ⚡ Backend recalcula automáticamente con nuevos ratings
+
+→ Response 200:
+{
+  "success": true,
+  "data": {
+    "estimationId": 1,
+    "totalUfp": 104,
+    "sloc": 5928,
+    "ksloc": 5.928,
+    "sumSf": 5.00,
+    "exponentE": 0.96,
+    "eaf": 1.00,
+    "effortPm": 20.81,
+    "tdevMonths": 9.63,
+    "avgTeamSize": 2.16
+  }
+}
+
+
+// ═══════════════════════════════════════════════════════════════════════
+// 7. OBTENER ESTIMACIÓN COMPLETA
+// ═══════════════════════════════════════════════════════════════════════
+
+GET /api/Projects/1/Estimations/1
+
+→ Response 200:
+{
+  "success": true,
+  "data": {
+    "estimationId": 1,
+    "estimationName": "v1.0 - Estimación inicial",
+    "language": { "name": ".NET", "slocPerUfp": 57 },
+    "parameterSet": { "setName": "Default COCOMO II" },
+    "functions": [
+      { "name": "Crear proyecto", "type": "EI", "complexity": "Media", "points": 4 },
+      { "name": "Login", "type": "EI", "complexity": "Baja", "points": 3 },
+      ...
+    ],
+    "results": {
+      "totalUfp": 104,
+      "sloc": 5928,
+      "ksloc": 5.928,
+      "effortPm": 20.81,
+      "tdevMonths": 9.63,
+      "avgTeamSize": 2.16
+    }
+  }
+}
+
