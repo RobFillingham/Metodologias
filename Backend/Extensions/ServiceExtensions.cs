@@ -27,6 +27,7 @@ public static class ServiceExtensions
         // Register services here
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IParameterSetService, ParameterSetService>();
+        services.AddScoped<ICocomoCalculationService, CocomoCalculationService>();
         
         return services;
     }
