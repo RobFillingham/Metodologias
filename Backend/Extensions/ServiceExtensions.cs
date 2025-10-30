@@ -28,6 +28,10 @@ public static class ServiceExtensions
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IParameterSetService, ParameterSetService>();
         services.AddScoped<ICocomoCalculationService, CocomoCalculationService>();
+        services.AddScoped<ILanguageService, LanguageService>();
+        services.AddScoped<IProjectService, ProjectService>();
+        services.AddScoped<IEstimationService, EstimationService>();
+        services.AddScoped<IEstimationFunctionService, EstimationFunctionService>();
         
         return services;
     }

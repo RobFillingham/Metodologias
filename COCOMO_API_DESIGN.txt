@@ -597,4 +597,3 @@ GET /api/Projects/1/Estimations/1
     }
   }
 }
-
