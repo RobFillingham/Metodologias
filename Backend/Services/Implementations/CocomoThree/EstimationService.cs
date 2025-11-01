@@ -261,9 +261,118 @@ public class EstimationService : IEstimationService
                 dto.ParameterSet = new ParameterSetDto
                 {
                     ParamSetId = estimation.ParameterSet.ParamSetId,
+                    UserId = estimation.ParameterSet.UserId,
                     SetName = estimation.ParameterSet.SetName,
-                    IsDefault = estimation.ParameterSet.IsDefault
-                    // Add other fields if needed
+                    IsDefault = estimation.ParameterSet.IsDefault,
+                    
+                    // COCOMO Constants
+                    ConstA = estimation.ParameterSet.ConstA,
+                    ConstB = estimation.ParameterSet.ConstB,
+                    ConstC = estimation.ParameterSet.ConstC,
+                    ConstD = estimation.ParameterSet.ConstD,
+                    
+                    // Scale Factors - PREC
+                    SfPrecVlo = estimation.ParameterSet.SfPrecVlo,
+                    SfPrecLo = estimation.ParameterSet.SfPrecLo,
+                    SfPrecNom = estimation.ParameterSet.SfPrecNom,
+                    SfPrecHi = estimation.ParameterSet.SfPrecHi,
+                    SfPrecVhi = estimation.ParameterSet.SfPrecVhi,
+                    SfPrecXhi = estimation.ParameterSet.SfPrecXhi,
+                    
+                    // Scale Factors - FLEX
+                    SfFlexVlo = estimation.ParameterSet.SfFlexVlo,
+                    SfFlexLo = estimation.ParameterSet.SfFlexLo,
+                    SfFlexNom = estimation.ParameterSet.SfFlexNom,
+                    SfFlexHi = estimation.ParameterSet.SfFlexHi,
+                    SfFlexVhi = estimation.ParameterSet.SfFlexVhi,
+                    SfFlexXhi = estimation.ParameterSet.SfFlexXhi,
+                    
+                    // Scale Factors - RESL
+                    SfReslVlo = estimation.ParameterSet.SfReslVlo,
+                    SfReslLo = estimation.ParameterSet.SfReslLo,
+                    SfReslNom = estimation.ParameterSet.SfReslNom,
+                    SfReslHi = estimation.ParameterSet.SfReslHi,
+                    SfReslVhi = estimation.ParameterSet.SfReslVhi,
+                    SfReslXhi = estimation.ParameterSet.SfReslXhi,
+                    
+                    // Scale Factors - TEAM
+                    SfTeamVlo = estimation.ParameterSet.SfTeamVlo,
+                    SfTeamLo = estimation.ParameterSet.SfTeamLo,
+                    SfTeamNom = estimation.ParameterSet.SfTeamNom,
+                    SfTeamHi = estimation.ParameterSet.SfTeamHi,
+                    SfTeamVhi = estimation.ParameterSet.SfTeamVhi,
+                    SfTeamXhi = estimation.ParameterSet.SfTeamXhi,
+                    
+                    // Scale Factors - PMAT
+                    SfPmatVlo = estimation.ParameterSet.SfPmatVlo,
+                    SfPmatLo = estimation.ParameterSet.SfPmatLo,
+                    SfPmatNom = estimation.ParameterSet.SfPmatNom,
+                    SfPmatHi = estimation.ParameterSet.SfPmatHi,
+                    SfPmatVhi = estimation.ParameterSet.SfPmatVhi,
+                    SfPmatXhi = estimation.ParameterSet.SfPmatXhi,
+                    
+                    // Effort Multipliers - PERS
+                    EmPersXlo = estimation.ParameterSet.EmPersXlo,
+                    EmPersVlo = estimation.ParameterSet.EmPersVlo,
+                    EmPersLo = estimation.ParameterSet.EmPersLo,
+                    EmPersNom = estimation.ParameterSet.EmPersNom,
+                    EmPersHi = estimation.ParameterSet.EmPersHi,
+                    EmPersVhi = estimation.ParameterSet.EmPersVhi,
+                    EmPersXhi = estimation.ParameterSet.EmPersXhi,
+                    
+                    // Effort Multipliers - RCPX
+                    EmRcpxXlo = estimation.ParameterSet.EmRcpxXlo,
+                    EmRcpxVlo = estimation.ParameterSet.EmRcpxVlo,
+                    EmRcpxLo = estimation.ParameterSet.EmRcpxLo,
+                    EmRcpxNom = estimation.ParameterSet.EmRcpxNom,
+                    EmRcpxHi = estimation.ParameterSet.EmRcpxHi,
+                    EmRcpxVhi = estimation.ParameterSet.EmRcpxVhi,
+                    EmRcpxXhi = estimation.ParameterSet.EmRcpxXhi,
+                    
+                    // Effort Multipliers - PDIF
+                    EmPdifXlo = estimation.ParameterSet.EmPdifXlo,
+                    EmPdifVlo = estimation.ParameterSet.EmPdifVlo,
+                    EmPdifLo = estimation.ParameterSet.EmPdifLo,
+                    EmPdifNom = estimation.ParameterSet.EmPdifNom,
+                    EmPdifHi = estimation.ParameterSet.EmPdifHi,
+                    EmPdifVhi = estimation.ParameterSet.EmPdifVhi,
+                    EmPdifXhi = estimation.ParameterSet.EmPdifXhi,
+                    
+                    // Effort Multipliers - PREX
+                    EmPrexXlo = estimation.ParameterSet.EmPrexXlo,
+                    EmPrexVlo = estimation.ParameterSet.EmPrexVlo,
+                    EmPrexLo = estimation.ParameterSet.EmPrexLo,
+                    EmPrexNom = estimation.ParameterSet.EmPrexNom,
+                    EmPrexHi = estimation.ParameterSet.EmPrexHi,
+                    EmPrexVhi = estimation.ParameterSet.EmPrexVhi,
+                    EmPrexXhi = estimation.ParameterSet.EmPrexXhi,
+                    
+                    // Effort Multipliers - RUSE
+                    EmRuseXlo = estimation.ParameterSet.EmRuseXlo,
+                    EmRuseVlo = estimation.ParameterSet.EmRuseVlo,
+                    EmRuseLo = estimation.ParameterSet.EmRuseLo,
+                    EmRuseNom = estimation.ParameterSet.EmRuseNom,
+                    EmRuseHi = estimation.ParameterSet.EmRuseHi,
+                    EmRuseVhi = estimation.ParameterSet.EmRuseVhi,
+                    EmRuseXhi = estimation.ParameterSet.EmRuseXhi,
+                    
+                    // Effort Multipliers - FCIL
+                    EmFcilXlo = estimation.ParameterSet.EmFcilXlo,
+                    EmFcilVlo = estimation.ParameterSet.EmFcilVlo,
+                    EmFcilLo = estimation.ParameterSet.EmFcilLo,
+                    EmFcilNom = estimation.ParameterSet.EmFcilNom,
+                    EmFcilHi = estimation.ParameterSet.EmFcilHi,
+                    EmFcilVhi = estimation.ParameterSet.EmFcilVhi,
+                    EmFcilXhi = estimation.ParameterSet.EmFcilXhi,
+                    
+                    // Effort Multipliers - SCED
+                    EmScedXlo = estimation.ParameterSet.EmScedXlo,
+                    EmScedVlo = estimation.ParameterSet.EmScedVlo,
+                    EmScedLo = estimation.ParameterSet.EmScedLo,
+                    EmScedNom = estimation.ParameterSet.EmScedNom,
+                    EmScedHi = estimation.ParameterSet.EmScedHi,
+                    EmScedVhi = estimation.ParameterSet.EmScedVhi,
+                    EmScedXhi = estimation.ParameterSet.EmScedXhi
                 };
             }
 
