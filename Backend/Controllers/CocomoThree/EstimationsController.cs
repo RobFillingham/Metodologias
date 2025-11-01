@@ -13,6 +13,7 @@ namespace Backend.Controllers.CocomoThree;
 [Route("api/Projects/{projectId}/[controller]")]
 [Authorize]
 [Produces("application/json")]
+[Tags("COCOMO II - Estimations")]
 public class EstimationsController : ControllerBase
 {
     private readonly IEstimationService _estimationService;

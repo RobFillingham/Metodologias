@@ -11,6 +11,7 @@ namespace Backend.Controllers.CocomoThree;
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
+[Tags("COCOMO II - Languages")]
 public class LanguagesController : ControllerBase
 {
     private readonly ILanguageService _languageService;

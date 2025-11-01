@@ -48,6 +48,29 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 
+    // Order tags/controllers alphabetically
+    options.OrderActionsBy((apiDesc) => 
+    {
+        var controllerName = apiDesc.ActionDescriptor.RouteValues["controller"];
+        var actionName = apiDesc.ActionDescriptor.RouteValues["action"];
+        var httpMethod = apiDesc.HttpMethod;
+        
+        // Define custom order for endpoints
+        var order = controllerName switch
+        {
+            "Auth" => "1",
+            "ParameterSets" => "2",
+            "Languages" => "3",
+            "Projects" => "4",
+            "Estimations" => "5",
+            "Functions" => "6",
+            _ => "9"
+        };
+        
+        // Order by: GroupNumber-ControllerName-HttpMethod-ActionName
+        return $"{order}-{controllerName}-{httpMethod}-{actionName}";
+    });
+
     // Enable XML comments (optional)
     // var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     // var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);

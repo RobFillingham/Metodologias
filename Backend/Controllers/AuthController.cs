@@ -11,6 +11,7 @@ namespace Backend.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
+[Tags("Authentication")]
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;

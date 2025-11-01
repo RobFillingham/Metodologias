@@ -13,6 +13,7 @@ namespace Backend.Controllers.CocomoThree;
 [Route("api/[controller]")]
 [Authorize]
 [Produces("application/json")]
+[Tags("COCOMO II - Projects")]
 public class ProjectsController : ControllerBase
 {
     private readonly IProjectService _projectService;
