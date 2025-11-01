@@ -20,6 +20,9 @@ public class EstimationRepository : IEstimationRepository
     public async Task<IEnumerable<Estimation>> GetByProjectIdAsync(int projectId)
     {
         return await _context.Estimations
+            .Include(e => e.Language)
+            .Include(e => e.ParameterSet)
+            .Include(e => e.EstimationFunctions)
             .Where(e => e.ProjectId == projectId)
             .OrderByDescending(e => e.CreatedAt)
             .ToListAsync();

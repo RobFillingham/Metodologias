@@ -40,7 +40,7 @@ public class EstimationService : IEstimationService
 
         var estimations = await _estimationRepository.GetByProjectIdAsync(projectId);
         
-        return estimations.Select(e => MapToDto(e, false));
+        return estimations.Select(e => MapToDto(e, true));
     }
 
     public async Task<EstimationDto?> GetEstimationByIdAsync(int estimationId, int userId)
