@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Backend.Models.Entities;
 using Backend.Models.Entities.CocomoThree;
+using Backend.Models.Entities.CocomoOne;
 
 namespace Backend.Data.Context;
 
@@ -20,6 +21,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Project> Projects { get; set; }
     public DbSet<Estimation> Estimations { get; set; }
     public DbSet<EstimationFunction> EstimationFunctions { get; set; }
+    public DbSet<Cocomo1Estimation> Cocomo1Estimations { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

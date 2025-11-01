@@ -5,12 +5,16 @@ using Microsoft.IdentityModel.Tokens;
 using Backend.Data.Context;
 using Backend.Repositories.Implementations;
 using Backend.Repositories.Implementations.CocomoThree;
+using Backend.Repositories.Implementations.CocomoOne;
 using Backend.Repositories.Interfaces;
 using Backend.Repositories.Interfaces.CocomoThree;
+using Backend.Repositories.Interfaces.CocomoOne;
 using Backend.Services.Implementations;
 using Backend.Services.Implementations.CocomoThree;
+using Backend.Services.Implementations.CocomoOne;
 using Backend.Services.Interfaces;
 using Backend.Services.Interfaces.CocomoThree;
+using Backend.Services.Interfaces.CocomoOne;
 
 namespace Backend.Extensions;
 
@@ -24,7 +28,7 @@ public static class ServiceExtensions
     /// </summary>
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        // Register services here
+        // Register COCOMO 3 services
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IParameterSetService, ParameterSetService>();
         services.AddScoped<ICocomoCalculationService, CocomoCalculationService>();
@@ -32,6 +36,9 @@ public static class ServiceExtensions
         services.AddScoped<IProjectService, ProjectService>();
         services.AddScoped<IEstimationService, EstimationService>();
         services.AddScoped<IEstimationFunctionService, EstimationFunctionService>();
+        
+        // Register COCOMO 1 services
+        services.AddScoped<ICocomo1EstimationService, Cocomo1EstimationService>();
         
         return services;
     }
@@ -41,13 +48,16 @@ public static class ServiceExtensions
     /// </summary>
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        // Register repositories here
+        // Register COCOMO 3 repositories
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IParameterSetRepository, ParameterSetRepository>();
         services.AddScoped<ILanguageRepository, LanguageRepository>();
         services.AddScoped<IProjectRepository, ProjectRepository>();
         services.AddScoped<IEstimationRepository, EstimationRepository>();
         services.AddScoped<IEstimationFunctionRepository, EstimationFunctionRepository>();
+        
+        // Register COCOMO 1 repositories
+        services.AddScoped<ICocomo1EstimationRepository, Cocomo1EstimationRepository>();
         
         return services;
     }
