@@ -22,6 +22,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Estimation> Estimations { get; set; }
     public DbSet<EstimationFunction> EstimationFunctions { get; set; }
     public DbSet<Cocomo1Estimation> Cocomo1Estimations { get; set; }
+    public DbSet<KlocEstimation> KlocEstimations { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

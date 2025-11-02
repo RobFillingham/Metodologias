@@ -40,6 +40,9 @@ public static class ServiceExtensions
         // Register COCOMO 1 services
         services.AddScoped<ICocomo1EstimationService, Cocomo1EstimationService>();
         
+        // Register KLOC services
+        services.AddScoped<IKlocEstimationService, KlocEstimationService>();
+        
         return services;
     }
 
@@ -58,6 +61,9 @@ public static class ServiceExtensions
         
         // Register COCOMO 1 repositories
         services.AddScoped<ICocomo1EstimationRepository, Cocomo1EstimationRepository>();
+        
+        // Register KLOC repositories
+        services.AddScoped<IKlocEstimationRepository, KlocEstimationRepository>();
         
         return services;
     }
