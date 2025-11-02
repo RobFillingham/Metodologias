@@ -43,6 +43,12 @@ public static class ServiceExtensions
         // Register KLOC services
         services.AddScoped<IKlocEstimationService, KlocEstimationService>();
         
+        // Register Function Point services
+        services.AddScoped<IFunctionPointEstimationService, FunctionPointEstimationService>();
+        
+        // Register Use Case Point services
+        services.AddScoped<IUseCasePointEstimationService, UseCasePointEstimationService>();
+        
         return services;
     }
 
@@ -64,6 +70,12 @@ public static class ServiceExtensions
         
         // Register KLOC repositories
         services.AddScoped<IKlocEstimationRepository, KlocEstimationRepository>();
+        
+        // Register Function Point repositories
+        services.AddScoped<IFunctionPointEstimationRepository, FunctionPointEstimationRepository>();
+        
+        // Register Use Case Point repositories
+        services.AddScoped<IUseCasePointEstimationRepository, UseCasePointEstimationRepository>();
         
         return services;
     }

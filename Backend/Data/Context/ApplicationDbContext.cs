@@ -23,6 +23,11 @@ public class ApplicationDbContext : DbContext
     public DbSet<EstimationFunction> EstimationFunctions { get; set; }
     public DbSet<Cocomo1Estimation> Cocomo1Estimations { get; set; }
     public DbSet<KlocEstimation> KlocEstimations { get; set; }
+    public DbSet<FunctionPointEstimation> FunctionPointEstimations { get; set; }
+    public DbSet<FunctionPointCharacteristic> FunctionPointCharacteristics { get; set; }
+    public DbSet<UseCasePointEstimation> UseCasePointEstimations { get; set; }
+    public DbSet<UseCaseTechnicalFactor> UseCaseTechnicalFactors { get; set; }
+    public DbSet<UseCaseEnvironmentFactor> UseCaseEnvironmentFactors { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
