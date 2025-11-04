@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { ApiService } from './api.service';
-import { StorageService } from './storage.service';
-import { ApiResponse, Estimation, CreateEstimationRequest, UpdateEstimationRatingsRequest, UpdateEstimationActualResultsRequest } from '../models/cocomo.models';
+import { ApiService } from '../api.service';
+import { StorageService } from '../storage.service';
+import { ApiResponse, Estimation, CreateEstimationRequest, UpdateEstimationRatingsRequest, UpdateEstimationActualResultsRequest } from '../../models/cocomo2/cocomo.models';
 
 /**
  * Service for estimation-related operations

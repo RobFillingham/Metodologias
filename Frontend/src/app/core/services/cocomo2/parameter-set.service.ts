@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiService } from './api.service';
-import { ApiResponse, ParameterSet, CreateParameterSetRequest } from '../models/cocomo.models';
+import { ApiService } from '../api.service';
+import { ApiResponse, ParameterSet, CreateParameterSetRequest } from '../../models/cocomo2/cocomo.models';
 
 /**
  * Service for parameter set-related operations

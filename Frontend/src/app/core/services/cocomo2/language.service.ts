@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiService } from './api.service';
-import { ApiResponse, Language } from '../models/cocomo.models';
+import { ApiService } from '../api.service';
+import { ApiResponse, Language } from '../../models/cocomo2/cocomo.models';
 
 /**
  * Service for language-related operations
