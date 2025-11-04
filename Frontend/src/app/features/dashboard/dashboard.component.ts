@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
@@ -16,7 +17,7 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
           <div class="action-card">
             <h3>📁 Projects</h3>
             <p>Create and manage your estimation projects</p>
-            <button class="btn btn-primary" disabled>Coming Soon</button>
+            <button class="btn btn-primary" (click)="goToProjects()">Manage Projects</button>
           </div>
 
           <div class="action-card">
@@ -190,4 +191,9 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
 })
 export class DashboardComponent {
   authService = inject(AuthService);
+  router = inject(Router);
+
+  goToProjects() {
+    this.router.navigate(['/projects']);
+  }
 }

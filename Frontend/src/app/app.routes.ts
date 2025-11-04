@@ -21,6 +21,11 @@ export const routes: Routes = [
     loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent)
   },
   {
+    path: 'projects',
+    canActivate: [authGuard],
+    loadChildren: () => import('./features/projects/projects.routes').then(m => m.PROJECTS_ROUTES)
+  },
+  {
     path: '**',
     redirectTo: 'home'
   }

@@ -1,4 +1,4 @@
-import { ApiResponse } from './api-response.model';
+import { ApiResponse } from '../api-response.model';
 
 export type { ApiResponse };
 
