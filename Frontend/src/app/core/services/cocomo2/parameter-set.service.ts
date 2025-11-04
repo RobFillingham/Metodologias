@@ -34,6 +34,58 @@ export class ParameterSetService {
   }
 
   /**
+   * Get all available parameter sets (both default and custom)
+   */
+  getAllParameterSets(): Observable<ApiResponse<ParameterSet[]>> {
+    return new Observable(observer => {
+      const myParams: ParameterSet[] = [];
+      const defaultParams: ParameterSet[] = [];
+      let completed = 0;
+
+      const checkComplete = () => {
+        completed++;
+        if (completed === 2) {
+          // Combine and send response
+          const allParams = [...defaultParams, ...myParams];
+          observer.next({
+            success: true,
+            message: 'Parameter sets retrieved successfully',
+            data: allParams,
+            errors: []
+          });
+          observer.complete();
+        }
+      };
+
+      // Load default parameter sets
+      this.getDefaultParameterSets().subscribe({
+        next: (response) => {
+          if (response.success && response.data) {
+            defaultParams.push(...response.data);
+          }
+          checkComplete();
+        },
+        error: () => {
+          checkComplete(); // Continue even if one fails
+        }
+      });
+
+      // Load user's custom parameter sets
+      this.getMyParameterSets().subscribe({
+        next: (response) => {
+          if (response.success && response.data) {
+            myParams.push(...response.data);
+          }
+          checkComplete();
+        },
+        error: () => {
+          checkComplete(); // Continue even if one fails
+        }
+      });
+    });
+  }
+
+  /**
    * Create a new parameter set
    */
   createParameterSet(request: CreateParameterSetRequest): Observable<ApiResponse<ParameterSet>> {

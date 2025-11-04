@@ -2,6 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
+import { EstimationFormComponent } from '../estimation-form/estimation-form.component';
 import { EstimationService } from '../../../core/services/cocomo2/estimation.service';
 import { ProjectService } from '../../../core/services/cocomo2/project.service';
 import { Estimation, Project, ApiResponse } from '../../../core/models/cocomo2/cocomo.models';
@@ -9,7 +10,7 @@ import { Estimation, Project, ApiResponse } from '../../../core/models/cocomo2/c
 @Component({
   selector: 'app-estimation-list',
   standalone: true,
-  imports: [CommonModule, NavbarComponent],
+  imports: [CommonModule, NavbarComponent, EstimationFormComponent],
   template: `
     <app-navbar></app-navbar>
 
@@ -86,6 +87,14 @@ import { Estimation, Project, ApiResponse } from '../../../core/models/cocomo2/c
         </div>
       </div>
     </div>
+
+    <!-- Create Estimation Modal -->
+    <app-estimation-form
+      *ngIf="showCreateModal()"
+      [projectId]="projectId"
+      (formSubmitted)="onEstimationCreated()"
+      (formCancelled)="closeCreateModal()"
+    ></app-estimation-form>
   `,
   styles: [`
     .estimation-list-container {
@@ -332,6 +341,7 @@ export class EstimationListComponent implements OnInit {
   estimations = signal<Estimation[]>([]);
   loading = signal(false);
   error = signal<string | null>(null);
+  showCreateModal = signal(false);
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -382,8 +392,16 @@ export class EstimationListComponent implements OnInit {
   }
 
   createEstimation() {
-    // For now, navigate to a test estimation (you'll need to create an estimation form later)
-    alert('Create estimation form will be implemented in the next phase');
+    this.showCreateModal.set(true);
+  }
+
+  closeCreateModal() {
+    this.showCreateModal.set(false);
+  }
+
+  onEstimationCreated() {
+    this.closeCreateModal();
+    this.loadEstimations(); // Refresh the list
   }
 
   viewEstimation(estimation: Estimation) {
