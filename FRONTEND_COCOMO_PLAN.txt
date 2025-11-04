@@ -1,0 +1,138 @@
+### Plan to Implement COCOMO II Calculation in the Frontend
+
+Based on the backend analysis and the `COCOMO_API_DESIGN.txt` specification, the COCOMO II calculation is fully implemented on the backend with automatic recalculation. The frontend currently has authentication and a placeholder dashboard. This plan outlines a phased approach to implement the COCOMO II workflow in the frontend, building on the existing Angular architecture.
+
+The implementation will follow the user workflow: **Create Project → Create Estimation → Add Functions → Select Ratings → View Results**. All calculations happen automatically on the backend, so the frontend focuses on UI/UX for data input and result display.
+
+#### **Key Assumptions and Prerequisites**
+- Backend API is running and accessible at `http://localhost:5106/api`.
+- Existing auth system (login/register) is functional.
+- Use Angular's reactive forms, RxJS for state, and existing interceptors/services.
+- Follow the feature-based structure (e.g., add to `features/`).
+- Implement responsive, accessible UI with the existing design system (purple/blue theme).
+- Leverage TypeScript models matching backend DTOs.
+
+#### **Phase 1: Core Infrastructure and Models (1-2 days)**
+**Goal**: Set up services, models, and base components for COCOMO II.
+
+- **Create Models**:
+  - Define TypeScript interfaces for backend DTOs: `Project`, `Estimation`, `EstimationFunction`, `ParameterSet`, `Language`, etc. (in `core/models/`).
+  - Match backend response structures (e.g., `ApiResponse<T>` wrapper).
+
+- **Extend Services**:
+  - Create `ProjectService`, `EstimationService`, `ParameterSetService`, `LanguageService`, `EstimationFunctionService` (in `core/services/`).
+  - Each service uses `ApiService` for HTTP calls to backend endpoints.
+  - Add methods like `getProjects()`, `createEstimation()`, `addFunction()`, etc.
+
+- **State Management**:
+  - Use RxJS BehaviorSubjects for current project/estimation state (e.g., `currentProject$` in services).
+  - Store selected project/estimation in localStorage for persistence across reloads.
+
+- **Shared Components**:
+  - Create reusable components: `LoadingSpinnerComponent`, `ErrorAlertComponent`, `ConfirmDialogComponent` (in `shared/components/`).
+
+- **Testing**: Unit tests for services and basic components.
+
+#### **Phase 2: Project Management (2-3 days)**
+**Goal**: Allow users to create and manage projects.
+
+- **UI Components**:
+  - **Project List Component**: Displays user's projects with create/edit/delete actions.
+  - **Project Form Component**: Modal/form for creating/editing projects (name, description).
+  - Integrate into dashboard: Replace "Coming Soon" with actual project cards.
+
+- **Routing**:
+  - Add routes: `/dashboard/projects` (list), `/dashboard/projects/new` (create), `/dashboard/projects/:id/edit` (edit).
+  - Update dashboard to link to projects.
+
+- **Features**:
+  - CRUD operations via API.
+  - Validation: Required fields, max lengths.
+  - Loading states and error handling.
+  - Responsive grid layout for project cards.
+
+- **Integration**: On project selection, navigate to estimation list for that project.
+
+#### **Phase 3: Estimation Management (3-4 days)**
+**Goal**: Create and list estimations within a project.
+
+- **UI Components**:
+  - **Estimation List Component**: Shows estimations for selected project, with create/view actions.
+  - **Estimation Form Component**: Form to create new estimation (name, select ParameterSet, Language, initial ratings).
+  - **Estimation Detail Component**: Displays full estimation data (functions, ratings, results).
+
+- **Routing**:
+  - Add routes: `/dashboard/projects/:projectId/estimations` (list), `/dashboard/projects/:projectId/estimations/new` (create), `/dashboard/projects/:projectId/estimations/:id` (detail).
+
+- **Features**:
+  - Dropdowns for ParameterSet and Language (fetch from API).
+  - Ratings selection (dropdowns for SF and EM, e.g., PREC: VLO/LO/NOM/HI/VHI/XHI).
+  - Display calculated results (UFP, SLOC, PM, TDEV, etc.) in read-only format.
+  - Versioning: Allow creating new estimations as "snapshots."
+
+- **Integration**: Link from project list; auto-recalculate on backend when ratings change.
+
+#### **Phase 4: Function Point Input (3-4 days)**
+**Goal**: Add/edit Function Points for estimations.
+
+- **UI Components**:
+  - **Function List Component**: Table of functions in estimation, with add/edit/delete.
+  - **Function Form Component**: Form for EI/EO/EQ/ILF/EIF (name, type, DET, RET/FTR).
+  - **Batch Add Component**: Multi-row form for adding multiple functions at once.
+
+- **Features**:
+  - Dynamic form based on function type (different fields for EI vs. ILF).
+  - Auto-calculation display: Show complexity and points (fetched from backend after add).
+  - Validation: Numeric fields, required selections.
+  - Batch operations for efficiency.
+
+- **Integration**: Trigger backend recalculation on add/edit/delete; update results in real-time.
+
+#### **Phase 5: Ratings and Results Display (2-3 days)**
+**Goal**: Interactive ratings selection and results visualization.
+
+- **UI Components**:
+  - **Ratings Form Component**: Grouped dropdowns for 5 SF and 7 EM.
+  - **Results Dashboard Component**: Charts/graphs for effort, time, team size (use a library like Chart.js if needed).
+  - **Comparison View**: Side-by-side for multiple estimations.
+
+- **Features**:
+  - Real-time updates: On rating change, call API to update and fetch new results.
+  - Visual feedback: Highlight changed fields, show loading during recalc.
+  - Export: Button to download estimation as PDF/JSON.
+
+- **Integration**: Embed in estimation detail; ensure mobile-friendly.
+
+#### **Phase 6: Testing, Polish, and Edge Cases (2-3 days)**
+**Goal**: Ensure robustness and user experience.
+
+- **Testing**:
+  - Unit tests for components/services.
+  - E2E tests for full workflows (e.g., create project → add functions → view results).
+  - API error handling (network failures, validation errors).
+
+- **Polish**:
+  - Responsive design: Ensure works on mobile/tablet.
+  - Accessibility: ARIA labels, keyboard navigation.
+  - Performance: Lazy load heavy components, optimize API calls.
+  - Error States: User-friendly messages for API failures.
+
+- **Edge Cases**:
+  - Handle empty states (no projects/estimations).
+  - Validation for invalid inputs (e.g., negative DET).
+  - Offline mode: Graceful degradation.
+  - Multi-user: Ensure user isolation.
+
+#### **Timeline and Resources**
+- **Total Time**: 13-19 days (iterative, can overlap phases).
+- **Team**: 1-2 developers (frontend-focused).
+- **Dependencies**: Ensure backend is deployed; add any missing UI libraries (e.g., for charts).
+- **Risks**: API changes require backend updates; complex forms may need UX iteration.
+
+#### **Success Criteria**
+- Users can complete full COCOMO II workflow without backend knowledge.
+- UI is intuitive, matches design system, and handles errors gracefully.
+- Automatic recalculation feels seamless.
+- Mobile-responsive and accessible.
+
+This plan builds incrementally on the existing frontend, ensuring each phase delivers value. Start with Phase 1 to establish foundations, then iterate based on user feedback. If needed, we can prioritize high-impact features first.
