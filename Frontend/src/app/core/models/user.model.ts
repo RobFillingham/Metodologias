@@ -1,9 +1,12 @@
 /**
- * User model
+ * User model - matches backend User entity
  */
 export interface User {
-  id: string;
+  id: number;
   email: string;
-  name: string;
-  role?: string;
+  firstName: string;
+  lastName: string;
+  createdAt: string;
+  updatedAt: string;
+  isActive: boolean;
 }

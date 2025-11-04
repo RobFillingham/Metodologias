@@ -11,12 +11,15 @@ export const routes: Routes = [
     path: 'home',
     loadChildren: () => import('./features/home/home.routes').then(m => m.HOME_ROUTES)
   },
-  // Example of protected route
-  // {
-  //   path: 'dashboard',
-  //   canActivate: [authGuard],
-  //   loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent)
-  // },
+  {
+    path: 'auth',
+    loadChildren: () => import('./features/auth/auth.routes').then(m => m.AUTH_ROUTES)
+  },
+  {
+    path: 'dashboard',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent)
+  },
   {
     path: '**',
     redirectTo: 'home'
