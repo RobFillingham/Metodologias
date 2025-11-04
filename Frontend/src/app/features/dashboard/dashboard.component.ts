@@ -12,11 +12,6 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
 
     <div class="dashboard-container">
       <main class="dashboard-content">
-        <div class="welcome-section">
-          <h2>Get Started with COCOMO II</h2>
-          <p>Use this dashboard to manage your software project estimations.</p>
-        </div>
-
         <div class="quick-actions">
           <div class="action-card">
             <h3>📁 Projects</h3>
@@ -35,25 +30,6 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
             <p>View and analyze your project estimations</p>
             <button class="btn btn-primary" disabled>Coming Soon</button>
           </div>
-        </div>
-
-        <div class="info-section">
-          <h3>About COCOMO II</h3>
-          <p>
-            COCOMO II (Constructive Cost Model II) is a model that allows software developers and managers
-            to estimate the cost, effort, and schedule of software projects. It was developed by Barry Boehm
-            and is based on a study of hundreds of software projects.
-          </p>
-          <p>
-            This tool implements the Post-Architecture model with support for:
-          </p>
-          <ul>
-            <li>Function Point Analysis</li>
-            <li>Scale Factors (Precedentedness, Flexibility, etc.)</li>
-            <li>Effort Multipliers (Personnel, Product, Platform, etc.)</li>
-            <li>Multiple estimation versions per project</li>
-            <li>Actual vs. estimated result comparison</li>
-          </ul>
         </div>
       </main>
     </div>
