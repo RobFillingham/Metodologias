@@ -23,14 +23,14 @@ interface RatingOption {
       <div class="modal-content" (click)="$event.stopPropagation()">
         <!-- Header -->
         <div class="modal-header">
-          <h2>{{ isEdit ? 'Edit' : 'Create New' }} Estimation</h2>
-          <button class="btn-close" (click)="onCancel()" aria-label="Close">×</button>
+          <h2>{{ isEdit ? 'Editar' : 'Nueva' }} Estimación</h2>
+          <button class="btn-close" (click)="onCancel()" aria-label="Cerrar">×</button>
         </div>
 
         <!-- Loading State -->
         <div *ngIf="loadingData()" class="loading-state">
           <div class="spinner"></div>
-          <p>Loading configuration...</p>
+          <p>Cargando configuración...</p>
         </div>
 
         <!-- Form -->
@@ -40,28 +40,28 @@ interface RatingOption {
             <div class="steps">
               <div class="step" [class.active]="currentStep === 1" [class.completed]="currentStep > 1">
                 <span class="step-number">1</span>
-                <span class="step-label">Basic Info</span>
+                <span class="step-label">Información Básica</span>
               </div>
               <div class="step" [class.active]="currentStep === 2" [class.completed]="currentStep > 2">
                 <span class="step-number">2</span>
-                <span class="step-label">Configuration</span>
+                <span class="step-label">Configuración</span>
               </div>
               <div class="step" [class.active]="currentStep === 3">
                 <span class="step-number">3</span>
-                <span class="step-label">Ratings (Optional)</span>
+                <span class="step-label">Calificaciones (Opcional)</span>
               </div>
             </div>
 
             <!-- Step 1: Basic Info -->
             <div *ngIf="currentStep === 1" class="step-content">
               <div class="form-group">
-                <label for="estimationName">Estimation Name *</label>
+                <label for="estimationName">Nombre de la Estimación *</label>
                 <input
                   type="text"
                   id="estimationName"
                   formControlName="estimationName"
                   class="form-control"
-                  placeholder="e.g., V1.0 Initial Estimate"
+                  placeholder="ej., Estimación Inicial V1.0"
                   [class.error]="estimationForm.get('estimationName')?.invalid && estimationForm.get('estimationName')?.touched"
                 >
                 <div class="char-counter">
@@ -71,26 +71,26 @@ interface RatingOption {
                   *ngIf="estimationForm.get('estimationName')?.invalid && estimationForm.get('estimationName')?.touched"
                   class="error-message"
                 >
-                  Estimation name is required (max 255 characters)
+                  El nombre de la estimación es requerido (máx. 255 caracteres)
                 </div>
               </div>
 
               <div class="info-box">
-                <strong>💡 Tip:</strong> Choose a descriptive name that identifies the version or purpose of this estimation.
+                <strong>💡 Consejo:</strong> Elige un nombre descriptivo que identifique la versión o propósito de esta estimación.
               </div>
             </div>
 
             <!-- Step 2: Configuration -->
             <div *ngIf="currentStep === 2" class="step-content">
               <div class="form-group">
-                <label for="languageId">Programming Language *</label>
+                <label for="languageId">Lenguaje de Programación *</label>
                 <select
                   id="languageId"
                   formControlName="languageId"
                   class="form-control"
                   [class.error]="estimationForm.get('languageId')?.invalid && estimationForm.get('languageId')?.touched"
                 >
-                  <option value="">Select a language</option>
+                  <option value="">Selecciona un lenguaje</option>
                   <option *ngFor="let lang of languages()" [value]="lang.languageId">
                     {{ lang.name }} ({{ lang.slocPerUfp }} SLOC/UFP)
                   </option>
@@ -99,49 +99,49 @@ interface RatingOption {
                   *ngIf="estimationForm.get('languageId')?.invalid && estimationForm.get('languageId')?.touched"
                   class="error-message"
                 >
-                  Please select a programming language
+                  Por favor selecciona un lenguaje de programación
                 </div>
               </div>
 
               <div class="form-group">
-                <label for="paramSetId">Parameter Set *</label>
+                <label for="paramSetId">Conjunto de Parámetros *</label>
                 <select
                   id="paramSetId"
                   formControlName="paramSetId"
                   class="form-control"
                   [class.error]="estimationForm.get('paramSetId')?.invalid && estimationForm.get('paramSetId')?.touched"
                 >
-                  <option value="">Select a parameter set</option>
+                  <option value="">Selecciona un conjunto de parámetros</option>
                   <option *ngFor="let ps of parameterSets()" [value]="ps.paramSetId">
-                    {{ ps.setName }} {{ ps.isDefault ? '(Default)' : '' }}
+                    {{ ps.setName }} {{ ps.isDefault ? '(Por defecto)' : '' }}
                   </option>
                 </select>
                 <div 
                   *ngIf="estimationForm.get('paramSetId')?.invalid && estimationForm.get('paramSetId')?.touched"
                   class="error-message"
                 >
-                  Please select a parameter set
+                  Por favor selecciona un conjunto de parámetros
                 </div>
               </div>
 
               <div class="info-box">
-                <strong>ℹ️ Info:</strong> The language determines SLOC conversion factor. Parameter set defines the COCOMO II coefficients.
+                <strong>ℹ️ Info:</strong> El lenguaje determina el factor de conversión SLOC. El conjunto de parámetros define los coeficientes de COCOMO II.
               </div>
             </div>
 
             <!-- Step 3: Ratings -->
             <div *ngIf="currentStep === 3" class="step-content">
               <div class="ratings-intro">
-                <p>Customize Scale Factor (SF) and Effort Multiplier (EM) ratings for this estimation.</p>
-                <p class="text-muted">All ratings default to NOM (Nominal). You can adjust them now or later.</p>
+                <p>Personaliza las calificaciones de Factores de Escala (SF) y Multiplicadores de Esfuerzo (EM) para esta estimación.</p>
+                <p class="text-muted">Todas las calificaciones tienen como valor predeterminado NOM (Nominal). Puedes ajustarlas ahora o más tarde.</p>
               </div>
 
               <!-- Scale Factors -->
               <div class="rating-section">
-                <h3>Scale Factors (SF)</h3>
+                <h3>Factores de Escala (SF)</h3>
                 
                 <div class="form-group">
-                  <label>PREC - Precedentedness</label>
+                  <label>PREC - Precedencia</label>
                   <select formControlName="selectedSfPrec" class="form-control">
                     <option *ngFor="let opt of sfRatings" [value]="opt.value">
                       {{ opt.label }} - {{ opt.description }}
@@ -150,7 +150,7 @@ interface RatingOption {
                 </div>
 
                 <div class="form-group">
-                  <label>FLEX - Development Flexibility</label>
+                  <label>FLEX - Flexibilidad de Desarrollo</label>
                   <select formControlName="selectedSfFlex" class="form-control">
                     <option *ngFor="let opt of sfRatings" [value]="opt.value">
                       {{ opt.label }} - {{ opt.description }}
@@ -159,7 +159,7 @@ interface RatingOption {
                 </div>
 
                 <div class="form-group">
-                  <label>RESL - Architecture/Risk Resolution</label>
+                  <label>RESL - Resolución de Arquitectura/Riesgo</label>
                   <select formControlName="selectedSfResl" class="form-control">
                     <option *ngFor="let opt of sfRatings" [value]="opt.value">
                       {{ opt.label }} - {{ opt.description }}
@@ -168,7 +168,7 @@ interface RatingOption {
                 </div>
 
                 <div class="form-group">
-                  <label>TEAM - Team Cohesion</label>
+                  <label>TEAM - Cohesión del Equipo</label>
                   <select formControlName="selectedSfTeam" class="form-control">
                     <option *ngFor="let opt of sfRatings" [value]="opt.value">
                       {{ opt.label }} - {{ opt.description }}
@@ -177,7 +177,7 @@ interface RatingOption {
                 </div>
 
                 <div class="form-group">
-                  <label>PMAT - Process Maturity</label>
+                  <label>PMAT - Madurez del Proceso</label>
                   <select formControlName="selectedSfPmat" class="form-control">
                     <option *ngFor="let opt of sfRatings" [value]="opt.value">
                       {{ opt.label }} - {{ opt.description }}
@@ -188,10 +188,10 @@ interface RatingOption {
 
               <!-- Effort Multipliers -->
               <div class="rating-section">
-                <h3>Effort Multipliers (EM)</h3>
+                <h3>Multiplicadores de Esfuerzo (EM)</h3>
                 
                 <div class="form-group">
-                  <label>PERS - Personnel Capability</label>
+                  <label>PERS - Capacidad del Personal</label>
                   <select formControlName="selectedEmPers" class="form-control">
                     <option *ngFor="let opt of emRatings" [value]="opt.value">
                       {{ opt.label }} - {{ opt.description }}
@@ -200,7 +200,7 @@ interface RatingOption {
                 </div>
 
                 <div class="form-group">
-                  <label>RCPX - Product Reliability and Complexity</label>
+                  <label>RCPX - Confiabilidad y Complejidad del Producto</label>
                   <select formControlName="selectedEmRcpx" class="form-control">
                     <option *ngFor="let opt of emRatings" [value]="opt.value">
                       {{ opt.label }} - {{ opt.description }}
@@ -209,7 +209,7 @@ interface RatingOption {
                 </div>
 
                 <div class="form-group">
-                  <label>PDIF - Platform Difficulty</label>
+                  <label>PDIF - Dificultad de la Plataforma</label>
                   <select formControlName="selectedEmPdif" class="form-control">
                     <option *ngFor="let opt of emRatings" [value]="opt.value">
                       {{ opt.label }} - {{ opt.description }}
@@ -218,7 +218,7 @@ interface RatingOption {
                 </div>
 
                 <div class="form-group">
-                  <label>PREX - Personnel Experience</label>
+                  <label>PREX - Experiencia del Personal</label>
                   <select formControlName="selectedEmPrex" class="form-control">
                     <option *ngFor="let opt of emRatings" [value]="opt.value">
                       {{ opt.label }} - {{ opt.description }}
@@ -227,7 +227,7 @@ interface RatingOption {
                 </div>
 
                 <div class="form-group">
-                  <label>RUSE - Reusability Required</label>
+                  <label>RUSE - Reusabilidad Requerida</label>
                   <select formControlName="selectedEmRuse" class="form-control">
                     <option *ngFor="let opt of emRatings" [value]="opt.value">
                       {{ opt.label }} - {{ opt.description }}
@@ -236,7 +236,7 @@ interface RatingOption {
                 </div>
 
                 <div class="form-group">
-                  <label>FCIL - Facilities</label>
+                  <label>FCIL - Facilidades</label>
                   <select formControlName="selectedEmFcil" class="form-control">
                     <option *ngFor="let opt of emRatings" [value]="opt.value">
                       {{ opt.label }} - {{ opt.description }}
@@ -245,7 +245,7 @@ interface RatingOption {
                 </div>
 
                 <div class="form-group">
-                  <label>SCED - Schedule Constraint</label>
+                  <label>SCED - Restricción de Cronograma</label>
                   <select formControlName="selectedEmSced" class="form-control">
                     <option *ngFor="let opt of emRatings" [value]="opt.value">
                       {{ opt.label }} - {{ opt.description }}
@@ -269,14 +269,14 @@ interface RatingOption {
               (click)="previousStep()"
               *ngIf="currentStep > 1"
             >
-              ← Previous
+              ← Anterior
             </button>
             <button 
               type="button" 
               class="btn btn-secondary" 
               (click)="onCancel()"
             >
-              Cancel
+              Cancelar
             </button>
             <button 
               type="button" 
@@ -285,7 +285,7 @@ interface RatingOption {
               *ngIf="currentStep < 3"
               [disabled]="!isCurrentStepValid()"
             >
-              Next →
+              Siguiente →
             </button>
             <button 
               type="submit" 
@@ -293,7 +293,7 @@ interface RatingOption {
               *ngIf="currentStep === 3"
               [disabled]="saving() || estimationForm.invalid"
             >
-              {{ saving() ? 'Creating...' : 'Create Estimation' }}
+              {{ saving() ? 'Creando...' : 'Crear Estimación' }}
             </button>
           </div>
         </form>
@@ -381,6 +381,7 @@ interface RatingOption {
       padding: 2rem;
       overflow-y: auto;
       flex: 1;
+      max-height: calc(90vh - 200px); /* Ensure it doesn't exceed viewport */
     }
 
     .steps {
@@ -647,22 +648,22 @@ export class EstimationFormComponent implements OnInit {
   error = signal<string | null>(null);
 
   sfRatings: RatingOption[] = [
-    { value: 'VLO', label: 'Very Low', description: 'Minimal impact' },
-    { value: 'LO', label: 'Low', description: 'Low impact' },
-    { value: 'NOM', label: 'Nominal', description: 'Average' },
-    { value: 'HI', label: 'High', description: 'High impact' },
-    { value: 'VHI', label: 'Very High', description: 'Very high impact' },
-    { value: 'XHI', label: 'Extra High', description: 'Maximum impact' }
+    { value: 'VLO', label: 'Muy Bajo', description: 'Impacto mínimo' },
+    { value: 'LO', label: 'Bajo', description: 'Impacto bajo' },
+    { value: 'NOM', label: 'Nominal', description: 'Promedio' },
+    { value: 'HI', label: 'Alto', description: 'Impacto alto' },
+    { value: 'VHI', label: 'Muy Alto', description: 'Impacto muy alto' },
+    { value: 'XHI', label: 'Extra Alto', description: 'Impacto máximo' }
   ];
 
   emRatings: RatingOption[] = [
-    { value: 'XLO', label: 'Extra Low', description: 'Minimal effort' },
-    { value: 'VLO', label: 'Very Low', description: 'Very low effort' },
-    { value: 'LO', label: 'Low', description: 'Low effort' },
-    { value: 'NOM', label: 'Nominal', description: 'Average effort' },
-    { value: 'HI', label: 'High', description: 'High effort' },
-    { value: 'VHI', label: 'Very High', description: 'Very high effort' },
-    { value: 'XHI', label: 'Extra High', description: 'Maximum effort' }
+    { value: 'XLO', label: 'Extra Bajo', description: 'Esfuerzo mínimo' },
+    { value: 'VLO', label: 'Muy Bajo', description: 'Esfuerzo muy bajo' },
+    { value: 'LO', label: 'Bajo', description: 'Esfuerzo bajo' },
+    { value: 'NOM', label: 'Nominal', description: 'Esfuerzo promedio' },
+    { value: 'HI', label: 'Alto', description: 'Esfuerzo alto' },
+    { value: 'VHI', label: 'Muy Alto', description: 'Esfuerzo muy alto' },
+    { value: 'XHI', label: 'Extra Alto', description: 'Esfuerzo máximo' }
   ];
 
   ngOnInit() {
