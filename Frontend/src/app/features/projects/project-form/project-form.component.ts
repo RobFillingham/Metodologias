@@ -401,6 +401,7 @@ export class ProjectFormComponent implements OnInit {
     this.error.set(null);
 
     const request: UpdateProjectRequest = {
+      projectId: this.project.projectId,
       projectName: this.formData.projectName.trim(),
       description: this.formData.description?.trim() || undefined
     };

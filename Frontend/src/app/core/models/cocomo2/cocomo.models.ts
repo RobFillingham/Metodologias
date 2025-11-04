@@ -21,6 +21,7 @@ export interface CreateProjectRequest {
 }
 
 export interface UpdateProjectRequest {
+  projectId: number;
   projectName: string;
   description?: string;
 }
