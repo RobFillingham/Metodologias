@@ -26,6 +26,11 @@ export const routes: Routes = [
     loadChildren: () => import('./features/projects/projects.routes').then(m => m.PROJECTS_ROUTES)
   },
   {
+    path: 'projects',
+    canActivate: [authGuard],
+    loadChildren: () => import('./features/estimations/estimations.routes').then(m => m.ESTIMATIONS_ROUTES)
+  },
+  {
     path: '**',
     redirectTo: 'home'
   }

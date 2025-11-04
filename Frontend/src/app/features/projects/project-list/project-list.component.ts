@@ -475,9 +475,8 @@ export class ProjectListComponent implements OnInit {
     // Set as current project
     this.projectService.setCurrentProject(project);
     
-    // Navigate to estimations (to be implemented)
-    // For now, just navigate to dashboard
-    this.router.navigate(['/dashboard']);
+    // Navigate to estimations list
+    this.router.navigate(['/projects', project.projectId, 'estimations']);
   }
 
   formatDate(dateString: string): string {
