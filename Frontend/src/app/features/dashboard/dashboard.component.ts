@@ -21,7 +21,7 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
 
           <div class="action-card">
             <h3>⚙️ Parameter Sets</h3>
-            <p>Customize COCOMO II parameters for your organization</p>
+            <p>Customize parameters for your organization</p>
             <button class="btn btn-primary" disabled>Coming Soon</button>
           </div>
 
