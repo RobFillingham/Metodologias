@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, signal, OnInit, inject } from '
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EstimationFunctionService } from '../../../core/services/cocomo2/estimation-function.service';
-import { EstimationFunction, CreateEstimationFunctionRequest, FunctionType, FUNCTION_TYPES, ApiResponse } from '../../../core/models/cocomo2/cocomo.models';
+import { EstimationFunction, CreateEstimationFunctionRequest, UpdateEstimationFunctionRequest, FunctionType, FUNCTION_TYPES, ApiResponse } from '../../../core/models/cocomo2/cocomo.models';
 
 @Component({
   selector: 'app-function-point-entry',
@@ -151,13 +151,35 @@ import { EstimationFunction, CreateEstimationFunctionRequest, FunctionType, FUNC
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let func of functions()" class="function-row">
+              <tr *ngFor="let func of functions()" class="function-row" [class.editing]="editingFunction()?.functionId === func.functionId">
                 <td class="function-name">{{ func.name }}</td>
                 <td>
                   <span class="badge badge-type">{{ getFunctionTypeLabel(func.type) }}</span>
                 </td>
-                <td class="text-center">{{ func.det }}</td>
-                <td class="text-center">{{ func.retFtr }}</td>
+                <td class="text-center">
+                  <span *ngIf="editingFunction()?.functionId !== func.functionId">{{ func.det }}</span>
+                  <input 
+                    *ngIf="editingFunction()?.functionId === func.functionId"
+                    type="number"
+                    class="form-control form-control-sm"
+                    [(ngModel)]="editFormData.det"
+                    min="1"
+                    max="999"
+                    (input)="validateEditInput('det', $event)"
+                  />
+                </td>
+                <td class="text-center">
+                  <span *ngIf="editingFunction()?.functionId !== func.functionId">{{ func.retFtr }}</span>
+                  <input 
+                    *ngIf="editingFunction()?.functionId === func.functionId"
+                    type="number"
+                    class="form-control form-control-sm"
+                    [(ngModel)]="editFormData.retFtr"
+                    min="1"
+                    max="999"
+                    (input)="validateEditInput('retFtr', $event)"
+                  />
+                </td>
                 <td class="text-center">
                   <span class="badge" [ngClass]="getComplexityClass(func.complexity)">
                     {{ func.complexity || '-' }}
@@ -165,13 +187,40 @@ import { EstimationFunction, CreateEstimationFunctionRequest, FunctionType, FUNC
                 </td>
                 <td class="text-right points">{{ func.calculatedPoints || 0 }}</td>
                 <td class="text-center">
-                  <button 
-                    class="btn-icon btn-danger"
-                    (click)="deleteFunction(func)"
-                    title="Eliminar función"
-                  >
-                    🗑️
-                  </button>
+                  <div *ngIf="editingFunction()?.functionId !== func.functionId">
+                    <button 
+                      class="btn-icon btn-primary"
+                      (click)="editFunction(func)"
+                      title="Editar función"
+                    >
+                      ✏️
+                    </button>
+                    <button 
+                      class="btn-icon btn-danger"
+                      (click)="deleteFunction(func)"
+                      title="Eliminar función"
+                    >
+                      🗑️
+                    </button>
+                  </div>
+                  <div *ngIf="editingFunction()?.functionId === func.functionId">
+                    <button 
+                      class="btn-icon btn-success"
+                      (click)="saveEdit()"
+                      [disabled]="saving()"
+                      title="Guardar cambios"
+                    >
+                      ✓
+                    </button>
+                    <button 
+                      class="btn-icon btn-secondary"
+                      (click)="cancelEdit()"
+                      [disabled]="saving()"
+                      title="Cancelar edición"
+                    >
+                      ✕
+                    </button>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -385,6 +434,11 @@ import { EstimationFunction, CreateEstimationFunctionRequest, FunctionType, FUNC
       background: #f9fafb;
     }
 
+    .function-row.editing {
+      background: #e3f2fd;
+      border: 2px solid #2196f3;
+    }
+
     .function-name {
       font-weight: 500;
       color: #333;
@@ -517,6 +571,22 @@ import { EstimationFunction, CreateEstimationFunctionRequest, FunctionType, FUNC
       background: #fee;
     }
 
+    .btn-icon.btn-success {
+      color: #28a745;
+    }
+
+    .btn-icon.btn-success:hover {
+      background: #d4edda;
+    }
+
+    .form-control-sm {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.875rem;
+      border-radius: 4px;
+      width: 60px;
+      text-align: center;
+    }
+
     .spinner-small {
       display: inline-block;
       width: 14px;
@@ -586,9 +656,19 @@ export class FunctionPointEntryComponent implements OnInit {
   functions = signal<EstimationFunction[]>([]);
   saving = signal(false);
   error = signal<string | null>(null);
+  editingFunction = signal<EstimationFunction | null>(null);
 
   // Form data
   newFunction: CreateEstimationFunctionRequest = {
+    name: '',
+    type: '' as FunctionType,
+    det: 0,
+    retFtr: 0
+  };
+
+  // Edit form data
+  editFormData: UpdateEstimationFunctionRequest = {
+    functionId: 0,
     name: '',
     type: '' as FunctionType,
     det: 0,
@@ -693,6 +773,89 @@ export class FunctionPointEntryComponent implements OnInit {
       return 'Número de tipos de elementos de registro';
     }
     return 'Número de tipos de archivo referenciados';
+  }
+
+  editFunction(func: EstimationFunction) {
+    this.editingFunction.set(func);
+    this.editFormData = {
+      functionId: func.functionId,
+      name: func.name,
+      type: func.type,
+      det: func.det,
+      retFtr: func.retFtr
+    };
+  }
+
+  cancelEdit() {
+    this.editingFunction.set(null);
+    this.editFormData = {
+      functionId: 0,
+      name: '',
+      type: '' as FunctionType,
+      det: 0,
+      retFtr: 0
+    };
+  }
+
+  saveEdit() {
+    const func = this.editingFunction();
+    if (!func) return;
+
+    // Validate edit data
+    if (!this.editFormData.name?.trim()) {
+      this.error.set('El nombre de la función es requerido');
+      return;
+    }
+    if (this.editFormData.det <= 0) {
+      this.error.set('DET debe ser mayor a 0');
+      return;
+    }
+    if (this.editFormData.retFtr <= 0) {
+      this.error.set('RET/FTR debe ser mayor a 0');
+      return;
+    }
+
+    this.saving.set(true);
+    this.error.set(null);
+
+    this.functionService.updateFunction(this.estimationId, func.functionId, this.editFormData).subscribe({
+      next: (response: ApiResponse<EstimationFunction>) => {
+        if (response.success && response.data) {
+          // Update in list
+          this.functions.update(list => 
+            list.map(f => f.functionId === func.functionId ? response.data! : f)
+          );
+          
+          // Reset edit state
+          this.cancelEdit();
+          
+          // Notify parent
+          this.functionsUpdated.emit();
+        } else {
+          this.error.set(response.message || 'Error al actualizar la función');
+        }
+        this.saving.set(false);
+      },
+      error: (err: any) => {
+        this.error.set(err.message || 'Ocurrió un error al actualizar la función');
+        this.saving.set(false);
+      }
+    });
+  }
+
+  validateEditInput(field: 'det' | 'retFtr', event: Event) {
+    const input = event.target as HTMLInputElement;
+    const value = parseInt(input.value, 10);
+    
+    if (isNaN(value) || value < 1) {
+      input.value = '1';
+      this.editFormData[field] = 1;
+    } else if (value > 999) {
+      input.value = '999';
+      this.editFormData[field] = 999;
+    } else {
+      this.editFormData[field] = value;
+    }
   }
 
   getComplexityClass(complexity?: string): string {

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 import { EstimationFormComponent } from '../estimation-form/estimation-form.component';
+import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { EstimationService } from '../../../core/services/cocomo2/estimation.service';
 import { ProjectService } from '../../../core/services/cocomo2/project.service';
 import { Estimation, Project, ApiResponse } from '../../../core/models/cocomo2/cocomo.models';
@@ -10,7 +11,7 @@ import { Estimation, Project, ApiResponse } from '../../../core/models/cocomo2/c
 @Component({
   selector: 'app-estimation-list',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, EstimationFormComponent],
+  imports: [CommonModule, NavbarComponent, EstimationFormComponent, ConfirmDialogComponent],
   template: `
     <app-navbar></app-navbar>
 
@@ -80,9 +81,14 @@ import { Estimation, Project, ApiResponse } from '../../../core/models/cocomo2/c
 
           <div class="card-footer">
             <span class="date">Creado {{ formatDate(estimation.createdAt) }}</span>
-            <button class="btn btn-secondary" (click)="viewEstimation(estimation)">
-              Ver Detalles →
-            </button>
+            <div class="card-actions">
+              <button class="btn btn-icon btn-danger" (click)="confirmDelete(estimation)" title="Eliminar estimación">
+                🗑️
+              </button>
+              <button class="btn btn-secondary" (click)="viewEstimation(estimation)">
+                Ver Detalles →
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -95,6 +101,18 @@ import { Estimation, Project, ApiResponse } from '../../../core/models/cocomo2/c
       (formSubmitted)="onEstimationCreated()"
       (formCancelled)="closeCreateModal()"
     ></app-estimation-form>
+
+    <!-- Delete Confirmation Dialog -->
+    <app-confirm-dialog
+      [show]="showDeleteDialog()"
+      title="Eliminar Estimación"
+      message="¿Estás seguro de que quieres eliminar esta estimación? Esta acción no se puede deshacer."
+      confirmText="Eliminar"
+      cancelText="Cancelar"
+      [loading]="deleting()"
+      (confirm)="deleteEstimation()"
+      (cancel)="cancelDelete()"
+    ></app-confirm-dialog>
   `,
   styles: [`
     .estimation-list-container {
@@ -276,6 +294,12 @@ import { Estimation, Project, ApiResponse } from '../../../core/models/cocomo2/c
       align-items: center;
     }
 
+    .card-actions {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
     .date {
       font-size: 0.9rem;
       color: #666;
@@ -314,6 +338,22 @@ import { Estimation, Project, ApiResponse } from '../../../core/models/cocomo2/c
       color: white;
     }
 
+    .btn-icon {
+      padding: 0.5rem;
+      border: none;
+      background: transparent;
+      color: #dc3545;
+      font-size: 1.2rem;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-icon:hover {
+      background: #f8d7da;
+      transform: scale(1.1);
+    }
+
     @media (max-width: 768px) {
       .estimation-list-container {
         padding: 1rem;
@@ -342,6 +382,9 @@ export class EstimationListComponent implements OnInit {
   loading = signal(false);
   error = signal<string | null>(null);
   showCreateModal = signal(false);
+  showDeleteDialog = signal(false);
+  deleting = signal(false);
+  estimationToDelete = signal<Estimation | null>(null);
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -406,6 +449,43 @@ export class EstimationListComponent implements OnInit {
 
   viewEstimation(estimation: Estimation) {
     this.router.navigate(['/projects', this.projectId, 'estimations', estimation.estimationId]);
+  }
+
+  confirmDelete(estimation: Estimation) {
+    this.estimationToDelete.set(estimation);
+    this.showDeleteDialog.set(true);
+  }
+
+  cancelDelete() {
+    this.showDeleteDialog.set(false);
+    this.estimationToDelete.set(null);
+  }
+
+  deleteEstimation() {
+    const estimation = this.estimationToDelete();
+    if (!estimation) return;
+
+    this.deleting.set(true);
+    this.estimationService.deleteEstimation(this.projectId, estimation.estimationId).subscribe({
+      next: (response) => {
+        if (response.success) {
+          // Remove from local list
+          const currentEstimations = this.estimations();
+          this.estimations.set(currentEstimations.filter(e => e.estimationId !== estimation.estimationId));
+        } else {
+          this.error.set(response.message || 'Error al eliminar la estimación');
+        }
+        this.deleting.set(false);
+        this.showDeleteDialog.set(false);
+        this.estimationToDelete.set(null);
+      },
+      error: (err) => {
+        this.error.set(err.message || 'Ocurrió un error al eliminar la estimación');
+        this.deleting.set(false);
+        this.showDeleteDialog.set(false);
+        this.estimationToDelete.set(null);
+      }
+    });
   }
 
   goBack() {

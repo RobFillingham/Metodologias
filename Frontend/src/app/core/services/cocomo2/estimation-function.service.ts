@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from '../api.service';
-import { ApiResponse, EstimationFunction, CreateEstimationFunctionRequest, BatchCreateEstimationFunctionsRequest } from '../../models/cocomo2/cocomo.models';
+import { ApiResponse, EstimationFunction, CreateEstimationFunctionRequest, UpdateEstimationFunctionRequest, BatchCreateEstimationFunctionsRequest } from '../../models/cocomo2/cocomo.models';
 
 /**
  * Service for estimation function-related operations
@@ -43,7 +43,7 @@ export class EstimationFunctionService {
   /**
    * Update an existing function (triggers recalculation)
    */
-  updateFunction(estimationId: number, functionId: number, request: Partial<CreateEstimationFunctionRequest>): Observable<ApiResponse<EstimationFunction>> {
+  updateFunction(estimationId: number, functionId: number, request: UpdateEstimationFunctionRequest): Observable<ApiResponse<EstimationFunction>> {
     return this.apiService.put<EstimationFunction>(`Estimations/${estimationId}/Functions/${functionId}`, request);
   }
 

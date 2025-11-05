@@ -134,6 +134,14 @@ export interface CreateEstimationFunctionRequest {
   retFtr: number;
 }
 
+export interface UpdateEstimationFunctionRequest {
+  functionId: number;
+  name: string;
+  type: 'EI' | 'EO' | 'EQ' | 'ILF' | 'EIF';
+  det: number;
+  retFtr: number;
+}
+
 export interface BatchCreateEstimationFunctionsRequest {
   functions: CreateEstimationFunctionRequest[];
 }
