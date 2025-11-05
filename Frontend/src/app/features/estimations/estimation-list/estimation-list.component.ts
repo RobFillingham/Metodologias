@@ -18,35 +18,35 @@ import { Estimation, Project, ApiResponse } from '../../../core/models/cocomo2/c
       <!-- Header -->
       <div class="header">
         <div>
-          <button class="btn-back" (click)="goBack()">← Back to Projects</button>
-          <h1>{{ project()?.projectName }} - Estimations</h1>
+          <button class="btn-back" (click)="goBack()">← Volver a Proyectos</button>
+          <h1>{{ project()?.projectName }} - Estimaciones</h1>
           <p class="meta" *ngIf="project()">{{ project()!.description }}</p>
         </div>
         <button class="btn btn-primary" (click)="createEstimation()">
-          + New Estimation
+          + Nueva Estimación
         </button>
       </div>
 
       <!-- Loading State -->
       <div *ngIf="loading()" class="loading-container">
         <div class="spinner"></div>
-        <p>Loading estimations...</p>
+        <p>Cargando estimaciones...</p>
       </div>
 
       <!-- Error State -->
       <div *ngIf="error() && !loading()" class="error-container">
         <div class="error-icon">⚠️</div>
-        <h3>Error Loading Estimations</h3>
+        <h3>Error al Cargar Estimaciones</h3>
         <p>{{ error() }}</p>
-        <button class="btn btn-primary" (click)="loadEstimations()">Try Again</button>
+        <button class="btn btn-primary" (click)="loadEstimations()">Reintentar</button>
       </div>
 
       <!-- Empty State -->
       <div *ngIf="!loading() && !error() && estimations().length === 0" class="empty-container">
         <div class="empty-icon">📊</div>
-        <h3>No Estimations Yet</h3>
-        <p>Create your first COCOMO II estimation for this project</p>
-        <button class="btn btn-primary" (click)="createEstimation()">Create Estimation</button>
+        <h3>No Hay Estimaciones Aún</h3>
+        <p>Crea tu primera estimación COCOMO II para este proyecto</p>
+        <button class="btn btn-primary" (click)="createEstimation()">Crear Estimación</button>
       </div>
 
       <!-- Estimations Grid -->
@@ -55,7 +55,7 @@ import { Estimation, Project, ApiResponse } from '../../../core/models/cocomo2/c
           <div class="card-header">
             <h3>{{ estimation.estimationName }}</h3>
             <span class="status-badge" [class.calculated]="estimation.totalUfp">
-              {{ estimation.totalUfp ? '✓ Calculated' : '⏳ Pending' }}
+              {{ estimation.totalUfp ? '✓ Calculado' : '⏳ Pendiente' }}
             </span>
           </div>
 
@@ -65,23 +65,23 @@ import { Estimation, Project, ApiResponse } from '../../../core/models/cocomo2/c
               <div class="stat-value">{{ estimation.totalUfp }}</div>
             </div>
             <div class="stat" *ngIf="estimation.effortPm">
-              <div class="stat-label">Effort (PM)</div>
+              <div class="stat-label">Esfuerzo (PM)</div>
               <div class="stat-value">{{ formatNumber(estimation.effortPm) }}</div>
             </div>
             <div class="stat" *ngIf="estimation.tdevMonths">
-              <div class="stat-label">Duration</div>
+              <div class="stat-label">Duración</div>
               <div class="stat-value">{{ formatNumber(estimation.tdevMonths) }}m</div>
             </div>
             <div class="stat" *ngIf="estimation.avgTeamSize">
-              <div class="stat-label">Team Size</div>
+              <div class="stat-label">Tamaño de Equipo</div>
               <div class="stat-value">{{ formatNumber(estimation.avgTeamSize) }}</div>
             </div>
           </div>
 
           <div class="card-footer">
-            <span class="date">Created {{ formatDate(estimation.createdAt) }}</span>
+            <span class="date">Creado {{ formatDate(estimation.createdAt) }}</span>
             <button class="btn btn-secondary" (click)="viewEstimation(estimation)">
-              View Details →
+              Ver Detalles →
             </button>
           </div>
         </div>
@@ -380,12 +380,12 @@ export class EstimationListComponent implements OnInit {
         if (response.success && response.data) {
           this.estimations.set(response.data);
         } else {
-          this.error.set(response.message || 'Failed to load estimations');
+          this.error.set(response.message || 'Error al cargar las estimaciones');
         }
         this.loading.set(false);
       },
       error: (err: any) => {
-        this.error.set(err.message || 'An error occurred while loading estimations');
+        this.error.set(err.message || 'Ocurrió un error al cargar las estimaciones');
         this.loading.set(false);
       }
     });
@@ -414,7 +414,7 @@ export class EstimationListComponent implements OnInit {
 
   formatDate(dateString: string): string {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
+    return date.toLocaleDateString('es-MX', {
       month: 'short',
       day: 'numeric',
       year: 'numeric'

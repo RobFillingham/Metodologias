@@ -11,17 +11,17 @@ import { EstimationFunction, CreateEstimationFunctionRequest, FunctionType, FUNC
   template: `
     <div class="function-points-container">
       <div class="header">
-        <h2>📊 Function Points</h2>
-        <p class="subtitle">Define the functional components of your estimation</p>
+        <h2>📊 Puntos de Función</h2>
+        <p class="subtitle">Define los componentes funcionales de tu estimación</p>
       </div>
 
       <!-- Add Function Form -->
       <div class="add-form-card">
-        <h3>➕ Add New Function</h3>
+        <h3>➕ Agregar Nueva Función</h3>
         <form (ngSubmit)="addFunction()" #functionForm="ngForm">
           <div class="form-row">
             <div class="form-group">
-              <label for="name" class="required">Function Name</label>
+              <label for="name" class="required">Nombre de la Función</label>
               <input
                 type="text"
                 id="name"
@@ -30,16 +30,16 @@ import { EstimationFunction, CreateEstimationFunctionRequest, FunctionType, FUNC
                 [(ngModel)]="newFunction.name"
                 required
                 maxlength="255"
-                placeholder="e.g., User Registration"
+                placeholder="ej., Registro de Usuario"
                 #name="ngModel"
               />
               <div class="error-message" *ngIf="name.invalid && name.touched">
-                Function name is required
+                El nombre de la función es requerido
               </div>
             </div>
 
             <div class="form-group">
-              <label for="type" class="required">Type</label>
+              <label for="type" class="required">Tipo</label>
               <select
                 id="type"
                 name="type"
@@ -48,18 +48,18 @@ import { EstimationFunction, CreateEstimationFunctionRequest, FunctionType, FUNC
                 required
                 #type="ngModel"
               >
-                <option value="">Select type...</option>
+                <option value="">Selecciona tipo...</option>
                 <option *ngFor="let t of functionTypes" [value]="t">{{ getFunctionTypeLabel(t) }}</option>
               </select>
               <div class="error-message" *ngIf="type.invalid && type.touched">
-                Type is required
+                El tipo es requerido
               </div>
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label for="det" class="required">DET (Data Elements)</label>
+              <label for="det" class="required">DET (Elementos de Datos)</label>
               <input
                 type="number"
                 id="det"
@@ -69,12 +69,12 @@ import { EstimationFunction, CreateEstimationFunctionRequest, FunctionType, FUNC
                 required
                 min="1"
                 max="999"
-                placeholder="e.g., 10"
+                placeholder="ej., 10"
                 #det="ngModel"
               />
-              <small class="help-text">Number of data element types</small>
+              <small class="help-text">Número de tipos de elementos de datos</small>
               <div class="error-message" *ngIf="det.invalid && det.touched">
-                DET is required (1-999)
+                DET es requerido (1-999)
               </div>
             </div>
 
@@ -89,12 +89,12 @@ import { EstimationFunction, CreateEstimationFunctionRequest, FunctionType, FUNC
                 required
                 min="1"
                 max="999"
-                placeholder="e.g., 2"
+                placeholder="ej., 2"
                 #retFtr="ngModel"
               />
               <small class="help-text">{{ getRetFtrHelp() }}</small>
               <div class="error-message" *ngIf="retFtr.invalid && retFtr.touched">
-                {{ getRetFtrLabel() }} is required (1-999)
+                {{ getRetFtrLabel() }} es requerido (1-999)
               </div>
             </div>
           </div>
@@ -105,9 +105,9 @@ import { EstimationFunction, CreateEstimationFunctionRequest, FunctionType, FUNC
               class="btn btn-primary"
               [disabled]="functionForm.invalid || saving()"
             >
-              <span *ngIf="!saving()">➕ Add Function</span>
+              <span *ngIf="!saving()">➕ Agregar Función</span>
               <span *ngIf="saving()">
-                <span class="spinner-small"></span> Adding...
+                <span class="spinner-small"></span> Agregando...
               </span>
             </button>
           </div>
@@ -122,7 +122,7 @@ import { EstimationFunction, CreateEstimationFunctionRequest, FunctionType, FUNC
       <!-- Functions List -->
       <div class="functions-list">
         <div class="list-header">
-          <h3>Functions ({{ functions().length }})</h3>
+          <h3>Funciones ({{ functions().length }})</h3>
           <div class="total-ufp" *ngIf="functions().length > 0">
             <span class="label">Total UFP:</span>
             <span class="value">{{ getTotalUFP() }}</span>
@@ -132,8 +132,8 @@ import { EstimationFunction, CreateEstimationFunctionRequest, FunctionType, FUNC
         <!-- Empty State -->
         <div *ngIf="functions().length === 0" class="empty-state">
           <div class="empty-icon">📋</div>
-          <p>No functions added yet</p>
-          <small>Add functions above to start your estimation</small>
+          <p>No hay funciones agregadas aún</p>
+          <small>Agrega funciones arriba para comenzar tu estimación</small>
         </div>
 
         <!-- Functions Table -->
@@ -141,13 +141,13 @@ import { EstimationFunction, CreateEstimationFunctionRequest, FunctionType, FUNC
           <table class="functions-table">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Type</th>
+                <th>Nombre</th>
+                <th>Tipo</th>
                 <th class="text-center">DET</th>
                 <th class="text-center">RET/FTR</th>
-                <th class="text-center">Complexity</th>
-                <th class="text-right">Points</th>
-                <th class="text-center">Actions</th>
+                <th class="text-center">Complejidad</th>
+                <th class="text-right">Puntos</th>
+                <th class="text-center">Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -168,7 +168,7 @@ import { EstimationFunction, CreateEstimationFunctionRequest, FunctionType, FUNC
                   <button 
                     class="btn-icon btn-danger"
                     (click)="deleteFunction(func)"
-                    title="Delete function"
+                    title="Eliminar función"
                   >
                     🗑️
                   </button>
@@ -188,27 +188,27 @@ import { EstimationFunction, CreateEstimationFunctionRequest, FunctionType, FUNC
 
       <!-- Info Panel -->
       <div class="info-panel">
-        <h4>📖 Function Point Types</h4>
+        <h4>📖 Tipos de Puntos de Función</h4>
         <div class="info-grid">
           <div class="info-item">
-            <strong>EI</strong> - External Input
-            <small>Data/control enters system boundary</small>
+            <strong>EI</strong> - Entrada Externa
+            <small>Datos/control entra al sistema</small>
           </div>
           <div class="info-item">
-            <strong>EO</strong> - External Output
-            <small>Data leaves boundary with processing</small>
+            <strong>EO</strong> - Salida Externa
+            <small>Datos salen del sistema con procesamiento</small>
           </div>
           <div class="info-item">
-            <strong>EQ</strong> - External Inquiry
-            <small>Input-output with no significant processing</small>
+            <strong>EQ</strong> - Consulta Externa
+            <small>Entrada-salida sin procesamiento significativo</small>
           </div>
           <div class="info-item">
-            <strong>ILF</strong> - Internal Logical File
-            <small>Data stored and maintained by application</small>
+            <strong>ILF</strong> - Archivo Lógico Interno
+            <small>Datos almacenados y mantenidos por la aplicación</small>
           </div>
           <div class="info-item">
-            <strong>EIF</strong> - External Interface File
-            <small>Data referenced from other applications</small>
+            <strong>EIF</strong> - Archivo de Interfaz Externa
+            <small>Datos referenciados de otras aplicaciones</small>
           </div>
         </div>
       </div>
@@ -635,19 +635,19 @@ export class FunctionPointEntryComponent implements OnInit {
           // Notify parent
           this.functionsUpdated.emit();
         } else {
-          this.error.set(response.message || 'Failed to add function');
+          this.error.set(response.message || 'Error al agregar la función');
         }
         this.saving.set(false);
       },
       error: (err: any) => {
-        this.error.set(err.message || 'An error occurred while adding the function');
+        this.error.set(err.message || 'Ocurrió un error al agregar la función');
         this.saving.set(false);
       }
     });
   }
 
   deleteFunction(func: EstimationFunction) {
-    if (!confirm(`Delete "${func.name}"?`)) {
+    if (!confirm(`¿Eliminar "${func.name}"?`)) {
       return;
     }
 
@@ -659,7 +659,7 @@ export class FunctionPointEntryComponent implements OnInit {
         }
       },
       error: (err: any) => {
-        alert('Error deleting function: ' + err.message);
+        alert('Error al eliminar la función: ' + err.message);
       }
     });
   }
@@ -670,11 +670,11 @@ export class FunctionPointEntryComponent implements OnInit {
 
   getFunctionTypeLabel(type: string): string {
     const labels: Record<string, string> = {
-      'EI': 'EI - External Input',
-      'EO': 'EO - External Output',
-      'EQ': 'EQ - External Inquiry',
-      'ILF': 'ILF - Internal Logical File',
-      'EIF': 'EIF - External Interface File'
+      'EI': 'EI - Entrada Externa',
+      'EO': 'EO - Salida Externa',
+      'EQ': 'EQ - Consulta Externa',
+      'ILF': 'ILF - Archivo Lógico Interno',
+      'EIF': 'EIF - Archivo de Interfaz Externa'
     };
     return labels[type] || type;
   }
@@ -682,17 +682,17 @@ export class FunctionPointEntryComponent implements OnInit {
   getRetFtrLabel(): string {
     const type = this.newFunction.type;
     if (type === 'ILF' || type === 'EIF') {
-      return 'RET (Record Elements)';
+      return 'RET (Elementos de Registro)';
     }
-    return 'FTR (File Types Referenced)';
+    return 'FTR (Tipos de Archivo Referenciados)';
   }
 
   getRetFtrHelp(): string {
     const type = this.newFunction.type;
     if (type === 'ILF' || type === 'EIF') {
-      return 'Number of record element types';
+      return 'Número de tipos de elementos de registro';
     }
-    return 'Number of file types referenced';
+    return 'Número de tipos de archivo referenciados';
   }
 
   getComplexityClass(complexity?: string): string {

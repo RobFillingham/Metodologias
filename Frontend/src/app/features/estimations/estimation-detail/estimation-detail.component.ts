@@ -17,15 +17,15 @@ import { Estimation, ApiResponse } from '../../../core/models/cocomo2/cocomo.mod
       <!-- Loading State -->
       <div *ngIf="loading()" class="loading-container">
         <div class="spinner"></div>
-        <p>Loading estimation...</p>
+        <p>Cargando estimación...</p>
       </div>
 
       <!-- Error State -->
       <div *ngIf="error() && !loading()" class="error-container">
         <div class="error-icon">⚠️</div>
-        <h3>Error Loading Estimation</h3>
+        <h3>Error al Cargar Estimación</h3>
         <p>{{ error() }}</p>
-        <button class="btn btn-primary" (click)="loadEstimation()">Try Again</button>
+        <button class="btn btn-primary" (click)="loadEstimation()">Reintentar</button>
       </div>
 
       <!-- Estimation Content -->
@@ -33,15 +33,15 @@ import { Estimation, ApiResponse } from '../../../core/models/cocomo2/cocomo.mod
         <!-- Header -->
         <div class="estimation-header">
           <div>
-            <button class="btn-back" (click)="goBack()">← Back to Estimations</button>
+            <button class="btn-back" (click)="goBack()">← Volver a Estimaciones</button>
             <h1>{{ estimation()!.estimationName }}</h1>
-            <p class="meta">Created {{ formatDate(estimation()!.createdAt) }}</p>
+            <p class="meta">Creado {{ formatDate(estimation()!.createdAt) }}</p>
           </div>
         </div>
 
         <!-- Results Summary (if calculated) -->
         <div *ngIf="estimation()!.totalUfp" class="results-summary">
-          <h2>📊 Calculation Results</h2>
+          <h2>📊 Resultados del Cálculo</h2>
           <div class="results-grid">
             <div class="result-card">
               <div class="result-label">Total UFP</div>
@@ -52,15 +52,15 @@ import { Estimation, ApiResponse } from '../../../core/models/cocomo2/cocomo.mod
               <div class="result-value">{{ formatNumber(estimation()!.sloc) }}</div>
             </div>
             <div class="result-card">
-              <div class="result-label">Effort (PM)</div>
+              <div class="result-label">Esfuerzo (PM)</div>
               <div class="result-value">{{ formatNumber(estimation()!.effortPm) }}</div>
             </div>
             <div class="result-card">
-              <div class="result-label">Duration (Months)</div>
+              <div class="result-label">Duración (Meses)</div>
               <div class="result-value">{{ formatNumber(estimation()!.tdevMonths) }}</div>
             </div>
             <div class="result-card">
-              <div class="result-label">Team Size</div>
+              <div class="result-label">Tamaño de Equipo</div>
               <div class="result-value">{{ formatNumber(estimation()!.avgTeamSize) }}</div>
             </div>
           </div>
@@ -259,12 +259,12 @@ export class EstimationDetailComponent implements OnInit {
         if (response.success && response.data) {
           this.estimation.set(response.data);
         } else {
-          this.error.set(response.message || 'Failed to load estimation');
+          this.error.set(response.message || 'Error al cargar la estimación');
         }
         this.loading.set(false);
       },
       error: (err: any) => {
-        this.error.set(err.message || 'An error occurred while loading the estimation');
+        this.error.set(err.message || 'Ocurrió un error al cargar la estimación');
         this.loading.set(false);
       }
     });
@@ -281,7 +281,7 @@ export class EstimationDetailComponent implements OnInit {
 
   formatDate(dateString: string): string {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
+    return date.toLocaleDateString('es-MX', {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
