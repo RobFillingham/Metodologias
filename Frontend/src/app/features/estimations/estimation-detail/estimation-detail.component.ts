@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 import { FunctionPointEntryComponent } from '../../../shared/components/function-point-entry/function-point-entry.component';
+import { ParameterEditorComponent } from '../../../features/cocomo2/components/parameter-editor/parameter-editor.component';
 import { EstimationService } from '../../../core/services/cocomo2/estimation.service';
 import { Estimation, ApiResponse } from '../../../core/models/cocomo2/cocomo.models';
 
 @Component({
   selector: 'app-estimation-detail',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, FunctionPointEntryComponent],
+  imports: [CommonModule, NavbarComponent, FunctionPointEntryComponent, ParameterEditorComponent],
   template: `
     <app-navbar></app-navbar>
 
@@ -64,6 +65,14 @@ import { Estimation, ApiResponse } from '../../../core/models/cocomo2/cocomo.mod
               <div class="result-value">{{ formatNumber(estimation()!.avgTeamSize) }}</div>
             </div>
           </div>
+        </div>
+
+        <!-- Parameter Editor -->
+        <div class="content-section">
+          <app-parameter-editor
+            [estimation]="estimation()!"
+            (onSaved)="onParametersUpdated()"
+          ></app-parameter-editor>
         </div>
 
         <!-- Function Points Entry -->
@@ -219,6 +228,11 @@ import { Estimation, ApiResponse } from '../../../core/models/cocomo2/cocomo.mod
       box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
     }
 
+    .content-section {
+      max-width: 1200px;
+      margin: 0 auto 2rem;
+    }
+
     @media (max-width: 768px) {
       .estimation-detail-container {
         padding: 1rem;
@@ -272,6 +286,11 @@ export class EstimationDetailComponent implements OnInit {
 
   onFunctionsUpdated() {
     // Reload estimation to get updated calculations
+    this.loadEstimation();
+  }
+
+  onParametersUpdated() {
+    // Reload estimation to get updated calculations after rating changes
     this.loadEstimation();
   }
 
