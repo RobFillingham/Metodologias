@@ -23,7 +23,7 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
           <div class="action-card">
             <h3>⚙️ Parameter Sets</h3>
             <p>Customize parameters for your organization</p>
-            <button class="btn btn-primary" disabled>Coming Soon</button>
+            <button class="btn btn-primary" (click)="goToParameterSets()">Manage Parameter Sets</button>
           </div>
 
           <div class="action-card">
@@ -195,5 +195,9 @@ export class DashboardComponent {
 
   goToProjects() {
     this.router.navigate(['/projects']);
+  }
+
+  goToParameterSets() {
+    this.router.navigate(['/parameter-sets']);
   }
 }

@@ -31,7 +31,8 @@ export const routes: Routes = [
     loadChildren: () => import('./features/estimations/estimations.routes').then(m => m.ESTIMATIONS_ROUTES)
   },
   {
-    path: '**',
-    redirectTo: 'home'
-  }
+    path: 'parameter-sets',
+    canActivate: [authGuard],
+    loadChildren: () => import('./features/parameter-sets/parameter-sets.routes').then(m => m.PARAMETER_SETS_ROUTES)
+  },
 ];
