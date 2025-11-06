@@ -95,8 +95,13 @@ export class ParameterSetService {
   /**
    * Update an existing parameter set
    */
-  updateParameterSet(id: number, request: Partial<CreateParameterSetRequest>): Observable<ApiResponse<ParameterSet>> {
-    return this.apiService.put<ParameterSet>(`ParameterSets/${id}`, request);
+  updateParameterSet(id: number, request: CreateParameterSetRequest): Observable<ApiResponse<ParameterSet>> {
+    // Add the paramSetId to the request for the backend
+    const updateRequest = {
+      ...request,
+      paramSetId: id
+    };
+    return this.apiService.put<ParameterSet>(`ParameterSets/${id}`, updateRequest);
   }
 
   /**
