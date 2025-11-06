@@ -15,21 +15,9 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
       <main class="dashboard-content">
         <div class="quick-actions">
           <div class="action-card">
-            <h3>📁 Projects</h3>
-            <p>Create and manage your estimation projects</p>
-            <button class="btn btn-primary" (click)="goToProjects()">Manage Projects</button>
-          </div>
-
-          <div class="action-card">
-            <h3>⚙️ Parameter Sets</h3>
-            <p>Customize parameters for your organization</p>
-            <button class="btn btn-primary" (click)="goToParameterSets()">Manage Parameter Sets</button>
-          </div>
-
-          <div class="action-card">
-            <h3>� Lenguajes</h3>
-            <p>View and manage programming languages</p>
-            <button class="btn btn-primary" (click)="goToLanguages()">Manage Languages</button>
+            <h3> COCOMO II</h3>
+            <p>Access COCOMO II estimation tools and project management</p>
+            <button class="btn btn-primary" (click)="goToCocomoII()">Open COCOMO II</button>
           </div>
         </div>
       </main>
@@ -193,15 +181,7 @@ export class DashboardComponent {
   authService = inject(AuthService);
   router = inject(Router);
 
-  goToProjects() {
-    this.router.navigate(['/projects']);
-  }
-
-  goToParameterSets() {
-    this.router.navigate(['/cocomo2/parameter-sets']);
-  }
-
-  goToLanguages() {
-    this.router.navigate(['/cocomo2/languages']);
+  goToCocomoII() {
+    this.router.navigate(['/cocomo2']);
   }
 }

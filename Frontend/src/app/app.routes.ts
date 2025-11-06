@@ -30,6 +30,10 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {
+        path: '',
+        loadComponent: () => import('./features/cocomo2/cocomo2-landing/cocomo2-landing.component').then(m => m.Cocomo2LandingComponent)
+      },
+      {
         path: 'parameter-sets',
         loadChildren: () => import('./features/cocomo2/parameter-sets/parameter-sets.routes').then(m => m.PARAMETER_SETS_ROUTES)
       },

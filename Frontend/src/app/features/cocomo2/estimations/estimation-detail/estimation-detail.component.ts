@@ -295,7 +295,7 @@ export class EstimationDetailComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/projects', this.projectId, 'estimations']);
+    this.router.navigate(['/cocomo2/estimations', this.projectId]);
   }
 
   formatDate(dateString: string): string {
