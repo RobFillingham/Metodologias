@@ -9,6 +9,18 @@ export const LANGUAGES_ROUTES: Routes = [
     canActivate: [authGuard]
   },
   {
+    path: 'new',
+    loadComponent: () => import('./language-form/language-form.component')
+      .then(m => m.LanguageFormComponent),
+    canActivate: [authGuard]
+  },
+  {
+    path: ':id/edit',
+    loadComponent: () => import('./language-form/language-form.component')
+      .then(m => m.LanguageFormComponent),
+    canActivate: [authGuard]
+  },
+  {
     path: ':id',
     loadComponent: () => import('./language-detail/language-detail.component')
       .then(m => m.LanguageDetailComponent),

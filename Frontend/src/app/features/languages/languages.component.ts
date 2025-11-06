@@ -15,8 +15,14 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
     <div class="languages-container">
       <div class="header-section">
         <div class="header-content">
-          <h1>🔤 Lenguajes de Programación</h1>
-          <p>Base de datos de lenguajes COCOMO II con factores de conversión SLOC</p>
+          <div>
+            <h1>🔤 Lenguajes de Programación</h1>
+            <p>Base de datos de lenguajes COCOMO II con factores de conversión SLOC</p>
+          </div>
+          <button class="btn btn-primary" (click)="createLanguage()">
+            <i class="bi bi-plus-lg"></i>
+            Crear Lenguaje
+          </button>
         </div>
       </div>
 
@@ -83,13 +89,26 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
                   <small class="verbosity-label">{{ getVerbosityLabel(language.slocPerUfp) }}</small>
                 </td>
                 <td>
-                  <button 
-                    class="btn btn-sm btn-outline-primary"
-                    (click)="viewLanguageDetails(language)"
-                    title="Ver Detalles">
-                    <i class="bi bi-eye"></i>
-                    Ver
-                  </button>
+                  <div class="action-buttons">
+                    <button 
+                      class="btn btn-sm btn-outline-primary"
+                      (click)="viewLanguageDetails(language)"
+                      title="Ver Detalles">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button 
+                      class="btn btn-sm btn-outline-secondary"
+                      (click)="editLanguage(language)"
+                      title="Editar">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button 
+                      class="btn btn-sm btn-outline-danger"
+                      (click)="confirmDelete(language)"
+                      title="Eliminar">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -147,6 +166,13 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
       border-radius: 12px;
       margin-bottom: 2rem;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
     }
 
     .header-content h1 {
@@ -406,6 +432,17 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
       background: white;
     }
 
+    .btn-primary {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+    }
+
+    .btn-primary:hover {
+      background: #5568d3;
+      border-color: #5568d3;
+    }
+
     .btn-outline-primary {
       color: #667eea;
       border-color: #667eea;
@@ -416,14 +453,49 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
       color: white;
     }
 
+    .btn-outline-secondary {
+      color: #6c757d;
+      border-color: #6c757d;
+    }
+
+    .btn-outline-secondary:hover {
+      background: #6c757d;
+      color: white;
+    }
+
+    .btn-outline-danger {
+      color: #dc3545;
+      border-color: #dc3545;
+    }
+
+    .btn-outline-danger:hover {
+      background: #dc3545;
+      color: white;
+    }
+
     .btn-sm {
       padding: 0.375rem 0.75rem;
       font-size: 0.8rem;
     }
 
+    .action-buttons {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+
     @media (max-width: 768px) {
       .languages-container {
         padding: 1rem;
+      }
+
+      .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .btn-primary {
+        width: 100%;
       }
 
       .table-container {
@@ -477,6 +549,39 @@ export class LanguagesComponent implements OnInit {
 
   viewLanguageDetails(language: Language) {
     this.router.navigate(['/languages', language.languageId]);
+  }
+
+  createLanguage() {
+    this.router.navigate(['/languages/new']);
+  }
+
+  editLanguage(language: Language) {
+    this.router.navigate(['/languages', language.languageId, 'edit']);
+  }
+
+  confirmDelete(language: Language) {
+    if (confirm(`¿Estás seguro de que deseas eliminar el lenguaje "${language.name}"?\n\nEsta acción no se puede deshacer.`)) {
+      this.deleteLanguage(language.languageId);
+    }
+  }
+
+  deleteLanguage(languageId: number) {
+    this.languageService.deleteLanguage(languageId).subscribe({
+      next: (response: ApiResponse<void>) => {
+        if (response.success) {
+          // Remove language from the list
+          this.languages.update(langs => langs.filter(l => l.languageId !== languageId));
+          // Optionally show success message
+          console.log('Language deleted successfully');
+        } else {
+          this.error.set(response.errors?.[0] || 'Error al eliminar el lenguaje');
+        }
+      },
+      error: (err) => {
+        this.error.set('Error al eliminar el lenguaje. Por favor intenta de nuevo.');
+        console.error('Error deleting language:', err);
+      }
+    });
   }
 
   getVerbosityPercentage(slocPerUfp: number): number {
