@@ -27,9 +27,9 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
           </div>
 
           <div class="action-card">
-            <h3>📊 Estimations</h3>
-            <p>View and analyze your project estimations</p>
-            <button class="btn btn-primary" disabled>Coming Soon</button>
+            <h3>� Lenguajes</h3>
+            <p>View and manage programming languages</p>
+            <button class="btn btn-primary" (click)="goToLanguages()">Manage Languages</button>
           </div>
         </div>
       </main>
@@ -199,5 +199,9 @@ export class DashboardComponent {
 
   goToParameterSets() {
     this.router.navigate(['/parameter-sets']);
+  }
+
+  goToLanguages() {
+    this.router.navigate(['/languages']);
   }
 }

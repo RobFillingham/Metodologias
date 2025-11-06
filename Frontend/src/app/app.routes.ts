@@ -35,4 +35,13 @@ export const routes: Routes = [
     canActivate: [authGuard],
     loadChildren: () => import('./features/parameter-sets/parameter-sets.routes').then(m => m.PARAMETER_SETS_ROUTES)
   },
+  {
+    path: 'languages',
+    canActivate: [authGuard],
+    loadChildren: () => import('./features/languages/languages.routes').then(m => m.LANGUAGES_ROUTES)
+  },
+  {
+    path: '**',
+    redirectTo: 'home'
+  }
 ];
