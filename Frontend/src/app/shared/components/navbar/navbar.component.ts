@@ -22,8 +22,6 @@ import { AuthService } from '../../../core/services/auth.service';
           <!-- Show these links only when authenticated -->
           <ng-container *ngIf="authService.isAuthenticated">
             <a routerLink="/dashboard" class="nav-link">Dashboard</a>
-            <a routerLink="/projects" class="nav-link">Projects</a>
-            <a href="#" class="nav-link" disabled>Estimations</a>
           </ng-container>
         </div>
 
