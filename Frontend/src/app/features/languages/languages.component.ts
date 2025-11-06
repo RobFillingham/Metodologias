@@ -15,37 +15,37 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
     <div class="languages-container">
       <div class="header-section">
         <div class="header-content">
-          <h1>🔤 Programming Languages</h1>
-          <p>COCOMO II language database with SLOC conversion factors</p>
+          <h1>🔤 Lenguajes de Programación</h1>
+          <p>Base de datos de lenguajes COCOMO II con factores de conversión SLOC</p>
         </div>
       </div>
 
       <!-- Loading State -->
       <div *ngIf="loading()" class="loading-state">
         <div class="spinner"></div>
-        <p>Loading programming languages...</p>
+        <p>Cargando lenguajes de programación...</p>
       </div>
 
       <!-- Error State -->
       <div *ngIf="error()" class="error-alert">
         <strong>⚠️ Error:</strong> {{ error() }}
         <button class="btn btn-sm btn-outline-primary ms-2" (click)="loadLanguages()">
-          Retry
+          Reintentar
         </button>
       </div>
 
       <!-- Languages Table -->
       <div *ngIf="!loading() && !error()" class="languages-content">
         <div class="info-box">
-          <h3>ℹ️ About SLOC per UFP</h3>
+          <h3>ℹ️ Acerca de SLOC por UFP</h3>
           <p>
-            <strong>SLOC per UFP</strong> (Source Lines of Code per Unadjusted Function Point) is a conversion factor
-            used to translate Function Points into estimated lines of code. Different programming languages require
-            different amounts of code to implement the same functionality.
+            <strong>SLOC por UFP</strong> (Líneas de Código Fuente por Punto de Función sin Ajustar) es un factor de conversión
+            utilizado para traducir Puntos de Función en líneas de código estimadas. Diferentes lenguajes de programación requieren
+            diferentes cantidades de código para implementar la misma funcionalidad.
           </p>
           <p>
-            For example, a high-level language like Python typically requires fewer lines of code compared to a
-            lower-level language like Assembly to implement the same feature.
+            Por ejemplo, un lenguaje de alto nivel como Python generalmente requiere menos líneas de código en comparación con un
+            lenguaje de nivel más bajo como Assembly para implementar la misma característica.
           </p>
         </div>
 
@@ -54,10 +54,10 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
             <thead>
               <tr>
                 <th>#</th>
-                <th>Language Name</th>
-                <th>SLOC per UFP</th>
-                <th>Relative Verbosity</th>
-                <th>Actions</th>
+                <th>Nombre del Lenguaje</th>
+                <th>SLOC por UFP</th>
+                <th>Verbosidad Relativa</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -86,9 +86,9 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
                   <button 
                     class="btn btn-sm btn-outline-primary"
                     (click)="viewLanguageDetails(language)"
-                    title="View Details">
+                    title="Ver Detalles">
                     <i class="bi bi-eye"></i>
-                    View
+                    Ver
                   </button>
                 </td>
               </tr>
@@ -98,29 +98,29 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
 
         <!-- Statistics -->
         <div class="statistics-section">
-          <h3>📊 Language Statistics</h3>
+          <h3>📊 Estadísticas de Lenguajes</h3>
           <div class="stats-grid">
             <div class="stat-card">
               <div class="stat-icon">🔢</div>
               <div class="stat-value">{{ languages().length }}</div>
-              <div class="stat-label">Total Languages</div>
+              <div class="stat-label">Total de Lenguajes</div>
             </div>
             <div class="stat-card">
               <div class="stat-icon">⬇️</div>
               <div class="stat-value">{{ getMinSlocLanguage()?.name || 'N/A' }}</div>
-              <div class="stat-label">Most Concise</div>
+              <div class="stat-label">Más Conciso</div>
               <div class="stat-sublabel">{{ getMinSlocLanguage()?.slocPerUfp || 'N/A' }} SLOC/UFP</div>
             </div>
             <div class="stat-card">
               <div class="stat-icon">⬆️</div>
               <div class="stat-value">{{ getMaxSlocLanguage()?.name || 'N/A' }}</div>
-              <div class="stat-label">Most Verbose</div>
+              <div class="stat-label">Más Verboso</div>
               <div class="stat-sublabel">{{ getMaxSlocLanguage()?.slocPerUfp || 'N/A' }} SLOC/UFP</div>
             </div>
             <div class="stat-card">
               <div class="stat-icon">📈</div>
               <div class="stat-value">{{ getAverageSlocPerUfp() }}</div>
-              <div class="stat-label">Average SLOC/UFP</div>
+              <div class="stat-label">Promedio SLOC/UFP</div>
             </div>
           </div>
         </div>
@@ -129,8 +129,8 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
       <!-- Empty State -->
       <div *ngIf="!loading() && !error() && languages().length === 0" class="empty-state">
         <div class="empty-icon">🔤</div>
-        <h3>No Languages Found</h3>
-        <p>No programming languages are currently available in the database.</p>
+        <h3>No se Encontraron Lenguajes</h3>
+        <p>No hay lenguajes de programación disponibles actualmente en la base de datos.</p>
       </div>
     </div>
   `,
@@ -486,9 +486,9 @@ export class LanguagesComponent implements OnInit {
   }
 
   getVerbosityLabel(slocPerUfp: number): string {
-    if (slocPerUfp < 50) return 'Low (Concise)';
-    if (slocPerUfp < 100) return 'Medium';
-    return 'High (Verbose)';
+    if (slocPerUfp < 50) return 'Bajo (Conciso)';
+    if (slocPerUfp < 100) return 'Medio';
+    return 'Alto (Verboso)';
   }
 
   getMinSlocLanguage(): Language | undefined {

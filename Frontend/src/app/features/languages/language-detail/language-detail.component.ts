@@ -16,14 +16,14 @@ import { NavbarComponent } from '../../../shared/components/navbar/navbar.compon
       <!-- Loading State -->
       <div *ngIf="loading()" class="loading-state">
         <div class="spinner"></div>
-        <p>Loading language details...</p>
+        <p>Cargando detalles del lenguaje...</p>
       </div>
 
       <!-- Error State -->
       <div *ngIf="error()" class="error-alert">
         <strong>⚠️ Error:</strong> {{ error() }}
         <button class="btn btn-sm btn-outline-primary ms-2" (click)="loadLanguage()">
-          Retry
+          Reintentar
         </button>
       </div>
 
@@ -35,24 +35,24 @@ import { NavbarComponent } from '../../../shared/components/navbar/navbar.compon
             <div class="language-icon">💻</div>
             <div>
               <h1>{{ language()!.name }}</h1>
-              <p>Programming Language Details</p>
+              <p>Detalles del Lenguaje de Programación</p>
             </div>
           </div>
         </div>
 
         <!-- Main Stats -->
         <div class="detail-section">
-          <h3>📊 SLOC Conversion Factor</h3>
+          <h3>📊 Factor de Conversión SLOC</h3>
           <div class="main-stat-card">
             <div class="stat-large">
               <div class="stat-value-large">{{ language()!.slocPerUfp }}</div>
-              <div class="stat-label-large">SLOC per UFP</div>
+              <div class="stat-label-large">SLOC por UFP</div>
             </div>
             <div class="stat-description">
               <p>
-                This factor indicates that for every <strong>1 Unadjusted Function Point</strong>,
-                approximately <strong>{{ language()!.slocPerUfp }} lines of {{ language()!.name }} code</strong>
-                are required to implement the functionality.
+                Este factor indica que por cada <strong>1 Punto de Función sin Ajustar</strong>,
+                se requieren aproximadamente <strong>{{ language()!.slocPerUfp }} líneas de código {{ language()!.name }}</strong>
+                para implementar la funcionalidad.
               </p>
             </div>
           </div>
@@ -60,7 +60,7 @@ import { NavbarComponent } from '../../../shared/components/navbar/navbar.compon
 
         <!-- Comparison -->
         <div class="detail-section">
-          <h3>📈 Relative Verbosity</h3>
+          <h3>📈 Verbosidad Relativa</h3>
           <div class="verbosity-visual">
             <div class="verbosity-bar-large">
               <div 
@@ -80,64 +80,64 @@ import { NavbarComponent } from '../../../shared/components/navbar/navbar.compon
 
         <!-- Examples -->
         <div class="detail-section">
-          <h3>💡 Example Calculations</h3>
+          <h3>💡 Ejemplos de Cálculos</h3>
           <p class="section-description">
-            Here are some example conversions from Function Points to Source Lines of Code for {{ language()!.name }}:
+            Aquí hay algunas conversiones de ejemplo de Puntos de Función a Líneas de Código Fuente para {{ language()!.name }}:
           </p>
           <div class="examples-grid">
             <div class="example-card">
               <div class="example-input">10 UFP</div>
               <div class="example-arrow">→</div>
               <div class="example-output">{{ (10 * language()!.slocPerUfp).toFixed(0) }} SLOC</div>
-              <div class="example-label">Small Feature</div>
+              <div class="example-label">Característica Pequeña</div>
             </div>
             <div class="example-card">
               <div class="example-input">50 UFP</div>
               <div class="example-arrow">→</div>
               <div class="example-output">{{ (50 * language()!.slocPerUfp).toFixed(0) }} SLOC</div>
-              <div class="example-label">Medium Module</div>
+              <div class="example-label">Módulo Mediano</div>
             </div>
             <div class="example-card">
               <div class="example-input">100 UFP</div>
               <div class="example-arrow">→</div>
               <div class="example-output">{{ (100 * language()!.slocPerUfp).toFixed(0) }} SLOC</div>
-              <div class="example-label">Large Module</div>
+              <div class="example-label">Módulo Grande</div>
             </div>
             <div class="example-card">
               <div class="example-input">500 UFP</div>
               <div class="example-arrow">→</div>
               <div class="example-output">{{ (500 * language()!.slocPerUfp).toFixed(0) }} SLOC</div>
-              <div class="example-label">Full Application</div>
+              <div class="example-label">Aplicación Completa</div>
             </div>
           </div>
         </div>
 
         <!-- Additional Info -->
         <div class="detail-section">
-          <h3>ℹ️ Understanding SLOC per UFP</h3>
+          <h3>ℹ️ Entendiendo SLOC por UFP</h3>
           <div class="info-cards">
             <div class="info-card">
               <div class="info-icon">📏</div>
-              <h4>What is SLOC?</h4>
+              <h4>¿Qué es SLOC?</h4>
               <p>
-                <strong>SLOC</strong> (Source Lines of Code) is a metric that counts the number of lines
-                in a program's source code, excluding comments and blank lines.
+                <strong>SLOC</strong> (Líneas de Código Fuente) es una métrica que cuenta el número de líneas
+                en el código fuente de un programa, excluyendo comentarios y líneas en blanco.
               </p>
             </div>
             <div class="info-card">
               <div class="info-icon">🎯</div>
-              <h4>What is UFP?</h4>
+              <h4>¿Qué es UFP?</h4>
               <p>
-                <strong>UFP</strong> (Unadjusted Function Points) measures the functional size of software
-                based on user requirements, independent of technology.
+                <strong>UFP</strong> (Puntos de Función sin Ajustar) mide el tamaño funcional del software
+                basado en los requisitos del usuario, independientemente de la tecnología.
               </p>
             </div>
             <div class="info-card">
               <div class="info-icon">🔄</div>
-              <h4>Why Convert?</h4>
+              <h4>¿Por qué Convertir?</h4>
               <p>
-                Converting Function Points to SLOC allows COCOMO II to estimate effort and duration
-                based on language-specific productivity rates.
+                Convertir Puntos de Función a SLOC permite a COCOMO II estimar el esfuerzo y la duración
+                basándose en tasas de productividad específicas del lenguaje.
               </p>
             </div>
           </div>
@@ -147,7 +147,7 @@ import { NavbarComponent } from '../../../shared/components/navbar/navbar.compon
         <div class="detail-actions">
           <button class="btn btn-secondary" (click)="goBack()">
             <i class="bi bi-arrow-left"></i>
-            Back to Languages
+            Volver a Lenguajes
           </button>
         </div>
       </div>
@@ -521,11 +521,11 @@ export class LanguageDetailComponent implements OnInit {
 
   getVerbosityDescription(slocPerUfp: number): string {
     if (slocPerUfp < 50) {
-      return `${this.language()!.name} is a relatively concise language, requiring fewer lines of code to implement the same functionality compared to more verbose languages. This can lead to faster development and easier maintenance.`;
+      return `${this.language()!.name} es un lenguaje relativamente conciso, que requiere menos líneas de código para implementar la misma funcionalidad en comparación con lenguajes más verbosos. Esto puede conducir a un desarrollo más rápido y un mantenimiento más fácil.`;
     } else if (slocPerUfp < 100) {
-      return `${this.language()!.name} has a moderate verbosity level. It balances expressiveness with code conciseness, making it suitable for a wide range of applications.`;
+      return `${this.language()!.name} tiene un nivel de verbosidad moderado. Equilibra la expresividad con la concisión del código, haciéndolo adecuado para una amplia gama de aplicaciones.`;
     } else {
-      return `${this.language()!.name} is more verbose, requiring more lines of code to implement functionality. This may provide more explicit control and readability but can increase development time.`;
+      return `${this.language()!.name} es más verboso, requiriendo más líneas de código para implementar funcionalidad. Esto puede proporcionar más control explícito y legibilidad, pero puede aumentar el tiempo de desarrollo.`;
     }
   }
 
