@@ -35,4 +35,42 @@ public class LanguageRepository : ILanguageRepository
         return await _context.Languages
             .AnyAsync(l => l.LanguageId == languageId);
     }
+
+    public async Task<bool> LanguageNameExistsAsync(string name, int? excludeLanguageId = null)
+    {
+        var query = _context.Languages.Where(l => l.Name.ToLower() == name.ToLower());
+        
+        if (excludeLanguageId.HasValue)
+        {
+            query = query.Where(l => l.LanguageId != excludeLanguageId.Value);
+        }
+
+        return await query.AnyAsync();
+    }
+
+    public async Task<Language> CreateAsync(Language language)
+    {
+        _context.Languages.Add(language);
+        await _context.SaveChangesAsync();
+        return language;
+    }
+
+    public async Task<Language> UpdateAsync(Language language)
+    {
+        _context.Languages.Update(language);
+        await _context.SaveChangesAsync();
+        return language;
+    }
+
+    public async Task<bool> DeleteAsync(int languageId)
+    {
+        var language = await GetByIdAsync(languageId);
+        
+        if (language == null)
+            return false;
+
+        _context.Languages.Remove(language);
+        await _context.SaveChangesAsync();
+        return true;
+    }
 }

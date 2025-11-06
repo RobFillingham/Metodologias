@@ -1,4 +1,5 @@
 using Backend.Models.DTOs.CocomoThree;
+using Backend.Models.Entities.CocomoThree;
 using Backend.Repositories.Interfaces.CocomoThree;
 using Backend.Services.Interfaces.CocomoThree;
 
@@ -41,5 +42,72 @@ public class LanguageService : ILanguageService
             Name = language.Name,
             SlocPerUfp = language.SlocPerUfp
         };
+    }
+
+    public async Task<LanguageDto> CreateLanguageAsync(CreateLanguageDto createLanguageDto)
+    {
+        // Validate that name doesn't already exist
+        if (await _languageRepository.LanguageNameExistsAsync(createLanguageDto.Name))
+        {
+            throw new InvalidOperationException($"A language with the name '{createLanguageDto.Name}' already exists");
+        }
+
+        // Validate SLOC per UFP is positive
+        if (createLanguageDto.SlocPerUfp <= 0)
+        {
+            throw new ArgumentException("SLOC per UFP must be greater than zero");
+        }
+
+        var language = new Language
+        {
+            Name = createLanguageDto.Name.Trim(),
+            SlocPerUfp = createLanguageDto.SlocPerUfp
+        };
+
+        var createdLanguage = await _languageRepository.CreateAsync(language);
+
+        return new LanguageDto
+        {
+            LanguageId = createdLanguage.LanguageId,
+            Name = createdLanguage.Name,
+            SlocPerUfp = createdLanguage.SlocPerUfp
+        };
+    }
+
+    public async Task<LanguageDto?> UpdateLanguageAsync(int languageId, UpdateLanguageDto updateLanguageDto)
+    {
+        var existingLanguage = await _languageRepository.GetByIdAsync(languageId);
+        
+        if (existingLanguage == null)
+            return null;
+
+        // Validate that name doesn't already exist (excluding current language)
+        if (await _languageRepository.LanguageNameExistsAsync(updateLanguageDto.Name, languageId))
+        {
+            throw new InvalidOperationException($"A language with the name '{updateLanguageDto.Name}' already exists");
+        }
+
+        // Validate SLOC per UFP is positive
+        if (updateLanguageDto.SlocPerUfp <= 0)
+        {
+            throw new ArgumentException("SLOC per UFP must be greater than zero");
+        }
+
+        existingLanguage.Name = updateLanguageDto.Name.Trim();
+        existingLanguage.SlocPerUfp = updateLanguageDto.SlocPerUfp;
+
+        var updatedLanguage = await _languageRepository.UpdateAsync(existingLanguage);
+
+        return new LanguageDto
+        {
+            LanguageId = updatedLanguage.LanguageId,
+            Name = updatedLanguage.Name,
+            SlocPerUfp = updatedLanguage.SlocPerUfp
+        };
+    }
+
+    public async Task<bool> DeleteLanguageAsync(int languageId)
+    {
+        return await _languageRepository.DeleteAsync(languageId);
     }
 }
