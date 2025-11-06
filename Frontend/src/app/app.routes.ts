@@ -26,19 +26,22 @@ export const routes: Routes = [
     loadChildren: () => import('./features/projects/projects.routes').then(m => m.PROJECTS_ROUTES)
   },
   {
-    path: 'projects',
+    path: 'cocomo2',
     canActivate: [authGuard],
-    loadChildren: () => import('./features/estimations/estimations.routes').then(m => m.ESTIMATIONS_ROUTES)
-  },
-  {
-    path: 'parameter-sets',
-    canActivate: [authGuard],
-    loadChildren: () => import('./features/parameter-sets/parameter-sets.routes').then(m => m.PARAMETER_SETS_ROUTES)
-  },
-  {
-    path: 'languages',
-    canActivate: [authGuard],
-    loadChildren: () => import('./features/languages/languages.routes').then(m => m.LANGUAGES_ROUTES)
+    children: [
+      {
+        path: 'parameter-sets',
+        loadChildren: () => import('./features/cocomo2/parameter-sets/parameter-sets.routes').then(m => m.PARAMETER_SETS_ROUTES)
+      },
+      {
+        path: 'languages',
+        loadChildren: () => import('./features/cocomo2/languages/languages.routes').then(m => m.LANGUAGES_ROUTES)
+      },
+      {
+        path: 'estimations/:projectId',
+        loadChildren: () => import('./features/cocomo2/estimations/estimations.routes').then(m => m.ESTIMATIONS_ROUTES)
+      }
+    ]
   },
   {
     path: '**',

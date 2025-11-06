@@ -476,7 +476,7 @@ export class ProjectListComponent implements OnInit {
     this.projectService.setCurrentProject(project);
     
     // Navigate to estimations list
-    this.router.navigate(['/projects', project.projectId, 'estimations']);
+    this.router.navigate(['/cocomo2/estimations', project.projectId]);
   }
 
   formatDate(dateString: string): string {

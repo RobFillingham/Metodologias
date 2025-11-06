@@ -1,9 +1,9 @@
 import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ParameterSetService } from '../../../core/services/cocomo2/parameter-set.service';
-import { ParameterSet, ApiResponse } from '../../../core/models/cocomo2/cocomo.models';
-import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
+import { ParameterSetService } from '../../../../core/services/cocomo2/parameter-set.service';
+import { ParameterSet, ApiResponse } from '../../../../core/models/cocomo2/cocomo.models';
+import { NavbarComponent } from '../../../../shared/components/navbar/navbar.component';
 
 interface RatingDisplay {
   factor: string;

@@ -2,9 +2,9 @@ import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ParameterSetService } from '../../../core/services/cocomo2/parameter-set.service';
-import { ParameterSet, CreateParameterSetRequest, ApiResponse } from '../../../core/models/cocomo2/cocomo.models';
-import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
+import { ParameterSetService } from '../../../../core/services/cocomo2/parameter-set.service';
+import { ParameterSet, CreateParameterSetRequest, ApiResponse } from '../../../../core/models/cocomo2/cocomo.models';
+import { NavbarComponent } from '../../../../shared/components/navbar/navbar.component';
 
 interface RatingDefinition {
   key: string;

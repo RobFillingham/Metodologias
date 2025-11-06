@@ -1,9 +1,9 @@
 import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { LanguageService } from '../../core/services/cocomo2/language.service';
-import { Language, ApiResponse } from '../../core/models/cocomo2/cocomo.models';
-import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
+import { LanguageService } from '../../../core/services/cocomo2/language.service';
+import { Language, ApiResponse } from '../../../core/models/cocomo2/cocomo.models';
+import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 
 @Component({
   selector: 'app-languages',

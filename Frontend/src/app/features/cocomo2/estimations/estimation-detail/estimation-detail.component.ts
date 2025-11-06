@@ -1,11 +1,11 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
-import { FunctionPointEntryComponent } from '../../../shared/components/function-point-entry/function-point-entry.component';
-import { ParameterEditorComponent } from '../../../features/cocomo2/components/parameter-editor/parameter-editor.component';
-import { EstimationService } from '../../../core/services/cocomo2/estimation.service';
-import { Estimation, ApiResponse } from '../../../core/models/cocomo2/cocomo.models';
+import { NavbarComponent } from '../../../../shared/components/navbar/navbar.component';
+import { FunctionPointEntryComponent } from '../../../../shared/components/function-point-entry/function-point-entry.component';
+import { ParameterEditorComponent } from '../../../../features/cocomo2/components/parameter-editor/parameter-editor.component';
+import { EstimationService } from '../../../../core/services/cocomo2/estimation.service';
+import { Estimation, ApiResponse } from '../../../../core/models/cocomo2/cocomo.models';
 
 @Component({
   selector: 'app-estimation-detail',

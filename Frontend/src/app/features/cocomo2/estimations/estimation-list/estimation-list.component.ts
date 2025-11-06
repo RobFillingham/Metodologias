@@ -1,12 +1,12 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
+import { NavbarComponent } from '../../../../shared/components/navbar/navbar.component';
 import { EstimationFormComponent } from '../estimation-form/estimation-form.component';
-import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
-import { EstimationService } from '../../../core/services/cocomo2/estimation.service';
-import { ProjectService } from '../../../core/services/cocomo2/project.service';
-import { Estimation, Project, ApiResponse } from '../../../core/models/cocomo2/cocomo.models';
+import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
+import { EstimationService } from '../../../../core/services/cocomo2/estimation.service';
+import { ProjectService } from '../../../../core/services/cocomo2/project.service';
+import { Estimation, Project, ApiResponse } from '../../../../core/models/cocomo2/cocomo.models';
 
 @Component({
   selector: 'app-estimation-list',

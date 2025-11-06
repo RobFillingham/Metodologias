@@ -2,9 +2,9 @@ import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LanguageService, CreateLanguageDto, UpdateLanguageDto } from '../../../core/services/cocomo2/language.service';
-import { Language, ApiResponse } from '../../../core/models/cocomo2/cocomo.models';
-import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
+import { LanguageService, CreateLanguageDto, UpdateLanguageDto } from '../../../../core/services/cocomo2/language.service';
+import { Language, ApiResponse } from '../../../../core/models/cocomo2/cocomo.models';
+import { NavbarComponent } from '../../../../shared/components/navbar/navbar.component';
 
 @Component({
   selector: 'app-language-form',

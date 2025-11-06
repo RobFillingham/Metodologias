@@ -198,10 +198,10 @@ export class DashboardComponent {
   }
 
   goToParameterSets() {
-    this.router.navigate(['/parameter-sets']);
+    this.router.navigate(['/cocomo2/parameter-sets']);
   }
 
   goToLanguages() {
-    this.router.navigate(['/languages']);
+    this.router.navigate(['/cocomo2/languages']);
   }
 }
