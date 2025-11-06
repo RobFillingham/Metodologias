@@ -11,168 +11,227 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
   template: `
     <app-navbar></app-navbar>
 
+    <!-- Welcome Header -->
+    <div class="welcome-header">
+      <div class="welcome-content">
+        <h1>¡Bienvenido a tu Centro de Estimaciones!</h1>
+        <p>Plataforma completa para estimaciones de software usando COCOMO II</p>
+      </div>
+    </div>
+
     <div class="dashboard-container">
       <main class="dashboard-content">
-        <div class="quick-actions">
-          <div class="action-card">
-            <h3> COCOMO II</h3>
-            <p>Access COCOMO II estimation tools and project management</p>
-            <button class="btn btn-primary" (click)="goToCocomoII()">Open COCOMO II</button>
+        <!-- Main Action -->
+        <div class="main-action">
+          <div class="action-card primary">
+            <div class="card-icon">🔬</div>
+            <h2>COCOMO II</h2>
+            <p>Accede a todas las herramientas de estimación y gestión de proyectos</p>
+            <button class="btn btn-primary" (click)="goToCocomoII()">Comenzar</button>
           </div>
         </div>
+
       </main>
     </div>
   `,
   styles: [`
-    .dashboard-container {
-      min-height: 100vh;
-      background: #f8f9fa;
+    /* Welcome Header */
+    .welcome-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 3rem 2rem;
+      text-align: center;
     }
 
-    .dashboard-header {
-      background: white;
-      border-bottom: 1px solid #e1e5e9;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    .welcome-content h1 {
+      font-size: 2.5rem;
+      margin: 0 0 1rem;
+      font-weight: 700;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     }
 
-    .dashboard-header h1 {
+    .welcome-content p {
+      font-size: 1.2rem;
       margin: 0;
-      color: #333;
+      opacity: 0.9;
     }
 
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .user-info span {
-      color: #666;
+    /* Dashboard Container */
+    .dashboard-container {
+      background: #f8f9fa;
+      min-height: calc(100vh - 200px);
+      padding: 3rem 0;
     }
 
     .dashboard-content {
-      padding: 2rem;
-      max-width: 1200px;
+      max-width: 1000px;
       margin: 0 auto;
+      padding: 0 2rem;
     }
 
-    .welcome-section {
-      background: white;
-      padding: 2rem;
-      border-radius: 12px;
-      margin-bottom: 2rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .welcome-section h2 {
-      margin-top: 0;
-      color: #333;
-    }
-
-    .quick-actions {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
+    /* Main Action */
+    .main-action {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 3rem;
     }
 
     .action-card {
       background: white;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 3rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
       text-align: center;
-    }
-
-    .action-card h3 {
-      margin-top: 0;
-      color: #333;
-    }
-
-    .action-card p {
-      color: #666;
-      margin-bottom: 1.5rem;
-    }
-
-    .info-section {
-      background: white;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .info-section h3 {
-      margin-top: 0;
-      color: #333;
-    }
-
-    .info-section p {
-      color: #666;
-      line-height: 1.6;
-      margin-bottom: 1rem;
-    }
-
-    .info-section ul {
-      color: #666;
-      padding-left: 1.5rem;
-    }
-
-    .info-section li {
-      margin-bottom: 0.5rem;
-    }
-
-    .btn {
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 500;
-      cursor: pointer;
+      max-width: 500px;
+      width: 100%;
       transition: all 0.3s ease;
     }
 
+    .action-card.primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .action-card.primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="80" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="60" cy="30" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
+      opacity: 0.3;
+    }
+
+    .action-card.primary:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(102, 126, 234, 0.3);
+    }
+
+    .card-icon {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .action-card h2 {
+      margin: 0 0 1rem;
+      font-size: 2rem;
+      font-weight: 600;
+    }
+
+    .action-card p {
+      margin: 0 0 2rem;
+      line-height: 1.6;
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    /* Info Section */
+    .info-section {
+      display: flex;
+      justify-content: center;
+    }
+
+    .info-card {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      max-width: 600px;
+      width: 100%;
+    }
+
+    .info-card h3 {
+      margin: 0 0 1.5rem;
+      color: #333;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .info-card p {
+      color: #666;
+      line-height: 1.7;
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 1rem 2.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      position: relative;
+      z-index: 1;
+    }
+
     .btn-primary {
-      background: #667eea;
+      background: rgba(255, 255, 255, 0.2);
       color: white;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(10px);
     }
 
-    .btn-primary:hover:not(:disabled) {
-      background: #5a6fd8;
-      transform: translateY(-1px);
+    .btn-primary:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
     }
 
-    .btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .btn-secondary {
-      background: #6c757d;
-      color: white;
-    }
-
-    .btn-secondary:hover {
-      background: #5a6268;
-    }
-
+    /* Responsive Design */
     @media (max-width: 768px) {
-      .dashboard-header {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
+      .welcome-header {
+        padding: 2rem 1rem;
       }
 
-      .quick-actions {
-        grid-template-columns: 1fr;
+      .welcome-content h1 {
+        font-size: 2rem;
+      }
+
+      .welcome-content p {
+        font-size: 1rem;
       }
 
       .dashboard-content {
-        padding: 1rem;
+        padding: 0 1rem;
+      }
+
+      .action-card {
+        padding: 2rem;
+      }
+
+      .card-icon {
+        font-size: 3rem;
+      }
+
+      .action-card h2 {
+        font-size: 1.5rem;
+      }
+
+      .info-card {
+        padding: 2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .welcome-content h1 {
+        font-size: 1.8rem;
+      }
+
+      .action-card {
+        padding: 1.5rem;
+      }
+
+      .info-card {
+        padding: 1.5rem;
       }
     }
   `]
