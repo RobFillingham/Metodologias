@@ -16,35 +16,38 @@ import { ProjectFormComponent } from '../project-form/project-form.component';
     <div class="projects-container">
       <div class="projects-header">
         <div class="header-content">
-          <h1>📁 My Projects</h1>
-          <p class="subtitle">Manage your COCOMO II estimation projects</p>
+          <button class="btn-back" (click)="goBack()" title="Regresar">
+            ← Regresar
+          </button>
+          <h1>Mis Proyectos</h1>
+          <p class="subtitle">Gestiona todos tus proyectos de estimación</p>
         </div>
         <button class="btn btn-primary" (click)="openCreateModal()">
-          <span class="icon">+</span> New Project
+          + Nuevo Proyecto
         </button>
       </div>
 
       <!-- Loading State -->
       <div *ngIf="loading()" class="loading-container">
         <div class="spinner"></div>
-        <p>Loading projects...</p>
+        <p>Cargando proyectos...</p>
       </div>
 
       <!-- Error State -->
       <div *ngIf="error()" class="error-container">
-        <div class="error-icon">⚠️</div>
-        <h3>Error Loading Projects</h3>
+        <div class="error-icon">!</div>
+        <h3>Error al cargar proyectos</h3>
         <p>{{ error() }}</p>
-        <button class="btn btn-primary" (click)="loadProjects()">Try Again</button>
+        <button class="btn btn-primary" (click)="loadProjects()">Intentar nuevamente</button>
       </div>
 
       <!-- Empty State -->
       <div *ngIf="!loading() && !error() && projects().length === 0" class="empty-state">
-        <div class="empty-icon">📂</div>
-        <h2>No Projects Yet</h2>
-        <p>Create your first COCOMO II estimation project to get started.</p>
+        <div class="empty-icon"></div>
+        <h2>Sin proyectos</h2>
+        <p>Crea tu primer proyecto de estimación para comenzar.</p>
         <button class="btn btn-primary btn-lg" (click)="openCreateModal()">
-          Create Your First Project
+          Crear primer proyecto
         </button>
       </div>
 
@@ -55,18 +58,18 @@ import { ProjectFormComponent } from '../project-form/project-form.component';
             <h3>{{ project.projectName }}</h3>
             <div class="project-actions">
               <button 
-                class="btn-icon" 
+                class="btn-icon btn-edit" 
                 (click)="openEditModal(project)"
-                title="Edit project"
+                title="Editar proyecto"
               >
-                ✏️
+                ✎
               </button>
               <button 
                 class="btn-icon btn-danger" 
                 (click)="deleteProject(project)"
-                title="Delete project"
+                title="Eliminar proyecto"
               >
-                🗑️
+                ✕
               </button>
             </div>
           </div>
@@ -75,13 +78,12 @@ import { ProjectFormComponent } from '../project-form/project-form.component';
             {{ project.description }}
           </p>
           <p class="project-description empty" *ngIf="!project.description">
-            No description provided
+            Sin descripción
           </p>
           
           <div class="project-footer">
             <div class="project-meta">
               <span class="meta-item">
-                <span class="icon">📅</span>
                 {{ formatDate(project.createdAt) }}
               </span>
             </div>
@@ -89,7 +91,7 @@ import { ProjectFormComponent } from '../project-form/project-form.component';
               class="btn btn-outline btn-sm"
               (click)="viewEstimations(project)"
             >
-              View Estimations →
+              Ver estimaciones →
             </button>
           </div>
         </div>
@@ -107,7 +109,7 @@ import { ProjectFormComponent } from '../project-form/project-form.component';
   styles: [`
     .projects-container {
       min-height: 100vh;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #f0f7ff 0%, #e8f0ff 100%);
       padding: 2rem;
     }
 
@@ -122,15 +124,32 @@ import { ProjectFormComponent } from '../project-form/project-form.component';
 
     .header-content h1 {
       margin: 0;
-      color: white;
+      color: #1e293b;
       font-size: 2.5rem;
       font-weight: 700;
     }
 
     .subtitle {
       margin: 0.5rem 0 0;
-      color: rgba(255, 255, 255, 0.9);
+      color: #64748b;
       font-size: 1.1rem;
+    }
+
+    .btn-back {
+      background: transparent;
+      border: none;
+      color: #2563eb;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0.5rem 0;
+      margin-bottom: 1rem;
+      transition: all 0.2s ease;
+      font-size: 1rem;
+    }
+
+    .btn-back:hover {
+      color: #1d4ed8;
+      transform: translateX(-2px);
     }
 
     /* Loading State */
@@ -149,7 +168,7 @@ import { ProjectFormComponent } from '../project-form/project-form.component';
       height: 50px;
       margin: 0 auto 1rem;
       border: 4px solid #f3f3f3;
-      border-top: 4px solid #667eea;
+      border-top: 4px solid #2563eb;
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
@@ -173,6 +192,18 @@ import { ProjectFormComponent } from '../project-form/project-form.component';
     .error-icon {
       font-size: 4rem;
       margin-bottom: 1rem;
+      width: 80px;
+      height: 80px;
+      margin-left: auto;
+      margin-right: auto;
+      background: #fee2e2;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #dc2626;
+      font-weight: bold;
+      font-size: 3rem;
     }
 
     .error-container h3 {
@@ -199,6 +230,15 @@ import { ProjectFormComponent } from '../project-form/project-form.component';
     .empty-icon {
       font-size: 5rem;
       margin-bottom: 1.5rem;
+      width: 120px;
+      height: 120px;
+      margin-left: auto;
+      margin-right: auto;
+      background: #dbeafe;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .empty-state h2 {
@@ -313,24 +353,24 @@ import { ProjectFormComponent } from '../project-form/project-form.component';
     }
 
     .btn-primary {
-      background: #667eea;
+      background: #2563eb;
       color: white;
     }
 
     .btn-primary:hover {
-      background: #5568d3;
+      background: #1d4ed8;
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
     }
 
     .btn-outline {
       background: transparent;
-      color: #667eea;
-      border: 2px solid #667eea;
+      color: #2563eb;
+      border: 2px solid #2563eb;
     }
 
     .btn-outline:hover {
-      background: #667eea;
+      background: #2563eb;
       color: white;
     }
 
@@ -358,8 +398,24 @@ import { ProjectFormComponent } from '../project-form/project-form.component';
       background: #f3f4f6;
     }
 
+    .btn-icon.btn-edit {
+      color: #2563eb;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+
+    .btn-icon.btn-edit:hover {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .btn-icon.btn-danger {
+      color: #dc2626;
+    }
+
     .btn-icon.btn-danger:hover {
-      background: #fee;
+      background: #fee2e2;
+      color: #991b1b;
     }
 
     @media (max-width: 768px) {
@@ -486,5 +542,9 @@ export class ProjectListComponent implements OnInit {
       month: 'short',
       day: 'numeric'
     });
+  }
+
+  goBack(): void {
+    this.router.navigate(['/dashboard']);
   }
 }

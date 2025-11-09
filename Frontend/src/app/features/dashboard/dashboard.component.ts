@@ -21,12 +21,20 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
 
     <div class="dashboard-container">
       <main class="dashboard-content">
-        <!-- Main Action -->
-        <div class="main-action">
+        <!-- Main Actions Grid -->
+        <div class="main-actions-grid">
+          <!-- COCOMO II Card -->
           <div class="action-card primary">
             <h2>COCOMO II</h2>
             <p>Accede a todas las herramientas de estimación y gestión de proyectos</p>
             <button class="btn btn-primary" (click)="goToCocomoII()">Comenzar</button>
+          </div>
+
+          <!-- Project Management Card -->
+          <div class="action-card secondary">
+            <h2>Gestión de Proyectos</h2>
+            <p>Crea y administra tus proyectos para todas las metodologías de estimación</p>
+            <button class="btn btn-secondary" (click)="goToProjects()">Gestionar</button>
           </div>
         </div>
 
@@ -75,6 +83,13 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
       margin-bottom: 3rem;
     }
 
+    .main-actions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
     .action-card {
       background: white;
       padding: 2rem;
@@ -108,6 +123,29 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
     .action-card.primary:hover {
       transform: translateY(-4px);
       box-shadow: 0 16px 48px rgba(37, 99, 235, 0.3);
+    }
+
+    .action-card.secondary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .action-card.secondary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="80" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="60" cy="30" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
+      opacity: 0.3;
+    }
+
+    .action-card.secondary:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(102, 126, 234, 0.3);
     }
 
     .card-icon {
@@ -190,9 +228,19 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
     }
 
     .btn-secondary {
-      background: white;
-      color: #2563eb;
-      border: 2px solid #2563eb;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(10px);
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
     }
 
     .btn:disabled {
@@ -257,5 +305,9 @@ export class DashboardComponent {
 
   goToCocomoII() {
     this.router.navigate(['/cocomo2']);
+  }
+
+  goToProjects() {
+    this.router.navigate(['/projects']);
   }
 }

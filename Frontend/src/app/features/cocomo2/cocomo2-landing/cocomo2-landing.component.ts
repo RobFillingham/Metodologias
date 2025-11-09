@@ -12,6 +12,10 @@ import { NavbarComponent } from '../../../shared/components/navbar/navbar.compon
 
     <div class="cocomo2-container">
       <main class="cocomo2-content">
+        <button class="btn-back" (click)="goBack()" title="Regresar">
+          ← Regresar
+        </button>
+
         <div class="hero-section">
           <h1>🔬 COCOMO II</h1>
           <p>Constructive Cost Model II - Herramientas de estimación de software</p>
@@ -53,6 +57,23 @@ import { NavbarComponent } from '../../../shared/components/navbar/navbar.compon
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 2rem;
+    }
+
+    .btn-back {
+      background: transparent;
+      border: none;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0.5rem 0;
+      margin-bottom: 1rem;
+      transition: all 0.2s ease;
+      font-size: 1rem;
+    }
+
+    .btn-back:hover {
+      opacity: 0.8;
+      transform: translateX(-2px);
     }
 
     .hero-section {
@@ -165,5 +186,9 @@ export class Cocomo2LandingComponent {
 
   goToLanguages() {
     this.router.navigate(['/cocomo2/languages']);
+  }
+
+  goBack() {
+    this.router.navigate(['/dashboard']);
   }
 }

@@ -12,15 +12,15 @@ import { Project, CreateProjectRequest, UpdateProjectRequest, ApiResponse } from
     <div class="modal-overlay" (click)="onCancel()">
       <div class="modal-content" (click)="$event.stopPropagation()">
         <div class="modal-header">
-          <h2>{{ isEditMode() ? '✏️ Edit Project' : '➕ Create New Project' }}</h2>
-          <button class="btn-close" (click)="onCancel()" aria-label="Close">×</button>
+          <h2>{{ isEditMode() ? 'Editar Proyecto' : 'Crear Nuevo Proyecto' }}</h2>
+          <button class="btn-close" (click)="onCancel()" aria-label="Cerrar">×</button>
         </div>
 
         <form (ngSubmit)="onSubmit()" #projectForm="ngForm">
           <div class="modal-body">
             <!-- Project Name -->
             <div class="form-group">
-              <label for="projectName" class="required">Project Name</label>
+              <label for="projectName" class="required">Nombre del Proyecto</label>
               <input
                 type="text"
                 id="projectName"
@@ -29,17 +29,17 @@ import { Project, CreateProjectRequest, UpdateProjectRequest, ApiResponse } from
                 [(ngModel)]="formData.projectName"
                 required
                 maxlength="255"
-                placeholder="e.g., Mobile Banking App"
+                placeholder="ej: App de Banca Móvil"
                 #projectName="ngModel"
               />
               <div class="error-message" *ngIf="projectName.invalid && projectName.touched">
-                <span *ngIf="projectName.errors?.['required']">Project name is required</span>
+                <span *ngIf="projectName.errors?.['required']">El nombre del proyecto es requerido</span>
               </div>
             </div>
 
             <!-- Description -->
             <div class="form-group">
-              <label for="description">Description</label>
+              <label for="description">Descripción</label>
               <textarea
                 id="description"
                 name="description"
@@ -47,16 +47,16 @@ import { Project, CreateProjectRequest, UpdateProjectRequest, ApiResponse } from
                 [(ngModel)]="formData.description"
                 rows="4"
                 maxlength="1000"
-                placeholder="Describe your project (optional)"
+                placeholder="Describe tu proyecto (opcional)"
               ></textarea>
               <div class="char-count">
-                {{ formData.description?.length || 0 }} / 1000 characters
+                {{ formData.description?.length || 0 }} / 1000 caracteres
               </div>
             </div>
 
             <!-- Error Message -->
             <div class="alert alert-error" *ngIf="error()">
-              <span class="icon">⚠️</span>
+              <span class="icon">!</span>
               {{ error() }}
             </div>
           </div>
@@ -68,17 +68,17 @@ import { Project, CreateProjectRequest, UpdateProjectRequest, ApiResponse } from
               (click)="onCancel()"
               [disabled]="saving()"
             >
-              Cancel
+              Cancelar
             </button>
             <button 
               type="submit" 
               class="btn btn-primary"
               [disabled]="projectForm.invalid || saving()"
             >
-              <span *ngIf="!saving()">{{ isEditMode() ? 'Update' : 'Create' }} Project</span>
+              <span *ngIf="!saving()">{{ isEditMode() ? 'Actualizar' : 'Crear' }} Proyecto</span>
               <span *ngIf="saving()">
                 <span class="spinner-small"></span>
-                {{ isEditMode() ? 'Updating...' : 'Creating...' }}
+                {{ isEditMode() ? 'Actualizando...' : 'Creando...' }}
               </span>
             </button>
           </div>
@@ -137,7 +137,7 @@ import { Project, CreateProjectRequest, UpdateProjectRequest, ApiResponse } from
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
       color: white;
     }
 
@@ -201,8 +201,8 @@ import { Project, CreateProjectRequest, UpdateProjectRequest, ApiResponse } from
 
     .form-control:focus {
       outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
     }
 
     .form-control:disabled {
@@ -238,13 +238,23 @@ import { Project, CreateProjectRequest, UpdateProjectRequest, ApiResponse } from
     }
 
     .alert-error {
-      background: #fee;
-      color: #c53030;
-      border: 1px solid #feb2b2;
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
     }
 
     .alert .icon {
       font-size: 1.2rem;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #fca5a5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      flex-shrink: 0;
     }
 
     .modal-footer {
@@ -275,20 +285,20 @@ import { Project, CreateProjectRequest, UpdateProjectRequest, ApiResponse } from
     }
 
     .btn-primary {
-      background: #667eea;
+      background: #2563eb;
       color: white;
     }
 
     .btn-primary:hover:not(:disabled) {
-      background: #5568d3;
+      background: #1d4ed8;
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
     }
 
     .btn-outline {
       background: white;
-      color: #667eea;
-      border: 2px solid #667eea;
+      color: #2563eb;
+      border: 2px solid #2563eb;
     }
 
     .btn-outline:hover:not(:disabled) {

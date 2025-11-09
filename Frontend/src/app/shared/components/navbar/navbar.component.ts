@@ -14,6 +14,14 @@ import { AuthService } from '../../../core/services/auth.service';
           <span class="brand-text">Herramienta de Estimación</span>
         </div>
 
+        <div class="nav-center">
+          <ng-container *ngIf="authService.isAuthenticated">
+            <button (click)="goToDashboard()" class="btn btn-center">
+              Dashboard
+            </button>
+          </ng-container>
+        </div>
+
         <div class="nav-actions">
           <ng-container *ngIf="!authService.isAuthenticated">
             <a routerLink="/auth/login" class="btn btn-outline">Iniciar Sesión</a>
@@ -52,6 +60,7 @@ import { AuthService } from '../../../core/services/auth.service';
 
     .nav-brand {
       text-align: left;
+      flex: 0 0 auto;
     }
 
     .brand-text {
@@ -60,10 +69,18 @@ import { AuthService } from '../../../core/services/auth.service';
       font-size: 1.25rem;
     }
 
+    .nav-center {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
     .nav-actions {
       display: flex;
       align-items: center;
       gap: 1rem;
+      flex: 0 0 auto;
     }
 
     .user-greeting {
@@ -105,6 +122,17 @@ import { AuthService } from '../../../core/services/auth.service';
       border-color: #1d4ed8;
     }
 
+    .btn-center {
+      background: #2563eb;
+      color: white;
+      border-color: #2563eb;
+    }
+
+    .btn-center:hover {
+      background: #1d4ed8;
+      border-color: #1d4ed8;
+    }
+
     @media (max-width: 768px) {
       .nav-container {
         flex-direction: column;
@@ -130,5 +158,9 @@ export class NavbarComponent {
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/home']);
+  }
+
+  goToDashboard(): void {
+    this.router.navigate(['/dashboard']);
   }
 }
