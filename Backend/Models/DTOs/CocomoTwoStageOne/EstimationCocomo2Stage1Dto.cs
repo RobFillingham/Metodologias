@@ -49,6 +49,7 @@ public class EstimationCocomo2Stage1Dto
 /// </summary>
 public class CreateEstimationCocomo2Stage1Dto
 {
+    public int ProjectId { get; set; }
     public string EstimationName { get; set; } = string.Empty;
     public int ParamSetId { get; set; }
     public int LanguageId { get; set; }

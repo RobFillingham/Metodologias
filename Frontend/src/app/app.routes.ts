@@ -63,6 +63,11 @@ export const routes: Routes = [
     loadComponent: () => import('./features/use-case-point/use-case-point-estimations/use-case-point-estimations.component').then(m => m.UseCasePointEstimationsComponent)
   },
   {
+    path: 'cocomo2-stage1',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/cocomo2-stage1/cocomo2-stage1-estimations/cocomo2-stage1-estimations.component').then(m => m.Cocomo2Stage1EstimationsComponent)
+  },
+  {
     path: '**',
     redirectTo: 'home'
   }

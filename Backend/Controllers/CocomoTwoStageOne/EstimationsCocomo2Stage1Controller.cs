@@ -10,7 +10,7 @@ namespace Backend.Controllers.CocomoTwoStageOne;
 /// Controller for managing Estimations (COCOMO 2 Stage 1)
 /// </summary>
 [ApiController]
-[Route("api/cocomo2-stage1/projects/{projectId}/estimations")]
+[Route("api/cocomo2-stage1/estimations")]
 [Authorize]
 [Produces("application/json")]
 [Tags("COCOMO II Stage 1 - Estimations")]
@@ -28,9 +28,9 @@ public class EstimationsCocomo2Stage1Controller : ControllerBase
     }
 
     /// <summary>
-    /// Get all estimations for a project
+    /// Get all estimations for a specific project
     /// </summary>
-    [HttpGet]
+    [HttpGet("project/{projectId}")]
     [ProducesResponseType(typeof(ApiResponse<IEnumerable<EstimationCocomo2Stage1Dto>>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult<ApiResponse<IEnumerable<EstimationCocomo2Stage1Dto>>>> GetProjectEstimations(int projectId)
@@ -69,7 +69,7 @@ public class EstimationsCocomo2Stage1Controller : ControllerBase
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ApiResponse<EstimationCocomo2Stage1Dto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse<EstimationCocomo2Stage1Dto>), StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ApiResponse<EstimationCocomo2Stage1Dto>>> GetEstimationById(int projectId, int id)
+    public async Task<ActionResult<ApiResponse<EstimationCocomo2Stage1Dto>>> GetEstimationById(int id)
     {
         try
         {
@@ -106,7 +106,7 @@ public class EstimationsCocomo2Stage1Controller : ControllerBase
     [ProducesResponseType(typeof(ApiResponse<EstimationCocomo2Stage1Dto>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiResponse<EstimationCocomo2Stage1Dto>), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    public async Task<ActionResult<ApiResponse<EstimationCocomo2Stage1Dto>>> CreateEstimation(int projectId, [FromBody] CreateEstimationCocomo2Stage1Dto createDto)
+    public async Task<ActionResult<ApiResponse<EstimationCocomo2Stage1Dto>>> CreateEstimation([FromBody] CreateEstimationCocomo2Stage1Dto createDto)
     {
         try
         {
@@ -125,7 +125,7 @@ public class EstimationsCocomo2Stage1Controller : ControllerBase
             }
 
             var userId = GetCurrentUserId();
-            var estimation = await _service.CreateAsync(projectId, createDto, userId);
+            var estimation = await _service.CreateAsync(createDto.ProjectId, createDto, userId);
 
             var response = ApiResponse<EstimationCocomo2Stage1Dto>.SuccessResponse(
                 estimation,
@@ -134,7 +134,7 @@ public class EstimationsCocomo2Stage1Controller : ControllerBase
 
             return CreatedAtAction(
                 nameof(GetEstimationById),
-                new { projectId = projectId, id = estimation.EstimationId },
+                new { id = estimation.EstimationId },
                 response
             );
         }
@@ -149,7 +149,7 @@ public class EstimationsCocomo2Stage1Controller : ControllerBase
         }
         catch (UnauthorizedAccessException ex)
         {
-            _logger.LogWarning(ex, "Unauthorized estimation creation in project: {ProjectId}", projectId);
+            _logger.LogWarning(ex, "Unauthorized estimation creation in project: {ProjectId}", createDto.ProjectId);
             var errorResponse = ApiResponse<EstimationCocomo2Stage1Dto>.ErrorResponse(
                 "Access denied",
                 new List<string> { ex.Message }
@@ -158,7 +158,7 @@ public class EstimationsCocomo2Stage1Controller : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error creating estimation for project {ProjectId}", projectId);
+            _logger.LogError(ex, "Error creating estimation for project {ProjectId}", createDto.ProjectId);
             throw;
         }
     }
@@ -172,7 +172,6 @@ public class EstimationsCocomo2Stage1Controller : ControllerBase
     [ProducesResponseType(typeof(ApiResponse<EstimationCocomo2Stage1Dto>), StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult<ApiResponse<EstimationCocomo2Stage1Dto>>> UpdateRatings(
-        int projectId,
         int id,
         [FromBody] UpdateRatingsCocomo2Stage1Dto updateDto)
     {
@@ -236,7 +235,6 @@ public class EstimationsCocomo2Stage1Controller : ControllerBase
     [ProducesResponseType(typeof(ApiResponse<EstimationCocomo2Stage1Dto>), StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult<ApiResponse<EstimationCocomo2Stage1Dto>>> UpdateActualResults(
-        int projectId,
         int id,
         [FromBody] UpdateActualResultsCocomo2Stage1Dto updateDto)
     {
@@ -298,7 +296,7 @@ public class EstimationsCocomo2Stage1Controller : ControllerBase
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    public async Task<ActionResult<ApiResponse<object>>> DeleteEstimation(int projectId, int id)
+    public async Task<ActionResult<ApiResponse<object>>> DeleteEstimation(int id)
     {
         try
         {

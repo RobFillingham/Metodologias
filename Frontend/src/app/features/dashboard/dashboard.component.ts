@@ -65,6 +65,14 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
               <p>Estimación basada en actores y casos de uso</p>
               <button class="btn btn-outline" (click)="goToUseCasePoint()">Ir a Use Case Point →</button>
             </div>
+
+            <!-- COCOMO II Stage 1 Card -->
+            <div class="method-card">
+              <div class="method-icon">🚀</div>
+              <h3>COCOMO II Estadio 1</h3>
+              <p>Modelo de Composición de Aplicaciones</p>
+              <button class="btn btn-outline" (click)="goToCocomo2Stage1()">Ir a COCOMO II Stage 1 →</button>
+            </div>
           </div>
         </div>
 
@@ -431,5 +439,9 @@ export class DashboardComponent {
 
   goToUseCasePoint() {
     this.router.navigate(['/use-case-point']);
+  }
+
+  goToCocomo2Stage1() {
+    this.router.navigate(['/cocomo2-stage1']);
   }
 }

@@ -72,17 +72,10 @@ CREATE TABLE IF NOT EXISTS ParameterSetCocomo2Stage1 (
     FOREIGN KEY (UserId) REFERENCES Users(Id) ON DELETE SET NULL
 );
 
--- Tabla: Project (Proyecto para COCOMO 2 Stage 1)
-CREATE TABLE IF NOT EXISTS ProjectCocomo2Stage1 (
-    project_id INT PRIMARY KEY AUTO_INCREMENT,
-    UserId INT NOT NULL,
-    project_name VARCHAR(255) NOT NULL,
-    description TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-
-    FOREIGN KEY (UserId) REFERENCES Users(Id) ON DELETE CASCADE
-);
+-- Tabla: Project
+-- NOTA: Se utiliza la tabla Project compartida de COCOMO III
+-- No se crea una tabla específica ProjectCocomo2Stage1
+-- La tabla Project ya existe en Cocomo3.sql y es compartida por todos los métodos
 
 -- Tabla: Estimation (Estimaciones para COCOMO 2 Stage 1)
 -- Almacena una "snapshot" de un cálculo específico
@@ -130,7 +123,7 @@ CREATE TABLE IF NOT EXISTS EstimationCocomo2Stage1 (
     actual_effort_hours DECIMAL(10, 2) NULL,
     actual_sloc DECIMAL(10, 2) NULL,
 
-    FOREIGN KEY (project_id) REFERENCES ProjectCocomo2Stage1(project_id) ON DELETE CASCADE,
+    FOREIGN KEY (project_id) REFERENCES Project(project_id) ON DELETE CASCADE,
     FOREIGN KEY (param_set_id) REFERENCES ParameterSetCocomo2Stage1(param_set_id),
     FOREIGN KEY (language_id) REFERENCES Language(language_id)
 );
@@ -209,7 +202,8 @@ INSERT INTO ParameterSetCocomo2Stage1 (
 -- ÍNDICES PARA MEJORAR PERFORMANCE
 -- ================================================================================
 
-CREATE INDEX idx_project_cocomo2_userId ON ProjectCocomo2Stage1(UserId);
+-- NOTA: No se crea índice en ProjectCocomo2Stage1 porque esa tabla ya no existe
+-- Se utiliza la tabla Project compartida que ya tiene sus propios índices
 CREATE INDEX idx_estimation_cocomo2_projectId ON EstimationCocomo2Stage1(project_id);
 CREATE INDEX idx_estimation_cocomo2_paramSetId ON EstimationCocomo2Stage1(param_set_id);
 CREATE INDEX idx_component_cocomo2_estimationId ON EstimationComponentCocomo2Stage1(estimation_id);

@@ -95,7 +95,7 @@ public class EstimationCocomo2Stage1
     public decimal? ActualSloc { get; set; }
 
     // Navigation properties
-    public ProjectCocomo2Stage1? Project { get; set; }
+    public Project? Project { get; set; }
     public ParameterSetCocomo2Stage1? ParameterSet { get; set; }
     public Language? Language { get; set; }
     public ICollection<EstimationComponentCocomo2Stage1> Components { get; set; } = new List<EstimationComponentCocomo2Stage1>();

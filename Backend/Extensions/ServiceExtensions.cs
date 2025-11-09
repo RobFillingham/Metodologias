@@ -47,7 +47,6 @@ public static class ServiceExtensions
         // Register COCOMO 2 Stage 1 services
         services.AddScoped<ICocomoCalculationCocomo2Stage1Service, CocomoCalculationCocomo2Stage1Service>();
         services.AddScoped<IParameterSetCocomo2Stage1Service, ParameterSetCocomo2Stage1Service>();
-        services.AddScoped<IProjectCocomo2Stage1Service, ProjectCocomo2Stage1Service>();
         services.AddScoped<IEstimationCocomo2Stage1Service, EstimationCocomo2Stage1Service>();
         services.AddScoped<IComponentCocomo2Stage1Service, ComponentCocomo2Stage1Service>();
         
@@ -81,7 +80,6 @@ public static class ServiceExtensions
         
         // Register COCOMO 2 Stage 1 repositories
         services.AddScoped<IParameterSetCocomo2Stage1Repository, ParameterSetCocomo2Stage1Repository>();
-        services.AddScoped<IProjectCocomo2Stage1Repository, ProjectCocomo2Stage1Repository>();
         services.AddScoped<IEstimationCocomo2Stage1Repository, EstimationCocomo2Stage1Repository>();
         services.AddScoped<IComponentCocomo2Stage1Repository, ComponentCocomo2Stage1Repository>();
         

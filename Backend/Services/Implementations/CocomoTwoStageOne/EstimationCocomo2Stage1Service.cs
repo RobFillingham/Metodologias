@@ -13,14 +13,14 @@ namespace Backend.Services.Implementations.CocomoTwoStageOne;
 public class EstimationCocomo2Stage1Service : IEstimationCocomo2Stage1Service
 {
     private readonly IEstimationCocomo2Stage1Repository _estimationRepository;
-    private readonly IProjectCocomo2Stage1Repository _projectRepository;
+    private readonly IProjectRepository _projectRepository;
     private readonly IParameterSetCocomo2Stage1Repository _parameterSetRepository;
     private readonly ILanguageRepository _languageRepository;
     private readonly ICocomoCalculationCocomo2Stage1Service _calculationService;
 
     public EstimationCocomo2Stage1Service(
         IEstimationCocomo2Stage1Repository estimationRepository,
-        IProjectCocomo2Stage1Repository projectRepository,
+        IProjectRepository projectRepository,
         IParameterSetCocomo2Stage1Repository parameterSetRepository,
         ILanguageRepository languageRepository,
         ICocomoCalculationCocomo2Stage1Service calculationService)

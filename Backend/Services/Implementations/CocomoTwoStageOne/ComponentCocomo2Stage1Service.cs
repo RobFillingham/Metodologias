@@ -1,5 +1,6 @@
 using Backend.Models.DTOs.CocomoTwoStageOne;
 using Backend.Models.Entities.CocomoTwoStageOne;
+using Backend.Repositories.Interfaces.CocomoThree;
 using Backend.Repositories.Interfaces.CocomoTwoStageOne;
 using Backend.Services.Interfaces.CocomoTwoStageOne;
 
@@ -12,13 +13,13 @@ public class ComponentCocomo2Stage1Service : IComponentCocomo2Stage1Service
 {
     private readonly IComponentCocomo2Stage1Repository _componentRepository;
     private readonly IEstimationCocomo2Stage1Repository _estimationRepository;
-    private readonly IProjectCocomo2Stage1Repository _projectRepository;
+    private readonly IProjectRepository _projectRepository;
     private readonly ICocomoCalculationCocomo2Stage1Service _calculationService;
 
     public ComponentCocomo2Stage1Service(
         IComponentCocomo2Stage1Repository componentRepository,
         IEstimationCocomo2Stage1Repository estimationRepository,
-        IProjectCocomo2Stage1Repository projectRepository,
+        IProjectRepository projectRepository,
         ICocomoCalculationCocomo2Stage1Service calculationService)
     {
         _componentRepository = componentRepository;

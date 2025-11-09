@@ -32,7 +32,6 @@ public class ApplicationDbContext : DbContext
     
     // COCOMO 2 Stage 1 (Composition Model)
     public DbSet<ParameterSetCocomo2Stage1> ParameterSetsCocomo2Stage1 { get; set; }
-    public DbSet<ProjectCocomo2Stage1> ProjectsCocomo2Stage1 { get; set; }
     public DbSet<EstimationCocomo2Stage1> EstimationsCocomo2Stage1 { get; set; }
     public DbSet<EstimationComponentCocomo2Stage1> EstimationComponentsCocomo2Stage1 { get; set; }
 
@@ -740,33 +739,6 @@ public class ApplicationDbContext : DbContext
                     .OnDelete(DeleteBehavior.SetNull);
             });
 
-            // ProjectCocomo2Stage1 configuration
-            modelBuilder.Entity<Models.Entities.CocomoTwoStageOne.ProjectCocomo2Stage1>(entity =>
-            {
-                entity.HasKey(e => e.ProjectId);
-
-                entity.Property(e => e.ProjectName)
-                    .IsRequired()
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.Description)
-                    .HasColumnType("TEXT");
-
-                entity.Property(e => e.CreatedAt)
-                    .IsRequired()
-                    .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
-
-                entity.Property(e => e.UpdatedAt)
-                    .IsRequired()
-                    .HasDefaultValueSql("CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)");
-
-                // Foreign key
-                entity.HasOne(e => e.User)
-                    .WithMany()
-                    .HasForeignKey(e => e.UserId)
-                    .OnDelete(DeleteBehavior.Restrict);
-            });
-
             // EstimationCocomo2Stage1 configuration
             modelBuilder.Entity<Models.Entities.CocomoTwoStageOne.EstimationCocomo2Stage1>(entity =>
             {
@@ -827,7 +799,7 @@ public class ApplicationDbContext : DbContext
 
                 // Foreign keys
                 entity.HasOne(e => e.Project)
-                    .WithMany(p => p.Estimations)
+                    .WithMany()
                     .HasForeignKey(e => e.ProjectId)
                     .OnDelete(DeleteBehavior.Cascade);
 
