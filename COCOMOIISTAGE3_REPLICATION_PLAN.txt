@@ -180,25 +180,45 @@ This plan replicates the complete Cocomo3 backend implementation for CocomoIISta
 
 ---
 
-## PHASE 6: Controller Layer
+## PHASE 6: Controller Layer ✅ COMPLETED
 ### Files to create/modify:
 
-#### 6.1 EstimationsController.cs
+#### 6.1 EstimationsController.cs ✅ COMPLETED
 **Source:** Copy from `Backend/Controllers/CocomoThree/EstimationsController.cs`
 **Changes needed:**
-- [ ] Update namespace and using statements
-- [ ] Update route: `[Route("api/Projects/{projectId}/[controller]")]` → `[Route("api/Projects/{projectId}/CocomoIIStage3/[controller]")]`
-- [ ] Update API tags: `[Tags("COCOMO II - Estimations")]` → `[Tags("COCOMO II Stage 3 - Estimations")]`
+- [x] Update namespace and using statements
+- [x] Update route: `[Route("api/Projects/{projectId}/[controller]")]` → `[Route("api/Projects/{projectId}/CocomoIIStage3/[controller]")]`  
+- [x] Update API tags: `[Tags("COCOMO II - Estimations")]` → `[Tags("COCOMO II Stage 3 - Estimations")]`
 
-#### 6.2 Other Controllers (copy with namespace/route updates):
-- [ ] FunctionsController.cs
-- [ ] LanguagesController.cs
-- [ ] ParameterSetsController.cs
-- [ ] ProjectsController.cs
+#### 6.2 FunctionsController.cs ✅ COMPLETED
+**Source:** Copy from `Backend/Controllers/CocomoThree/FunctionsController.cs`
+**Changes needed:**
+- [x] Update namespace and using statements
+- [x] Update route: `[Route("api/Projects/{projectId}/[controller]")]` → `[Route("api/Projects/{projectId}/CocomoIIStage3/[controller]")]`  
+- [x] Update API tags: `[Tags("COCOMO II - Functions")]` → `[Tags("COCOMO II Stage 3 - Functions")]`
 
----
+#### 6.3 LanguagesController.cs ✅ COMPLETED
+**Source:** Copy from `Backend/Controllers/CocomoThree/LanguagesController.cs`
+**Changes needed:**
+- [x] Update namespace and using statements
+- [x] Update route: `[Route("api/Projects/{projectId}/[controller]")]` → `[Route("api/Projects/{projectId}/CocomoIIStage3/[controller]")]`  
+- [x] Update API tags: `[Tags("COCOMO II - Languages")]` → `[Tags("COCOMO II Stage 3 - Languages")]`
 
-## PHASE 7: Integration & Configuration
+#### 6.4 ParameterSetsController.cs ✅ COMPLETED
+**Source:** Copy from `Backend/Controllers/CocomoThree/ParameterSetsController.cs`
+**Changes needed:**
+- [x] Update namespace and using statements
+- [x] Update route: `[Route("api/[controller]")]` → `[Route("api/CocomoIIStage3/[controller]")]`  
+- [x] Update API tags: `[Tags("COCOMO II - Parameter Sets")]` → `[Tags("COCOMO II Stage 3 - Parameter Sets")]`
+
+#### 6.5 ProjectsController.cs ✅ COMPLETED
+**Source:** Copy from `Backend/Controllers/CocomoThree/ProjectsController.cs`
+**Changes needed:**
+- [x] Update namespace and using statements
+- [x] Update route: `[Route("api/[controller]")]` → `[Route("api/CocomoIIStage3/[controller]")]`  
+- [x] Update API tags: `[Tags("COCOMO II - Projects")]` → `[Tags("COCOMO II Stage 3 - Projects")]`---
+
+## PHASE 7: Integration & Configuration ⏳ IN PROGRESS
 ### Tasks:
 - [ ] Update Program.cs or Startup.cs to register new services
 - [ ] Update dependency injection for CocomoIIStage3 services
@@ -228,10 +248,10 @@ This plan replicates the complete Cocomo3 backend implementation for CocomoIISta
 ## Checklist Completion
 - [x] Phase 1: Directory Structure ✓
 - [x] Phase 2: Entity Layer ✓
-- [ ] Phase 3: DTO Layer ☐
-- [ ] Phase 4: Repository Layer ☐
-- [x] Phase 5: Service Layer ☐
-- [ ] Phase 6: Controller Layer ☐
+- [x] Phase 3: DTO Layer ✓
+- [x] Phase 4: Repository Layer ✓
+- [x] Phase 5: Service Layer ✓
+- [x] Phase 6: Controller Layer ✓
 - [ ] Phase 7: Integration ☐
 - [ ] Phase 8: Testing ☐
 - [ ] Phase 9: Documentation ☐

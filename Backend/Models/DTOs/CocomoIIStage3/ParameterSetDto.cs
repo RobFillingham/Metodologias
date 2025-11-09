@@ -47,7 +47,6 @@ public class ParameterSetDto
     // TEAM (Team Cohesion)
     public decimal? SfTeamXlo { get; set; }
     public decimal? SfTeamVlo { get; set; }
-    public decimal? SfTeamVlo { get; set; }
     public decimal? SfTeamLo { get; set; }
     public decimal? SfTeamNom { get; set; }
     public decimal? SfTeamHi { get; set; }
@@ -56,7 +55,6 @@ public class ParameterSetDto
 
     // PMAT (Process Maturity)
     public decimal? SfPmatXlo { get; set; }
-    public decimal? SfPmatVlo { get; set; }
     public decimal? SfPmatVlo { get; set; }
     public decimal? SfPmatLo { get; set; }
     public decimal? SfPmatNom { get; set; }
