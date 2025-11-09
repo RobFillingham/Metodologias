@@ -530,6 +530,6 @@ export class LanguageDetailComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/languages']);
+    this.router.navigate(['/cocomo2/languages']);
   }
 }
