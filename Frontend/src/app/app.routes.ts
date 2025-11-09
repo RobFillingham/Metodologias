@@ -58,6 +58,11 @@ export const routes: Routes = [
     loadComponent: () => import('./features/function-point/function-point-estimations/function-point-estimations.component').then(m => m.FunctionPointEstimationsComponent)
   },
   {
+    path: 'use-case-point',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/use-case-point/use-case-point-estimations/use-case-point-estimations.component').then(m => m.UseCasePointEstimationsComponent)
+  },
+  {
     path: '**',
     redirectTo: 'home'
   }

@@ -58,11 +58,12 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
               <button class="btn btn-outline" (click)="goToFunctionPoint()">Ir a Function Point →</button>
             </div>
 
-            <!-- Coming Soon Cards -->
-            <div class="method-card disabled">
+            <!-- Use Case Point Card -->
+            <div class="method-card">
               <div class="method-icon">📝</div>
               <h3>Puntos de Caso de Uso</h3>
-              <p>Próximamente</p>
+              <p>Estimación basada en actores y casos de uso</p>
+              <button class="btn btn-outline" (click)="goToUseCasePoint()">Ir a Use Case Point →</button>
             </div>
           </div>
         </div>
@@ -426,5 +427,9 @@ export class DashboardComponent {
 
   goToFunctionPoint() {
     this.router.navigate(['/function-point']);
+  }
+
+  goToUseCasePoint() {
+    this.router.navigate(['/use-case-point']);
   }
 }
