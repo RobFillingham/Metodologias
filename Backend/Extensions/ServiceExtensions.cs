@@ -60,7 +60,7 @@ public static class ServiceExtensions
         services.AddScoped<Backend.Services.Interfaces.CocomoIIStage3.IParameterSetService, Backend.Services.Implementations.CocomoIIStage3.ParameterSetService>();
         services.AddScoped<Backend.Services.Interfaces.CocomoIIStage3.ICocomoCalculationService, Backend.Services.Implementations.CocomoIIStage3.CocomoCalculationService>();
         services.AddScoped<Backend.Services.Interfaces.CocomoIIStage3.ILanguageService, Backend.Services.Implementations.CocomoIIStage3.LanguageService>();
-        services.AddScoped<Backend.Services.Interfaces.CocomoIIStage3.IProjectService, Backend.Services.Implementations.CocomoIIStage3.ProjectService>();
+        // Note: CocomoIIStage3 uses the CocomoThree Projects endpoint (api/Projects) instead of having its own
         services.AddScoped<Backend.Services.Interfaces.CocomoIIStage3.IEstimationService, Backend.Services.Implementations.CocomoIIStage3.EstimationService>();
         services.AddScoped<Backend.Services.Interfaces.CocomoIIStage3.IEstimationFunctionService, Backend.Services.Implementations.CocomoIIStage3.EstimationFunctionService>();
         

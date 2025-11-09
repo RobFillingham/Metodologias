@@ -1,9 +1,10 @@
-using Backend.Models.Entities.CocomoIIStage3;
+using Project = Backend.Models.Entities.CocomoThree.Project;
 
 namespace Backend.Repositories.Interfaces.CocomoIIStage3;
 
 /// <summary>
 /// Repository interface for Project entity operations
+/// Note: Uses the shared Project entity from CocomoThree
 /// </summary>
 public interface IProjectRepository
 {

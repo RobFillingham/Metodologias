@@ -86,6 +86,15 @@ Este script:
 - Reutiliza la tabla `Language` de COCOMO III
 - Crea tablas específicas: `ParameterSetCocomo2Stage1`, `EstimationCocomo2Stage1`, `EstimationComponentCocomo2Stage1`
 
+### 8. COCOMO II Stage 3 (Post-Architecture with Function Points)
+```
+DB/CocomoIIStage3.sql
+```
+Este script:
+- Reutiliza la tabla `Project` del script principal
+- Crea tablas específicas: `LanguageCocomoIIStage3`, `ParameterSetCocomoIIStage3`, `EstimationCocomoIIStage3`, `EstimationFunctionCocomoIIStage3`
+- Incluye datos iniciales con valores por defecto de COCOMO II
+
 ## Paso 4: Verificar la estructura
 
 Ejecuta este query para verificar que todas las tablas se crearon correctamente:
@@ -142,8 +151,10 @@ Estas tablas son compartidas por múltiples métodos:
 | Tabla | Usada por |
 |-------|-----------|
 | `Users` | Todos los métodos |
-| `Project` | COCOMO II Stage 1, COCOMO III, KLOC, Function Point, Use Case Point |
+| `Project` | COCOMO II Stage 1, COCOMO II Stage 3, COCOMO III, KLOC, Function Point, Use Case Point |
 | `Language` | COCOMO II Stage 1, COCOMO III |
+
+**Nota**: `LanguageCocomoIIStage3` es una tabla separada específica para COCOMO II Stage 3.
 
 ## Solución de Problemas
 

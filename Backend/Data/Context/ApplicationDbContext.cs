@@ -41,7 +41,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Backend.Models.Entities.CocomoIIStage3.Estimation> EstimationsCocomoIIStage3 { get; set; }
     public DbSet<Backend.Models.Entities.CocomoIIStage3.EstimationFunction> EstimationFunctionsCocomoIIStage3 { get; set; }
     public DbSet<Backend.Models.Entities.CocomoIIStage3.Language> LanguagesCocomoIIStage3 { get; set; }
-    public DbSet<Backend.Models.Entities.CocomoIIStage3.Project> ProjectsCocomoIIStage3 { get; set; }
+    // Note: CocomoIIStage3 uses the shared Projects DbSet from CocomoThree
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -569,20 +569,8 @@ public class ApplicationDbContext : DbContext
         });
 
         // COCOMO II Stage 3 Project entity configuration
-        modelBuilder.Entity<Backend.Models.Entities.CocomoIIStage3.Project>(entity =>
-        {
-            entity.HasKey(e => e.ProjectId);
-
-            entity.Property(e => e.ProjectName)
-                .IsRequired()
-                .HasMaxLength(255);
-
-            // Foreign key to User
-            entity.HasOne<User>()
-                .WithMany()
-                .HasForeignKey(e => e.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
-        });
+        // COCOMO II Stage 3 Project entity
+        // Note: CocomoIIStage3 uses the shared Project entity/table from CocomoThree
 
         // KlocEstimation entity configuration
         modelBuilder.Entity<KlocEstimation>(entity =>

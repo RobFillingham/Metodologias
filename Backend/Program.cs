@@ -22,6 +22,35 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 
+    // Custom schema ID to avoid conflicts between DTOs with same names in different namespaces
+    options.CustomSchemaIds(type => 
+    {
+        string GetSchemaIdForType(Type t)
+        {
+            // For generic types, recursively build the schema ID
+            if (t.IsGenericType)
+            {
+                var genericArgs = t.GetGenericArguments();
+                var genericTypeName = t.Name.Split('`')[0];
+                var genericArgsNames = string.Join("", genericArgs.Select(GetSchemaIdForType));
+                return $"{genericTypeName}{genericArgsNames}";
+            }
+            
+            // For DTOs, include namespace to avoid collisions
+            if (t.Namespace?.Contains("DTOs") == true)
+            {
+                var parts = t.Namespace.Split('.');
+                // Get the last two parts to distinguish between CocomoThree and CocomoIIStage3
+                var namespacePart = parts.Length >= 2 ? parts[^1] : t.Namespace;
+                return $"{namespacePart}{t.Name}";
+            }
+            
+            return t.Name;
+        }
+        
+        return GetSchemaIdForType(type);
+    });
+
     // Add JWT Authentication to Swagger
     options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {

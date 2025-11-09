@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using Project = Backend.Models.Entities.CocomoThree.Project;
 
 namespace Backend.Models.Entities.CocomoIIStage3;
 
