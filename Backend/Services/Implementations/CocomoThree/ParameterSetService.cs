@@ -59,6 +59,9 @@ public class ParameterSetService : IParameterSetService
         if (existingSets.Any(ps => ps.SetName.Equals(createDto.SetName, StringComparison.OrdinalIgnoreCase)))
             throw new InvalidOperationException("A parameter set with this name already exists");
 
+        // Validate that all required SF values are provided
+        ValidateSFValues(createDto);
+
         var parameterSet = new ParameterSet
         {
             UserId = userId,
@@ -189,6 +192,9 @@ public class ParameterSetService : IParameterSetService
         if (userSets.Any(ps => ps.ParamSetId != updateDto.ParamSetId &&
                               ps.SetName.Equals(updateDto.SetName, StringComparison.OrdinalIgnoreCase)))
             throw new InvalidOperationException("A parameter set with this name already exists");
+
+        // Validate that all required SF values are provided
+        ValidateSFValuesForUpdate(updateDto);
 
         // Update the parameter set
         existingParameterSet.SetName = updateDto.SetName;
@@ -426,5 +432,105 @@ public class ParameterSetService : IParameterSetService
             EmScedVhi = parameterSet.EmScedVhi,
             EmScedXhi = parameterSet.EmScedXhi
         };
+    }
+
+    private void ValidateSFValues(CreateParameterSetDto createDto)
+    {
+        var missingValues = new List<string>();
+
+        // Check PREC values
+        if (!createDto.SfPrecVlo.HasValue) missingValues.Add("PREC/VLO");
+        if (!createDto.SfPrecLo.HasValue) missingValues.Add("PREC/LO");
+        if (!createDto.SfPrecNom.HasValue) missingValues.Add("PREC/NOM");
+        if (!createDto.SfPrecHi.HasValue) missingValues.Add("PREC/HI");
+        if (!createDto.SfPrecVhi.HasValue) missingValues.Add("PREC/VHI");
+        if (!createDto.SfPrecXhi.HasValue) missingValues.Add("PREC/XHI");
+
+        // Check FLEX values
+        if (!createDto.SfFlexVlo.HasValue) missingValues.Add("FLEX/VLO");
+        if (!createDto.SfFlexLo.HasValue) missingValues.Add("FLEX/LO");
+        if (!createDto.SfFlexNom.HasValue) missingValues.Add("FLEX/NOM");
+        if (!createDto.SfFlexHi.HasValue) missingValues.Add("FLEX/HI");
+        if (!createDto.SfFlexVhi.HasValue) missingValues.Add("FLEX/VHI");
+        if (!createDto.SfFlexXhi.HasValue) missingValues.Add("FLEX/XHI");
+
+        // Check RESL values
+        if (!createDto.SfReslVlo.HasValue) missingValues.Add("RESL/VLO");
+        if (!createDto.SfReslLo.HasValue) missingValues.Add("RESL/LO");
+        if (!createDto.SfReslNom.HasValue) missingValues.Add("RESL/NOM");
+        if (!createDto.SfReslHi.HasValue) missingValues.Add("RESL/HI");
+        if (!createDto.SfReslVhi.HasValue) missingValues.Add("RESL/VHI");
+        if (!createDto.SfReslXhi.HasValue) missingValues.Add("RESL/XHI");
+
+        // Check TEAM values
+        if (!createDto.SfTeamVlo.HasValue) missingValues.Add("TEAM/VLO");
+        if (!createDto.SfTeamLo.HasValue) missingValues.Add("TEAM/LO");
+        if (!createDto.SfTeamNom.HasValue) missingValues.Add("TEAM/NOM");
+        if (!createDto.SfTeamHi.HasValue) missingValues.Add("TEAM/HI");
+        if (!createDto.SfTeamVhi.HasValue) missingValues.Add("TEAM/VHI");
+        if (!createDto.SfTeamXhi.HasValue) missingValues.Add("TEAM/XHI");
+
+        // Check PMAT values
+        if (!createDto.SfPmatVlo.HasValue) missingValues.Add("PMAT/VLO");
+        if (!createDto.SfPmatLo.HasValue) missingValues.Add("PMAT/LO");
+        if (!createDto.SfPmatNom.HasValue) missingValues.Add("PMAT/NOM");
+        if (!createDto.SfPmatHi.HasValue) missingValues.Add("PMAT/HI");
+        if (!createDto.SfPmatVhi.HasValue) missingValues.Add("PMAT/VHI");
+        if (!createDto.SfPmatXhi.HasValue) missingValues.Add("PMAT/XHI");
+
+        if (missingValues.Any())
+        {
+            throw new ArgumentException($"All Scale Factor values must be provided. Missing values: {string.Join(", ", missingValues)}");
+        }
+    }
+
+    private void ValidateSFValuesForUpdate(UpdateParameterSetDto updateDto)
+    {
+        var missingValues = new List<string>();
+
+        // Check PREC values
+        if (!updateDto.SfPrecVlo.HasValue) missingValues.Add("PREC/VLO");
+        if (!updateDto.SfPrecLo.HasValue) missingValues.Add("PREC/LO");
+        if (!updateDto.SfPrecNom.HasValue) missingValues.Add("PREC/NOM");
+        if (!updateDto.SfPrecHi.HasValue) missingValues.Add("PREC/HI");
+        if (!updateDto.SfPrecVhi.HasValue) missingValues.Add("PREC/VHI");
+        if (!updateDto.SfPrecXhi.HasValue) missingValues.Add("PREC/XHI");
+
+        // Check FLEX values
+        if (!updateDto.SfFlexVlo.HasValue) missingValues.Add("FLEX/VLO");
+        if (!updateDto.SfFlexLo.HasValue) missingValues.Add("FLEX/LO");
+        if (!updateDto.SfFlexNom.HasValue) missingValues.Add("FLEX/NOM");
+        if (!updateDto.SfFlexHi.HasValue) missingValues.Add("FLEX/HI");
+        if (!updateDto.SfFlexVhi.HasValue) missingValues.Add("FLEX/VHI");
+        if (!updateDto.SfFlexXhi.HasValue) missingValues.Add("FLEX/XHI");
+
+        // Check RESL values
+        if (!updateDto.SfReslVlo.HasValue) missingValues.Add("RESL/VLO");
+        if (!updateDto.SfReslLo.HasValue) missingValues.Add("RESL/LO");
+        if (!updateDto.SfReslNom.HasValue) missingValues.Add("RESL/NOM");
+        if (!updateDto.SfReslHi.HasValue) missingValues.Add("RESL/HI");
+        if (!updateDto.SfReslVhi.HasValue) missingValues.Add("RESL/VHI");
+        if (!updateDto.SfReslXhi.HasValue) missingValues.Add("RESL/XHI");
+
+        // Check TEAM values
+        if (!updateDto.SfTeamVlo.HasValue) missingValues.Add("TEAM/VLO");
+        if (!updateDto.SfTeamLo.HasValue) missingValues.Add("TEAM/LO");
+        if (!updateDto.SfTeamNom.HasValue) missingValues.Add("TEAM/NOM");
+        if (!updateDto.SfTeamHi.HasValue) missingValues.Add("TEAM/HI");
+        if (!updateDto.SfTeamVhi.HasValue) missingValues.Add("TEAM/VHI");
+        if (!updateDto.SfTeamXhi.HasValue) missingValues.Add("TEAM/XHI");
+
+        // Check PMAT values
+        if (!updateDto.SfPmatVlo.HasValue) missingValues.Add("PMAT/VLO");
+        if (!updateDto.SfPmatLo.HasValue) missingValues.Add("PMAT/LO");
+        if (!updateDto.SfPmatNom.HasValue) missingValues.Add("PMAT/NOM");
+        if (!updateDto.SfPmatHi.HasValue) missingValues.Add("PMAT/HI");
+        if (!updateDto.SfPmatVhi.HasValue) missingValues.Add("PMAT/VHI");
+        if (!updateDto.SfPmatXhi.HasValue) missingValues.Add("PMAT/XHI");
+
+        if (missingValues.Any())
+        {
+            throw new ArgumentException($"All Scale Factor values must be provided. Missing values: {string.Join(", ", missingValues)}");
+        }
     }
 }

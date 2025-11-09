@@ -339,7 +339,15 @@ public class CocomoCalculationService : ICocomoCalculationService
         var value = property.GetValue(paramSet) as decimal?;
         if (!value.HasValue)
         {
-            throw new InvalidOperationException($"SF value not found for {factor}/{rating}");
+            // For default parameter sets, this should not happen. For user-created sets, provide helpful error.
+            if (paramSet.IsDefault)
+            {
+                throw new InvalidOperationException($"System error: Default parameter set '{paramSet.SetName}' is missing SF value for {factor}/{rating}. Please contact system administrator.");
+            }
+            else
+            {
+                throw new InvalidOperationException($"Parameter set '{paramSet.SetName}' (ID: {paramSet.ParamSetId}) is incomplete. All Scale Factor values must be configured. Please edit this parameter set to provide all required values.");
+            }
         }
 
         return value.Value;
