@@ -16,6 +16,7 @@ public class CreateParameterSetDto
 
     // Scale Factors (SF) - All ratings for each factor
     // PREC (Precedentedness)
+    public decimal? SfPrecXlo { get; set; }
     public decimal? SfPrecVlo { get; set; }
     public decimal? SfPrecLo { get; set; }
     public decimal? SfPrecNom { get; set; }
@@ -24,6 +25,7 @@ public class CreateParameterSetDto
     public decimal? SfPrecXhi { get; set; }
 
     // FLEX (Development Flexibility)
+    public decimal? SfFlexXlo { get; set; }
     public decimal? SfFlexVlo { get; set; }
     public decimal? SfFlexLo { get; set; }
     public decimal? SfFlexNom { get; set; }
@@ -32,6 +34,7 @@ public class CreateParameterSetDto
     public decimal? SfFlexXhi { get; set; }
 
     // RESL (Architecture/Risk Resolution)
+    public decimal? SfReslXlo { get; set; }
     public decimal? SfReslVlo { get; set; }
     public decimal? SfReslLo { get; set; }
     public decimal? SfReslNom { get; set; }
@@ -40,6 +43,7 @@ public class CreateParameterSetDto
     public decimal? SfReslXhi { get; set; }
 
     // TEAM (Team Cohesion)
+    public decimal? SfTeamXlo { get; set; }
     public decimal? SfTeamVlo { get; set; }
     public decimal? SfTeamLo { get; set; }
     public decimal? SfTeamNom { get; set; }
@@ -48,6 +52,7 @@ public class CreateParameterSetDto
     public decimal? SfTeamXhi { get; set; }
 
     // PMAT (Process Maturity)
+    public decimal? SfPmatXlo { get; set; }
     public decimal? SfPmatVlo { get; set; }
     public decimal? SfPmatLo { get; set; }
     public decimal? SfPmatNom { get; set; }

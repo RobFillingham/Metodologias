@@ -38,14 +38,14 @@ CREATE TABLE ParameterSetCocomoIIStage3 (
     const_C DECIMAL(10, 4) NOT NULL DEFAULT 3.67,
     const_D DECIMAL(10, 4) NOT NULL DEFAULT 0.28,
 
-    /* -- Factores de Escala (SFs) - 5 factores con 6 ratings cada uno
-     -- Basado en el modelo COCOMO (VLO, LO, NOM, HI, VHI, XHI)
+    /* -- Factores de Escala (SFs) - 5 factores con 7 ratings cada uno
+     -- Basado en el modelo COCOMO (XLO, VLO, LO, NOM, HI, VHI, XHI)
     */
-    sf_prec_vlo DECIMAL(10, 4) NULL, sf_prec_lo DECIMAL(10, 4) NULL, sf_prec_nom DECIMAL(10, 4) NULL, sf_prec_hi DECIMAL(10, 4) NULL, sf_prec_vhi DECIMAL(10, 4) NULL, sf_prec_xhi DECIMAL(10, 4) NULL,
-    sf_flex_vlo DECIMAL(10, 4) NULL, sf_flex_lo DECIMAL(10, 4) NULL, sf_flex_nom DECIMAL(10, 4) NULL, sf_flex_hi DECIMAL(10, 4) NULL, sf_flex_vhi DECIMAL(10, 4) NULL, sf_flex_xhi DECIMAL(10, 4) NULL,
-    sf_resl_vlo DECIMAL(10, 4) NULL, sf_resl_lo DECIMAL(10, 4) NULL, sf_resl_nom DECIMAL(10, 4) NULL, sf_resl_hi DECIMAL(10, 4) NULL, sf_resl_vhi DECIMAL(10, 4) NULL, sf_resl_xhi DECIMAL(10, 4) NULL,
-    sf_team_vlo DECIMAL(10, 4) NULL, sf_team_lo DECIMAL(10, 4) NULL, sf_team_nom DECIMAL(10, 4) NULL, sf_team_hi DECIMAL(10, 4) NULL, sf_team_vhi DECIMAL(10, 4) NULL, sf_team_xhi DECIMAL(10, 4) NULL,
-    sf_pmat_vlo DECIMAL(10, 4) NULL, sf_pmat_lo DECIMAL(10, 4) NULL, sf_pmat_nom DECIMAL(10, 4) NULL, sf_pmat_hi DECIMAL(10, 4) NULL, sf_pmat_vhi DECIMAL(10, 4) NULL, sf_pmat_xhi DECIMAL(10, 4) NULL,
+    sf_prec_xlo DECIMAL(10, 4) NULL, sf_prec_vlo DECIMAL(10, 4) NULL, sf_prec_lo DECIMAL(10, 4) NULL, sf_prec_nom DECIMAL(10, 4) NULL, sf_prec_hi DECIMAL(10, 4) NULL, sf_prec_vhi DECIMAL(10, 4) NULL, sf_prec_xhi DECIMAL(10, 4) NULL,
+    sf_flex_xlo DECIMAL(10, 4) NULL, sf_flex_vlo DECIMAL(10, 4) NULL, sf_flex_lo DECIMAL(10, 4) NULL, sf_flex_nom DECIMAL(10, 4) NULL, sf_flex_hi DECIMAL(10, 4) NULL, sf_flex_vhi DECIMAL(10, 4) NULL, sf_flex_xhi DECIMAL(10, 4) NULL,
+    sf_resl_xlo DECIMAL(10, 4) NULL, sf_resl_vlo DECIMAL(10, 4) NULL, sf_resl_lo DECIMAL(10, 4) NULL, sf_resl_nom DECIMAL(10, 4) NULL, sf_resl_hi DECIMAL(10, 4) NULL, sf_resl_vhi DECIMAL(10, 4) NULL, sf_resl_xhi DECIMAL(10, 4) NULL,
+    sf_team_xlo DECIMAL(10, 4) NULL, sf_team_vlo DECIMAL(10, 4) NULL, sf_team_lo DECIMAL(10, 4) NULL, sf_team_nom DECIMAL(10, 4) NULL, sf_team_hi DECIMAL(10, 4) NULL, sf_team_vhi DECIMAL(10, 4) NULL, sf_team_xhi DECIMAL(10, 4) NULL,
+    sf_pmat_xlo DECIMAL(10, 4) NULL, sf_pmat_vlo DECIMAL(10, 4) NULL, sf_pmat_lo DECIMAL(10, 4) NULL, sf_pmat_nom DECIMAL(10, 4) NULL, sf_pmat_hi DECIMAL(10, 4) NULL, sf_pmat_vhi DECIMAL(10, 4) NULL, sf_pmat_xhi DECIMAL(10, 4) NULL,
 
     /* -- Multiplicadores de Esfuerzo (EMs) - 17 factores con 7 ratings cada uno
      -- (XLO, VLO, LO, NOM, HI, VHI, XHI)

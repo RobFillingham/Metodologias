@@ -35,6 +35,9 @@ public class ParameterSet
 
     // Scale Factors (SF) - All ratings for each factor
     // PREC (Precedentedness)
+    [Column("sf_prec_xlo")]
+    public decimal? SfPrecXlo { get; set; }
+
     [Column("sf_prec_vlo")]
     public decimal? SfPrecVlo { get; set; }
 
@@ -54,6 +57,9 @@ public class ParameterSet
     public decimal? SfPrecXhi { get; set; }
 
     // FLEX (Development Flexibility)
+    [Column("sf_flex_xlo")]
+    public decimal? SfFlexXlo { get; set; }
+
     [Column("sf_flex_vlo")]
     public decimal? SfFlexVlo { get; set; }
 
@@ -73,6 +79,9 @@ public class ParameterSet
     public decimal? SfFlexXhi { get; set; }
 
     // RESL (Architecture/Risk Resolution)
+    [Column("sf_resl_xlo")]
+    public decimal? SfReslXlo { get; set; }
+
     [Column("sf_resl_vlo")]
     public decimal? SfReslVlo { get; set; }
 
@@ -92,6 +101,9 @@ public class ParameterSet
     public decimal? SfReslXhi { get; set; }
 
     // TEAM (Team Cohesion)
+    [Column("sf_team_xlo")]
+    public decimal? SfTeamXlo { get; set; }
+
     [Column("sf_team_vlo")]
     public decimal? SfTeamVlo { get; set; }
 
@@ -111,6 +123,9 @@ public class ParameterSet
     public decimal? SfTeamXhi { get; set; }
 
     // PMAT (Process Maturity)
+    [Column("sf_pmat_xlo")]
+    public decimal? SfPmatXlo { get; set; }
+
     [Column("sf_pmat_vlo")]
     public decimal? SfPmatVlo { get; set; }
 
