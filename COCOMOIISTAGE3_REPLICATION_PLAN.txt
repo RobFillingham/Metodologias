@@ -1,0 +1,244 @@
+# COCOMO II Stage 3 Backend Replication Plan
+## Replicating Cocomo3 Backend for CocomoIIStage3 (17 EM factors vs 7)
+
+### Overview
+This plan replicates the complete Cocomo3 backend implementation for CocomoIIStage3, adapting it for 17 effort multipliers instead of 7, with correct table names.
+
+### Key Differences
+**EM Factors:**
+- Cocomo3: 7 factors (PERS, RCPX, PDIF, PREX, RUSE, FCIL, SCED)
+- CocomoIIStage3: 17 factors (RELY, DATA, CPLX, RUSE, DOCU, TIME, STOR, PVOL, ACAP, PCAP, PCON, APEX, PLEX, LTEX, TOOL, SITE, SCED)
+
+**Table Names:**
+- Cocomo3: Language, ParameterSet, Estimation, EstimationFunction
+- CocomoIIStage3: LanguageCocomoIIStage3, ParameterSetCocomoIIStage3, EstimationCocomoIIStage3, EstimationFunctionCocomoIIStage3
+
+---
+
+## PHASE 1: Directory Structure & Basic Setup
+### Tasks:
+- [ x] Create directory: `Backend/Controllers/CocomoIIStage3/`
+- [x ] Create directory: `Backend/Models/DTOs/CocomoIIStage3/`
+- [ x] Create directory: `Backend/Models/Entities/CocomoIIStage3/`
+- [x ] Create directory: `Backend/Services/Implementations/CocomoIIStage3/`
+- [x ] Create directory: `Backend/Services/Interfaces/CocomoIIStage3/`
+- [ x] Create directory: `Backend/Repositories/Implementations/CocomoIIStage3/`
+- [x ] Create directory: `Backend/Repositories/Interfaces/CocomoIIStage3/`
+
+---
+
+## PHASE 2: Entity Layer (Core Data Models)
+### Files to create/modify:
+
+#### 2.1 Estimation.cs
+**Source:** Copy from `Backend/Models/Entities/CocomoThree/Estimation.cs`
+**Changes needed:**
+- [x] Update namespace: `Backend.Models.Entities.CocomoThree` → `Backend.Models.Entities.CocomoIIStage3`
+- [x] Update Table attribute: `[Table("estimation")]` → `[Table("estimationcocomoIIstage3")]`
+- [x] Update selected EM properties (remove 7, add 17):
+  - [x] Remove: SelectedEmPers, SelectedEmRcpx, SelectedEmPdif, SelectedEmPrex, SelectedEmRuse, SelectedEmFcil, SelectedEmSced
+  - [x] Add: SelectedEmRely, SelectedEmData, SelectedEmCplx, SelectedEmRuse, SelectedEmDocu, SelectedEmTime, SelectedEmStor, SelectedEmPvol, SelectedEmAcap, SelectedEmPcap, SelectedEmPcon, SelectedEmApex, SelectedEmPlex, SelectedEmLtex, SelectedEmTool, SelectedEmSite, SelectedEmSced
+
+#### 2.2 ParameterSet.cs
+**Source:** Copy from `Backend/Models/Entities/CocomoThree/ParameterSet.cs`
+**Changes needed:**
+- [x] Update namespace: `Backend.Models.Entities.CocomoThree` → `Backend.Models.Entities.CocomoIIStage3`
+- [x] Update Table attribute: `[Table("parameterset")]` → `[Table("parametersetcocomoIIstage3")]`
+- [x] Update EM properties (remove 7 factor groups, add 17):
+  - [x] Remove: EmPers*, EmRcpx*, EmPdif*, EmPrex*, EmFcil* groups
+  - [x] Add: EmRely*, EmData*, EmCplx*, EmDocu*, EmTime*, EmStor*, EmPvol*, EmAcap*, EmPcap*, EmPcon*, EmApex*, EmPlex*, EmLtex*, EmTool*, EmSite* groups
+  - [x] Each group has: Xlo, Vlo, Lo, Nom, Hi, Vhi, Xhi properties
+
+#### 2.3 EstimationFunction.cs
+**Source:** Copy from `Backend/Models/Entities/CocomoThree/EstimationFunction.cs`
+**Changes needed:**
+- [x] Update namespace: `Backend.Models.Entities.CocomoThree` → `Backend.Models.Entities.CocomoIIStage3`
+- [x] Update Table attribute: `[Table("estimationfunction")]` → `[Table("estimationfunctioncocomoIIstage3")]`
+
+#### 2.4 Language.cs
+**Source:** Copy from `Backend/Models/Entities/CocomoThree/Language.cs`
+**Changes needed:**
+- [x] Update namespace: `Backend.Models.Entities.CocomoThree` → `Backend.Models.Entities.CocomoIIStage3`
+- [x] Update Table attribute: `[Table("language")]` → `[Table("languagecocomoIIstage3")]`
+
+#### 2.5 Project.cs
+**Source:** Copy from `Backend/Models/Entities/CocomoThree/Project.cs`
+**Changes needed:**
+- [x] Update namespace: `Backend.Models.Entities.CocomoThree` → `Backend.Models.Entities.CocomoIIStage3`
+- [x] Update Table attribute: `[Table("project")]` → `[Table("projectcocomoIIstage3")]`
+
+#### 2.6 ApplicationDbContext.cs
+**Source:** Modify `Backend/Data/Context/ApplicationDbContext.cs`
+**Changes needed:**
+- [x] Add using statement: `using Backend.Models.Entities.CocomoIIStage3;`
+- [x] Add DbSet properties for CocomoIIStage3 entities:
+  - [x] `public DbSet<Backend.Models.Entities.CocomoIIStage3.ParameterSet> ParameterSetsCocomoIIStage3 { get; set; }`
+  - [x] `public DbSet<Backend.Models.Entities.CocomoIIStage3.Estimation> EstimationsCocomoIIStage3 { get; set; }`
+  - [x] `public DbSet<Backend.Models.Entities.CocomoIIStage3.EstimationFunction> EstimationFunctionsCocomoIIStage3 { get; set; }`
+  - [x] `public DbSet<Backend.Models.Entities.CocomoIIStage3.Language> LanguagesCocomoIIStage3 { get; set; }`
+  - [x] `public DbSet<Backend.Models.Entities.CocomoIIStage3.Project> ProjectsCocomoIIStage3 { get; set; }`
+- [x] Fully qualify CocomoThree entity references in modelBuilder.Entity<> calls to resolve ambiguous references
+
+---
+
+## PHASE 3: DTO Layer
+### Files to create/modify:
+
+#### 3.1 EstimationDto.cs
+**Source:** Copy from `Backend/Models/DTOs/CocomoThree/EstimationDto.cs`
+**Changes needed:**
+- [ ] Update namespace: `Backend.Models.DTOs.CocomoThree` → `Backend.Models.DTOs.CocomoIIStage3`
+- [ ] Update EM selection properties to match new 17 factors
+
+#### 3.2 ParameterSetDto.cs
+**Source:** Copy from `Backend/Models/DTOs/CocomoThree/ParameterSetDto.cs`
+**Changes needed:**
+- [ ] Update namespace: `Backend.Models.DTOs.CocomoThree` → `Backend.Models.DTOs.CocomoIIStage3`
+- [ ] Update EM properties to match new 17 factors
+
+#### 3.3 CreateEstimationDto.cs
+**Source:** Copy from `Backend/Models/DTOs/CocomoThree/CreateEstimationDto.cs`
+**Changes needed:**
+- [ ] Update namespace: `Backend.Models.DTOs.CocomoThree` → `Backend.Models.DTOs.CocomoIIStage3`
+- [ ] Update EM selection properties
+
+#### 3.4 UpdateEstimationRatingsDto.cs
+**Source:** Copy from `Backend/Models/DTOs/CocomoThree/UpdateEstimationRatingsDto.cs`
+**Changes needed:**
+- [ ] Update namespace: `Backend.Models.DTOs.CocomoThree` → `Backend.Models.DTOs.CocomoIIStage3`
+- [ ] Update EM selection properties
+
+#### 3.5 Other DTOs (copy as-is, just update namespaces):
+- [ ] CreateBatchEstimationFunctionsDto.cs
+- [ ] CreateEstimationFunctionDto.cs
+- [ ] CreateParameterSetDto.cs
+- [ ] EstimationFunctionDto.cs
+- [ ] LanguageDto.cs
+- [ ] UpdateActualResultsDto.cs
+- [ ] UpdateEstimationFunctionDto.cs
+- [ ] UpdateParameterSetDto.cs
+- [ ] UpdateProjectDto.cs
+
+---
+
+## PHASE 4: Repository Layer
+### Files to create/modify:
+
+#### 4.1 Interfaces
+**Copy all interfaces from CocomoThree to CocomoIIStage3, update namespaces:**
+- [ ] IEstimationRepository.cs
+- [ ] IEstimationFunctionRepository.cs
+- [ ] ILanguageRepository.cs
+- [ ] IParameterSetRepository.cs
+- [ ] IProjectRepository.cs
+
+#### 4.2 Implementations
+**Copy all implementations, update namespaces and entity references:**
+- [ ] EstimationRepository.cs
+- [ ] EstimationFunctionRepository.cs
+- [ ] LanguageRepository.cs
+- [ ] ParameterSetRepository.cs
+- [ ] ProjectRepository.cs
+
+---
+
+## PHASE 5: Service Layer
+### Files to create/modify:
+
+#### 5.1 Interfaces
+**Copy all interfaces from CocomoThree to CocomoIIStage3, update namespaces:**
+- [ ] ICocomoCalculationService.cs
+- [ ] IEstimationFunctionService.cs
+- [ ] IEstimationService.cs
+- [ ] ILanguageService.cs
+- [ ] IParameterSetService.cs
+- [ ] IProjectService.cs
+
+#### 5.2 Implementations
+
+##### 5.2.1 EstimationService.cs
+**Source:** Copy from `Backend/Services/Implementations/CocomoThree/EstimationService.cs`
+**Changes needed:**
+- [ ] Update namespace and using statements
+- [ ] Update MapToDto method to handle new 17 EM fields
+- [ ] Update CreateEstimationAsync to set new EM default values
+- [ ] Update UpdateEstimationRatingsAsync to handle new EM fields
+
+##### 5.2.2 CocomoCalculationService.cs
+**Source:** Copy from `Backend/Services/Implementations/CocomoThree/CocomoCalculationService.cs`
+**Changes needed:**
+- [ ] Update namespace and using statements
+- [ ] Update CalculateEAF method to multiply 17 EM values instead of 7
+- [ ] Update GetEMValue calls to use new EM factor names (RELY, DATA, etc.)
+- [ ] Keep all calculation logic the same, just different factor names
+
+##### 5.2.3 Other Services (copy with namespace updates):
+- [ ] EstimationFunctionService.cs
+- [ ] LanguageService.cs
+- [ ] ParameterSetService.cs
+- [ ] ProjectService.cs
+
+---
+
+## PHASE 6: Controller Layer
+### Files to create/modify:
+
+#### 6.1 EstimationsController.cs
+**Source:** Copy from `Backend/Controllers/CocomoThree/EstimationsController.cs`
+**Changes needed:**
+- [ ] Update namespace and using statements
+- [ ] Update route: `[Route("api/Projects/{projectId}/[controller]")]` → `[Route("api/Projects/{projectId}/CocomoIIStage3/[controller]")]`
+- [ ] Update API tags: `[Tags("COCOMO II - Estimations")]` → `[Tags("COCOMO II Stage 3 - Estimations")]`
+
+#### 6.2 Other Controllers (copy with namespace/route updates):
+- [ ] FunctionsController.cs
+- [ ] LanguagesController.cs
+- [ ] ParameterSetsController.cs
+- [ ] ProjectsController.cs
+
+---
+
+## PHASE 7: Integration & Configuration
+### Tasks:
+- [ ] Update Program.cs or Startup.cs to register new services
+- [ ] Update dependency injection for CocomoIIStage3 services
+- [ ] Test database context includes new entities
+- [ ] Verify EF Core migrations work with new table names
+
+---
+
+## PHASE 8: Testing & Validation
+### Tasks:
+- [ ] Test basic CRUD operations
+- [ ] Test calculation with 17 EM factors
+- [ ] Verify parameter set creation with all EM values
+- [ ] Test estimation creation and rating updates
+- [ ] Validate database schema matches CocomoIIStage3.sql
+
+---
+
+## PHASE 9: Documentation
+### Tasks:
+- [ ] Update API documentation/Swagger tags
+- [ ] Update any hardcoded references in tests
+- [ ] Document the 17 EM factors vs 7 EM factors difference
+
+---
+
+## Checklist Completion
+- [x] Phase 1: Directory Structure ✓
+- [x] Phase 2: Entity Layer ✓
+- [ ] Phase 3: DTO Layer ☐
+- [ ] Phase 4: Repository Layer ☐
+- [ ] Phase 5: Service Layer ☐
+- [ ] Phase 6: Controller Layer ☐
+- [ ] Phase 7: Integration ☐
+- [ ] Phase 8: Testing ☐
+- [ ] Phase 9: Documentation ☐
+
+## Notes
+- Always update namespaces from `CocomoThree` to `CocomoIIStage3`
+- Pay special attention to EM factor name changes (PERS→RELY, etc.)
+- Table names must match CocomoIIStage3.sql exactly
+- Calculation logic remains the same, just applied to different factors
+- Test thoroughly after each phase completion

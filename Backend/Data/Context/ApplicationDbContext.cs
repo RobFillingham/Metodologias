@@ -3,6 +3,7 @@ using Backend.Models.Entities;
 using Backend.Models.Entities.CocomoThree;
 using Backend.Models.Entities.CocomoOne;
 using Backend.Models.Entities.CocomoTwoStageOne;
+using Backend.Models.Entities.CocomoIIStage3;
 
 namespace Backend.Data.Context;
 
@@ -17,11 +18,11 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<User> Users { get; set; }
-    public DbSet<ParameterSet> ParameterSets { get; set; }
-    public DbSet<Language> Languages { get; set; }
-    public DbSet<Project> Projects { get; set; }
-    public DbSet<Estimation> Estimations { get; set; }
-    public DbSet<EstimationFunction> EstimationFunctions { get; set; }
+    public DbSet<Backend.Models.Entities.CocomoThree.ParameterSet> ParameterSets { get; set; }
+    public DbSet<Backend.Models.Entities.CocomoThree.Language> Languages { get; set; }
+    public DbSet<Backend.Models.Entities.CocomoThree.Project> Projects { get; set; }
+    public DbSet<Backend.Models.Entities.CocomoThree.Estimation> Estimations { get; set; }
+    public DbSet<Backend.Models.Entities.CocomoThree.EstimationFunction> EstimationFunctions { get; set; }
     public DbSet<Cocomo1Estimation> Cocomo1Estimations { get; set; }
     public DbSet<KlocEstimation> KlocEstimations { get; set; }
     public DbSet<FunctionPointEstimation> FunctionPointEstimations { get; set; }
@@ -34,6 +35,13 @@ public class ApplicationDbContext : DbContext
     public DbSet<ParameterSetCocomo2Stage1> ParameterSetsCocomo2Stage1 { get; set; }
     public DbSet<EstimationCocomo2Stage1> EstimationsCocomo2Stage1 { get; set; }
     public DbSet<EstimationComponentCocomo2Stage1> EstimationComponentsCocomo2Stage1 { get; set; }
+
+    // COCOMO II Stage 3
+    public DbSet<Backend.Models.Entities.CocomoIIStage3.ParameterSet> ParameterSetsCocomoIIStage3 { get; set; }
+    public DbSet<Backend.Models.Entities.CocomoIIStage3.Estimation> EstimationsCocomoIIStage3 { get; set; }
+    public DbSet<Backend.Models.Entities.CocomoIIStage3.EstimationFunction> EstimationFunctionsCocomoIIStage3 { get; set; }
+    public DbSet<Backend.Models.Entities.CocomoIIStage3.Language> LanguagesCocomoIIStage3 { get; set; }
+    public DbSet<Backend.Models.Entities.CocomoIIStage3.Project> ProjectsCocomoIIStage3 { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -77,7 +85,7 @@ public class ApplicationDbContext : DbContext
         });
 
         // ParameterSet entity configuration
-        modelBuilder.Entity<ParameterSet>(entity =>
+        modelBuilder.Entity<Backend.Models.Entities.CocomoThree.ParameterSet>(entity =>
         {
             entity.HasKey(e => e.ParamSetId);
 
@@ -311,7 +319,7 @@ public class ApplicationDbContext : DbContext
         });
 
         // Language entity configuration
-        modelBuilder.Entity<Language>(entity =>
+        modelBuilder.Entity<Backend.Models.Entities.CocomoThree.Language>(entity =>
         {
             entity.HasKey(e => e.LanguageId);
 
@@ -325,7 +333,7 @@ public class ApplicationDbContext : DbContext
         });
 
         // Project entity configuration
-        modelBuilder.Entity<Project>(entity =>
+        modelBuilder.Entity<Backend.Models.Entities.CocomoThree.Project>(entity =>
         {
             entity.HasKey(e => e.ProjectId);
 
@@ -348,7 +356,7 @@ public class ApplicationDbContext : DbContext
         });
 
         // Estimation entity configuration
-        modelBuilder.Entity<Estimation>(entity =>
+        modelBuilder.Entity<Backend.Models.Entities.CocomoThree.Estimation>(entity =>
         {
             entity.HasKey(e => e.EstimationId);
 
@@ -456,7 +464,7 @@ public class ApplicationDbContext : DbContext
         });
 
         // EstimationFunction entity configuration
-        modelBuilder.Entity<EstimationFunction>(entity =>
+        modelBuilder.Entity<Backend.Models.Entities.CocomoThree.EstimationFunction>(entity =>
         {
             entity.HasKey(e => e.FunctionId);
 
