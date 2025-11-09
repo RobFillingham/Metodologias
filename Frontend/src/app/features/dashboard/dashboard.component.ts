@@ -38,6 +38,33 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
           </div>
         </div>
 
+        <!-- Estimation Methods Grid -->
+        <div class="methods-section">
+          <h2>Métodos de Estimación</h2>
+          <div class="methods-grid">
+            <!-- KLOC Card -->
+            <div class="method-card">
+              <div class="method-icon">💻</div>
+              <h3>KLOC</h3>
+              <p>Estimación basada en Líneas de Código</p>
+              <button class="btn btn-outline" (click)="goToKloc()">Ir a KLOC →</button>
+            </div>
+
+            <!-- Coming Soon Cards -->
+            <div class="method-card disabled">
+              <div class="method-icon">📊</div>
+              <h3>Puntos de Función</h3>
+              <p>Próximamente</p>
+            </div>
+
+            <div class="method-card disabled">
+              <div class="method-icon">📝</div>
+              <h3>Puntos de Caso de Uso</h3>
+              <p>Próximamente</p>
+            </div>
+          </div>
+        </div>
+
       </main>
     </div>
   `,
@@ -249,6 +276,82 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
       transform: none;
     }
 
+    /* Methods Section */
+    .methods-section {
+      max-width: 1000px;
+      margin: 3rem auto 0;
+    }
+
+    .methods-section h2 {
+      text-align: center;
+      color: #1e293b;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      font-weight: 700;
+    }
+
+    .methods-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .method-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      border: 2px solid #e1e5e9;
+      transition: all 0.3s ease;
+    }
+
+    .method-card:not(.disabled):hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      border-color: #3b82f6;
+    }
+
+    .method-card.disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .method-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .method-card h3 {
+      margin: 0 0 0.75rem;
+      color: #1e293b;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .method-card p {
+      margin: 0 0 1.5rem;
+      color: #64748b;
+      font-size: 1rem;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #3b82f6;
+      border: 2px solid #3b82f6;
+      padding: 0.625rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-outline:hover {
+      background: #3b82f6;
+      color: white;
+    }
+
     /* Responsive Design */
     @media (max-width: 768px) {
       .welcome-header {
@@ -282,6 +385,10 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
       .info-card {
         padding: 2rem;
       }
+
+      .methods-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 480px) {
@@ -309,5 +416,9 @@ export class DashboardComponent {
 
   goToProjects() {
     this.router.navigate(['/projects']);
+  }
+
+  goToKloc() {
+    this.router.navigate(['/kloc']);
   }
 }
