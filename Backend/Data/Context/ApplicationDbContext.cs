@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Backend.Models.Entities;
 using Backend.Models.Entities.CocomoThree;
 using Backend.Models.Entities.CocomoOne;
+using Backend.Models.Entities.CocomoTwoStageOne;
 
 namespace Backend.Data.Context;
 
@@ -28,6 +29,12 @@ public class ApplicationDbContext : DbContext
     public DbSet<UseCasePointEstimation> UseCasePointEstimations { get; set; }
     public DbSet<UseCaseTechnicalFactor> UseCaseTechnicalFactors { get; set; }
     public DbSet<UseCaseEnvironmentFactor> UseCaseEnvironmentFactors { get; set; }
+    
+    // COCOMO 2 Stage 1 (Composition Model)
+    public DbSet<ParameterSetCocomo2Stage1> ParameterSetsCocomo2Stage1 { get; set; }
+    public DbSet<ProjectCocomo2Stage1> ProjectsCocomo2Stage1 { get; set; }
+    public DbSet<EstimationCocomo2Stage1> EstimationsCocomo2Stage1 { get; set; }
+    public DbSet<EstimationComponentCocomo2Stage1> EstimationComponentsCocomo2Stage1 { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -474,5 +481,207 @@ public class ApplicationDbContext : DbContext
                 .HasForeignKey(e => e.EstimationId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
+
+        // COCOMO 2 Stage 1 entity configurations
+        // ParameterSetCocomo2Stage1 configuration
+        modelBuilder.Entity<Models.Entities.CocomoTwoStageOne.ParameterSetCocomo2Stage1>(entity =>
+        {
+            entity.HasKey(e => e.ParamSetId);
+
+                entity.Property(e => e.SetName)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.IsDefault)
+                    .IsRequired()
+                    .HasDefaultValue(false);
+
+                // Constants
+                entity.Property(e => e.ConstA)
+                    .HasPrecision(10, 4)
+                    .HasDefaultValue(2.45m);
+
+                entity.Property(e => e.ConstB)
+                    .HasPrecision(10, 4)
+                    .HasDefaultValue(1.10m);
+
+                // AEXP multipliers
+                entity.Property(e => e.AexpVeryLow).HasPrecision(10, 4);
+                entity.Property(e => e.AexpLow).HasPrecision(10, 4);
+                entity.Property(e => e.AexpNominal).HasPrecision(10, 4);
+                entity.Property(e => e.AexpHigh).HasPrecision(10, 4);
+
+                // PEXP multipliers
+                entity.Property(e => e.PexpVeryLow).HasPrecision(10, 4);
+                entity.Property(e => e.PexpLow).HasPrecision(10, 4);
+                entity.Property(e => e.PexpNominal).HasPrecision(10, 4);
+                entity.Property(e => e.PexpHigh).HasPrecision(10, 4);
+
+                // PREC multipliers
+                entity.Property(e => e.PrecVeryLow).HasPrecision(10, 4);
+                entity.Property(e => e.PrecLow).HasPrecision(10, 4);
+                entity.Property(e => e.PrecNominal).HasPrecision(10, 4);
+                entity.Property(e => e.PrecHigh).HasPrecision(10, 4);
+
+                // RELY multipliers
+                entity.Property(e => e.RelyLow).HasPrecision(10, 4);
+                entity.Property(e => e.RelyNominal).HasPrecision(10, 4);
+                entity.Property(e => e.RelyHigh).HasPrecision(10, 4);
+
+                // TMSP multipliers
+                entity.Property(e => e.TmspLow).HasPrecision(10, 4);
+                entity.Property(e => e.TmspNominal).HasPrecision(10, 4);
+                entity.Property(e => e.TmspHigh).HasPrecision(10, 4);
+
+                entity.Property(e => e.CreatedAt)
+                    .IsRequired()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+                // Foreign key
+                entity.HasOne(e => e.User)
+                    .WithMany()
+                    .HasForeignKey(e => e.UserId)
+                    .OnDelete(DeleteBehavior.SetNull);
+            });
+
+            // ProjectCocomo2Stage1 configuration
+            modelBuilder.Entity<Models.Entities.CocomoTwoStageOne.ProjectCocomo2Stage1>(entity =>
+            {
+                entity.HasKey(e => e.ProjectId);
+
+                entity.Property(e => e.ProjectName)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.Description)
+                    .HasColumnType("TEXT");
+
+                entity.Property(e => e.CreatedAt)
+                    .IsRequired()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+                entity.Property(e => e.UpdatedAt)
+                    .IsRequired()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)");
+
+                // Foreign key
+                entity.HasOne(e => e.User)
+                    .WithMany()
+                    .HasForeignKey(e => e.UserId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // EstimationCocomo2Stage1 configuration
+            modelBuilder.Entity<Models.Entities.CocomoTwoStageOne.EstimationCocomo2Stage1>(entity =>
+            {
+                entity.HasKey(e => e.EstimationId);
+
+                entity.Property(e => e.EstimationName)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.SelectedAexp)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasDefaultValue("nominal");
+
+                entity.Property(e => e.SelectedPexp)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasDefaultValue("nominal");
+
+                entity.Property(e => e.SelectedPrec)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasDefaultValue("nominal");
+
+                entity.Property(e => e.SelectedRely)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasDefaultValue("nominal");
+
+                entity.Property(e => e.SelectedTmsp)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasDefaultValue("nominal");
+
+                // Calculated results
+                entity.Property(e => e.TotalFp).HasPrecision(10, 2);
+                entity.Property(e => e.Sloc).HasPrecision(10, 2);
+                entity.Property(e => e.Ksloc).HasPrecision(10, 4);
+                entity.Property(e => e.AexpMultiplier).HasPrecision(10, 4);
+                entity.Property(e => e.PexpMultiplier).HasPrecision(10, 4);
+                entity.Property(e => e.PrecMultiplier).HasPrecision(10, 4);
+                entity.Property(e => e.RelyMultiplier).HasPrecision(10, 4);
+                entity.Property(e => e.TmspMultiplier).HasPrecision(10, 4);
+                entity.Property(e => e.Eaf).HasPrecision(10, 4);
+                entity.Property(e => e.EffortPm).HasPrecision(10, 2);
+                entity.Property(e => e.EffortHours).HasPrecision(10, 2);
+                entity.Property(e => e.ActualEffortPm).HasPrecision(10, 2);
+                entity.Property(e => e.ActualEffortHours).HasPrecision(10, 2);
+                entity.Property(e => e.ActualSloc).HasPrecision(10, 2);
+
+                entity.Property(e => e.CreatedAt)
+                    .IsRequired()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+                entity.Property(e => e.UpdatedAt)
+                    .IsRequired()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)");
+
+                // Foreign keys
+                entity.HasOne(e => e.Project)
+                    .WithMany(p => p.Estimations)
+                    .HasForeignKey(e => e.ProjectId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(e => e.ParameterSet)
+                    .WithMany()
+                    .HasForeignKey(e => e.ParamSetId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(e => e.Language)
+                    .WithMany()
+                    .HasForeignKey(e => e.LanguageId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // EstimationComponentCocomo2Stage1 configuration
+            modelBuilder.Entity<Models.Entities.CocomoTwoStageOne.EstimationComponentCocomo2Stage1>(entity =>
+            {
+                entity.HasKey(e => e.ComponentId);
+
+                entity.Property(e => e.ComponentName)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.ComponentType)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasDefaultValue("new");
+
+                entity.Property(e => e.SizeFp)
+                    .HasPrecision(10, 2);
+
+                entity.Property(e => e.Description)
+                    .HasColumnType("TEXT");
+
+                entity.Property(e => e.Notes)
+                    .HasColumnType("TEXT");
+
+                entity.Property(e => e.CreatedAt)
+                    .IsRequired()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+                entity.Property(e => e.UpdatedAt)
+                    .IsRequired()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)");
+
+                // Foreign key
+                entity.HasOne(e => e.Estimation)
+                    .WithMany(est => est.Components)
+                    .HasForeignKey(e => e.EstimationId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
     }
 }

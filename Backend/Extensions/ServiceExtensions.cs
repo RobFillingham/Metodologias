@@ -6,15 +6,19 @@ using Backend.Data.Context;
 using Backend.Repositories.Implementations;
 using Backend.Repositories.Implementations.CocomoThree;
 using Backend.Repositories.Implementations.CocomoOne;
+using Backend.Repositories.Implementations.CocomoTwoStageOne;
 using Backend.Repositories.Interfaces;
 using Backend.Repositories.Interfaces.CocomoThree;
 using Backend.Repositories.Interfaces.CocomoOne;
+using Backend.Repositories.Interfaces.CocomoTwoStageOne;
 using Backend.Services.Implementations;
 using Backend.Services.Implementations.CocomoThree;
 using Backend.Services.Implementations.CocomoOne;
+using Backend.Services.Implementations.CocomoTwoStageOne;
 using Backend.Services.Interfaces;
 using Backend.Services.Interfaces.CocomoThree;
 using Backend.Services.Interfaces.CocomoOne;
+using Backend.Services.Interfaces.CocomoTwoStageOne;
 
 namespace Backend.Extensions;
 
@@ -39,6 +43,13 @@ public static class ServiceExtensions
         
         // Register COCOMO 1 services
         services.AddScoped<ICocomo1EstimationService, Cocomo1EstimationService>();
+        
+        // Register COCOMO 2 Stage 1 services
+        services.AddScoped<ICocomoCalculationCocomo2Stage1Service, CocomoCalculationCocomo2Stage1Service>();
+        services.AddScoped<IParameterSetCocomo2Stage1Service, ParameterSetCocomo2Stage1Service>();
+        services.AddScoped<IProjectCocomo2Stage1Service, ProjectCocomo2Stage1Service>();
+        services.AddScoped<IEstimationCocomo2Stage1Service, EstimationCocomo2Stage1Service>();
+        services.AddScoped<IComponentCocomo2Stage1Service, ComponentCocomo2Stage1Service>();
         
         // Register KLOC services
         services.AddScoped<IKlocEstimationService, KlocEstimationService>();
@@ -67,6 +78,12 @@ public static class ServiceExtensions
         
         // Register COCOMO 1 repositories
         services.AddScoped<ICocomo1EstimationRepository, Cocomo1EstimationRepository>();
+        
+        // Register COCOMO 2 Stage 1 repositories
+        services.AddScoped<IParameterSetCocomo2Stage1Repository, ParameterSetCocomo2Stage1Repository>();
+        services.AddScoped<IProjectCocomo2Stage1Repository, ProjectCocomo2Stage1Repository>();
+        services.AddScoped<IEstimationCocomo2Stage1Repository, EstimationCocomo2Stage1Repository>();
+        services.AddScoped<IComponentCocomo2Stage1Repository, ComponentCocomo2Stage1Repository>();
         
         // Register KLOC repositories
         services.AddScoped<IKlocEstimationRepository, KlocEstimationRepository>();
