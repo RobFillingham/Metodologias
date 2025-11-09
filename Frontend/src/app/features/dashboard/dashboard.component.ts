@@ -50,13 +50,15 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
               <button class="btn btn-outline" (click)="goToKloc()">Ir a KLOC →</button>
             </div>
 
-            <!-- Coming Soon Cards -->
-            <div class="method-card disabled">
+            <!-- Function Point Card -->
+            <div class="method-card">
               <div class="method-icon">📊</div>
               <h3>Puntos de Función</h3>
-              <p>Próximamente</p>
+              <p>Estimación basada en componentes funcionales</p>
+              <button class="btn btn-outline" (click)="goToFunctionPoint()">Ir a Function Point →</button>
             </div>
 
+            <!-- Coming Soon Cards -->
             <div class="method-card disabled">
               <div class="method-icon">📝</div>
               <h3>Puntos de Caso de Uso</h3>
@@ -420,5 +422,9 @@ export class DashboardComponent {
 
   goToKloc() {
     this.router.navigate(['/kloc']);
+  }
+
+  goToFunctionPoint() {
+    this.router.navigate(['/function-point']);
   }
 }

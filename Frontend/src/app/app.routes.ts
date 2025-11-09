@@ -53,6 +53,11 @@ export const routes: Routes = [
     loadComponent: () => import('./features/kloc/kloc-estimations/kloc-estimations.component').then(m => m.KlocEstimationsComponent)
   },
   {
+    path: 'function-point',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/function-point/function-point-estimations/function-point-estimations.component').then(m => m.FunctionPointEstimationsComponent)
+  },
+  {
     path: '**',
     redirectTo: 'home'
   }
