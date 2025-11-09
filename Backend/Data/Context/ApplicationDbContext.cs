@@ -489,6 +489,101 @@ public class ApplicationDbContext : DbContext
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
+        // COCOMO II Stage 3 EstimationFunction entity configuration
+        modelBuilder.Entity<Backend.Models.Entities.CocomoIIStage3.EstimationFunction>(entity =>
+        {
+            entity.HasKey(e => e.FunctionId);
+
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(255);
+
+            entity.Property(e => e.Type)
+                .IsRequired()
+                .HasMaxLength(10);
+
+            entity.Property(e => e.Complexity)
+                .HasMaxLength(20);
+
+            entity.Property(e => e.CalculatedPoints)
+                .HasPrecision(10, 2);
+
+            // Foreign key relationship
+            entity.HasOne(e => e.Estimation)
+                .WithMany(est => est.EstimationFunctions)
+                .HasForeignKey(e => e.EstimationId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // COCOMO II Stage 3 ParameterSet entity configuration
+        modelBuilder.Entity<Backend.Models.Entities.CocomoIIStage3.ParameterSet>(entity =>
+        {
+            entity.HasKey(e => e.ParamSetId);
+
+            entity.Property(e => e.SetName)
+                .IsRequired()
+                .HasMaxLength(255);
+        });
+
+        // COCOMO II Stage 3 Estimation entity configuration
+        modelBuilder.Entity<Backend.Models.Entities.CocomoIIStage3.Estimation>(entity =>
+        {
+            entity.HasKey(e => e.EstimationId);
+
+            entity.Property(e => e.EstimationName)
+                .IsRequired()
+                .HasMaxLength(255);
+
+            entity.Property(e => e.CreatedAt)
+                .IsRequired()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+            // Foreign keys
+            entity.HasOne(e => e.Project)
+                .WithMany()
+                .HasForeignKey(e => e.ProjectId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.ParameterSet)
+                .WithMany()
+                .HasForeignKey(e => e.ParamSetId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(e => e.Language)
+                .WithMany()
+                .HasForeignKey(e => e.LanguageId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        // COCOMO II Stage 3 Language entity configuration
+        modelBuilder.Entity<Backend.Models.Entities.CocomoIIStage3.Language>(entity =>
+        {
+            entity.HasKey(e => e.LanguageId);
+
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(255);
+
+            entity.Property(e => e.SlocPerUfp)
+                .HasPrecision(10, 2);
+        });
+
+        // COCOMO II Stage 3 Project entity configuration
+        modelBuilder.Entity<Backend.Models.Entities.CocomoIIStage3.Project>(entity =>
+        {
+            entity.HasKey(e => e.ProjectId);
+
+            entity.Property(e => e.ProjectName)
+                .IsRequired()
+                .HasMaxLength(255);
+
+            // Foreign key to User
+            entity.HasOne<User>()
+                .WithMany()
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
         // KlocEstimation entity configuration
         modelBuilder.Entity<KlocEstimation>(entity =>
         {

@@ -36,6 +36,9 @@ public static class ServiceExtensions
     /// </summary>
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
+        // Register Auth services
+        services.AddScoped<IAuthService, AuthService>();
+        
         // Register COCOMO 3 services
         services.AddScoped<Backend.Services.Interfaces.CocomoThree.IParameterSetService, Backend.Services.Implementations.CocomoThree.ParameterSetService>();
         services.AddScoped<Backend.Services.Interfaces.CocomoThree.ICocomoCalculationService, Backend.Services.Implementations.CocomoThree.CocomoCalculationService>();
