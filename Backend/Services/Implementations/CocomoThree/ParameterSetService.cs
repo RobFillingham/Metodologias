@@ -11,13 +11,16 @@ namespace Backend.Services.Implementations.CocomoThree;
 public class ParameterSetService : IParameterSetService
 {
     private readonly IParameterSetRepository _parameterSetRepository;
+    private readonly IEstimationRepository _estimationRepository;
     private readonly ILogger<ParameterSetService> _logger;
 
     public ParameterSetService(
         IParameterSetRepository parameterSetRepository,
+        IEstimationRepository estimationRepository,
         ILogger<ParameterSetService> logger)
     {
         _parameterSetRepository = parameterSetRepository;
+        _estimationRepository = estimationRepository;
         _logger = logger;
     }
 
@@ -312,6 +315,16 @@ public class ParameterSetService : IParameterSetService
         // Users can only delete their own parameter sets, not default ones
         if (parameterSet.UserId != userId)
             throw new UnauthorizedAccessException("You can only delete your own parameter sets");
+
+        // Check if the parameter set is being used by any estimations
+        var estimationsUsingThisSet = await _estimationRepository.GetByParameterSetIdAsync(paramSetId);
+        var estimationCount = estimationsUsingThisSet.Count();
+        _logger.LogInformation("Parameter set {ParamSetId} has {EstimationCount} estimations", paramSetId, estimationCount);
+        if (estimationCount > 0)
+        {
+            _logger.LogWarning("Attempting to delete parameter set {ParamSetId} with {EstimationCount} estimations", paramSetId, estimationCount);
+            throw new InvalidOperationException($"Cannot delete parameter set '{parameterSet.SetName}' because it is being used by {estimationCount} estimation(s). Please reassign or delete these estimations first.");
+        }
 
         var result = await _parameterSetRepository.DeleteAsync(paramSetId);
         if (result)

@@ -74,4 +74,11 @@ public class EstimationRepository : IEstimationRepository
         return await _context.Estimations
             .AnyAsync(e => e.EstimationId == estimationId && e.ProjectId == projectId);
     }
+
+    public async Task<IEnumerable<Estimation>> GetByParameterSetIdAsync(int paramSetId)
+    {
+        return await _context.Estimations
+            .Where(e => e.ParamSetId == paramSetId)
+            .ToListAsync();
+    }
 }

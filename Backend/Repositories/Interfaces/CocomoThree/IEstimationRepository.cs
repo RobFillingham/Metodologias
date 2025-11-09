@@ -41,4 +41,9 @@ public interface IEstimationRepository
     /// Check if estimation belongs to project
     /// </summary>
     Task<bool> BelongsToProjectAsync(int estimationId, int projectId);
+
+    /// <summary>
+    /// Get all estimations using a specific parameter set
+    /// </summary>
+    Task<IEnumerable<Estimation>> GetByParameterSetIdAsync(int paramSetId);
 }

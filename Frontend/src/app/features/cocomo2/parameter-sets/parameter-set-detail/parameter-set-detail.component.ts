@@ -664,11 +664,18 @@ export class ParameterSetDetailComponent implements OnInit {
             if (response.success) {
               this.router.navigate(['/parameter-sets']);
             } else {
-              alert('Failed to delete parameter set: ' + (response.errors?.[0] || 'Unknown error'));
+              alert('Failed to delete parameter set: ' + (response.errors?.[0] || response.message || 'Unknown error'));
             }
           },
-          error: (err) => {
-            alert('Failed to delete parameter set. Please try again.');
+          error: (err: any) => {
+            // Handle HTTP errors (400, 500, etc.)
+            if (err.error && err.error.errors && err.error.errors.length > 0) {
+              alert('Failed to delete parameter set: ' + err.error.errors[0]);
+            } else if (err.error && err.error.message) {
+              alert('Failed to delete parameter set: ' + err.error.message);
+            } else {
+              alert('Failed to delete parameter set. Please try again.');
+            }
             console.error('Error deleting parameter set:', err);
           }
         });

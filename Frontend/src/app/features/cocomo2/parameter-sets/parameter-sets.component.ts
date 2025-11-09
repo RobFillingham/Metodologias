@@ -431,11 +431,22 @@ export class ParameterSetsComponent implements OnInit {
             // Remove from local list
             this.parameterSets.update(sets => sets.filter(s => s.paramSetId !== paramSet.paramSetId));
           } else {
-            alert('Failed to delete parameter set: ' + (response.errors?.[0] || 'Unknown error'));
+            alert('Failed to delete parameter set: ' + (response.errors?.[0] || response.message || 'Unknown error'));
           }
         },
-        error: (err) => {
-          alert('Failed to delete parameter set. Please try again.');
+        error: (err: any) => {
+          // Handle HTTP errors (400, 500, etc.)
+          console.log('Full error object:', err);
+          console.log('Error error property:', err.error);
+          if (err.error && err.error.errors && err.error.errors.length > 0) {
+            alert('Failed to delete parameter set: ' + err.error.errors[0]);
+          } else if (err.error && err.error.message) {
+            alert('Failed to delete parameter set: ' + err.error.message);
+          } else if (err.error && typeof err.error === 'string') {
+            alert('Failed to delete parameter set: ' + err.error);
+          } else {
+            alert('Failed to delete parameter set. Please try again.');
+          }
           console.error('Error deleting parameter set:', err);
         }
       });

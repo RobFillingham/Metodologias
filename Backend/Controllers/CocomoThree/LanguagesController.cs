@@ -258,7 +258,7 @@ public class LanguagesController : ControllerBase
                 return NotFound(errorResponse);
             }
 
-            var response = ApiResponse<object>.SuccessResponse(
+            var response = ApiResponse<object?>.SuccessResponse(
                 null,
                 "Language deleted successfully"
             );

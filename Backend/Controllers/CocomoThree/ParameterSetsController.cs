@@ -336,6 +336,15 @@ public class ParameterSetsController : ControllerBase
             );
             return Forbid();
         }
+        catch (InvalidOperationException ex)
+        {
+            _logger.LogWarning(ex, "Invalid operation when deleting parameter set: {ParameterSetId}. Message: {Message}", id, ex.Message);
+            var errorResponse = ApiResponse<object>.ErrorResponse(
+                "Cannot delete parameter set",
+                new List<string> { ex.Message }
+            );
+            return BadRequest(errorResponse);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error deleting parameter set {ParameterSetId}", id);
