@@ -793,7 +793,7 @@ export class ParameterSetFormComponent implements OnInit {
       next: (response) => {
         this.saving.set(false);
         if (response.success) {
-          this.router.navigate(['/parameter-sets']);
+          this.router.navigate(['/cocomo2/parameter-sets']);
         } else {
           this.error.set(response.errors?.[0] || `Failed to ${this.isEdit ? 'update' : 'create'} parameter set`);
         }
@@ -836,6 +836,6 @@ export class ParameterSetFormComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/parameter-sets']);
+    this.router.navigate(['/cocomo2/parameter-sets']);
   }
 }

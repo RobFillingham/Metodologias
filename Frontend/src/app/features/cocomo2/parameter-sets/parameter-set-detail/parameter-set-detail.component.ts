@@ -652,7 +652,7 @@ export class ParameterSetDetailComponent implements OnInit {
 
   editParameterSet() {
     if (this.parameterSet()) {
-      this.router.navigate(['/parameter-sets', this.parameterSet()!.paramSetId, 'edit']);
+      this.router.navigate(['/cocomo2/parameter-sets', this.parameterSet()!.paramSetId, 'edit']);
     }
   }
 
@@ -662,7 +662,7 @@ export class ParameterSetDetailComponent implements OnInit {
         this.parameterSetService.deleteParameterSet(this.parameterSet()!.paramSetId).subscribe({
           next: (response) => {
             if (response.success) {
-              this.router.navigate(['/parameter-sets']);
+              this.router.navigate(['/cocomo2/parameter-sets']);
             } else {
               alert('Failed to delete parameter set: ' + (response.errors?.[0] || response.message || 'Unknown error'));
             }
@@ -725,6 +725,6 @@ export class ParameterSetDetailComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/parameter-sets']);
+    this.router.navigate(['/cocomo2/parameter-sets']);
   }
 }
