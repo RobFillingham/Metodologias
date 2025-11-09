@@ -23,18 +23,11 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
       <main class="dashboard-content">
         <!-- Main Actions Grid -->
         <div class="main-actions-grid">
-          <!-- COCOMO II Card -->
-          <div class="action-card primary">
-            <h2>COCOMO II</h2>
-            <p>Accede a todas las herramientas de estimación y gestión de proyectos</p>
-            <button class="btn btn-primary" (click)="goToCocomoII()">Comenzar</button>
-          </div>
-
           <!-- Project Management Card -->
-          <div class="action-card secondary">
+          <div class="action-card primary center-card">
             <h2>Gestión de Proyectos</h2>
             <p>Crea y administra tus proyectos para todas las metodologías de estimación</p>
-            <button class="btn btn-secondary" (click)="goToProjects()">Gestionar</button>
+            <button class="btn btn-primary" (click)="goToProjects()">Gestionar Proyectos</button>
           </div>
         </div>
 
@@ -42,6 +35,14 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
         <div class="methods-section">
           <h2>Métodos de Estimación</h2>
           <div class="methods-grid">
+            <!-- COCOMO II Card -->
+            <div class="method-card">
+              <div class="method-icon">🚀</div>
+              <h3>COCOMO II</h3>
+              <p>Modelo completo de estimación constructiva de costos</p>
+              <button class="btn btn-outline" (click)="goToCocomoII()">Ir a COCOMO II →</button>
+            </div>
+
             <!-- KLOC Card -->
             <div class="method-card">
               <div class="method-icon">💻</div>
@@ -68,7 +69,7 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
 
             <!-- COCOMO II Stage 1 Card -->
             <div class="method-card">
-              <div class="method-icon">🚀</div>
+              <div class="method-icon">🎯</div>
               <h3>COCOMO II Estadio 1</h3>
               <p>Modelo de Composición de Aplicaciones</p>
               <button class="btn btn-outline" (click)="goToCocomo2Stage1()">Ir a COCOMO II Stage 1 →</button>
@@ -122,8 +123,8 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
     }
 
     .main-actions-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      display: flex;
+      justify-content: center;
       gap: 2rem;
       margin-bottom: 3rem;
     }
@@ -134,14 +135,18 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
       border-radius: 12px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
       text-align: center;
-      max-width: 400px;
+      max-width: 500px;
       width: 100%;
       transition: all 0.3s ease;
       border: 1px solid #e1e5e9;
     }
 
+    .action-card.center-card {
+      max-width: 600px;
+    }
+
     .action-card.primary {
-      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
       position: relative;
       overflow: hidden;
@@ -159,29 +164,6 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
     }
 
     .action-card.primary:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 48px rgba(37, 99, 235, 0.3);
-    }
-
-    .action-card.secondary {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .action-card.secondary::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="80" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="60" cy="30" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
-      opacity: 0.3;
-    }
-
-    .action-card.secondary:hover {
       transform: translateY(-4px);
       box-shadow: 0 16px 48px rgba(102, 126, 234, 0.3);
     }
@@ -260,22 +242,6 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
     }
 
     .btn-primary:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: translateY(-1px);
-      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      backdrop-filter: blur(10px);
-      padding: 0.75rem 1.5rem;
-      font-size: 1rem;
-      font-weight: 500;
-    }
-
-    .btn-secondary:hover {
       background: rgba(255, 255, 255, 0.3);
       transform: translateY(-1px);
       box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
