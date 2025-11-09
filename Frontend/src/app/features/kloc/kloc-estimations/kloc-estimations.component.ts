@@ -5,6 +5,9 @@ import { NavbarComponent } from '../../../shared/components/navbar/navbar.compon
 import { SelectProjectDialogComponent } from '../../../shared/components/select-project-dialog/select-project-dialog.component';
 import { KlocEstimationDialogComponent } from '../kloc-estimation-dialog/kloc-estimation-dialog.component';
 import { KlocEstimationService } from '../../../core/services/kloc/kloc-estimation.service';
+import { ProjectService } from '../../../core/services/cocomo2/project.service';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { 
   KlocEstimation, 
   Project, 
@@ -680,6 +683,7 @@ import {
 })
 export class KlocEstimationsComponent implements OnInit {
   private klocService = inject(KlocEstimationService);
+  private projectService = inject(ProjectService);
   private router = inject(Router);
 
   estimations = signal<KlocEstimation[]>([]);
@@ -694,15 +698,73 @@ export class KlocEstimationsComponent implements OnInit {
   selectedEstimation = signal<KlocEstimation | null>(null);
 
   ngOnInit() {
-    // Mostrar empty state inicialmente sin error
-    this.loading.set(false);
+    this.loadAllEstimations();
   }
 
   loadAllEstimations() {
-    // Por ahora, empezamos con lista vacía
-    // Las estimaciones se cargarán cuando se creen nuevas
-    this.loading.set(false);
+    this.loading.set(true);
     this.error.set(null);
+
+    // Primero, obtener todos los proyectos del usuario
+    this.projectService.getProjects().subscribe({
+      next: (response) => {
+        if (response.success && response.data) {
+          const userProjects = response.data;
+          
+          // Guardar nombres de proyectos en el mapa
+          const projectsMap = new Map<number, string>();
+          userProjects.forEach(project => {
+            projectsMap.set(project.projectId, project.projectName);
+          });
+          this.projects.set(projectsMap);
+
+          // Si no hay proyectos, mostrar empty state
+          if (userProjects.length === 0) {
+            this.loading.set(false);
+            return;
+          }
+
+          // Crear observables para cargar estimaciones de cada proyecto
+          const estimationRequests = userProjects.map(project =>
+            this.klocService.getEstimationsByProject(project.projectId).pipe(
+              catchError(err => {
+                console.error(`Error loading estimations for project ${project.projectId}:`, err);
+                return of({ success: false, data: [] as KlocEstimation[], message: '' });
+              })
+            )
+          );
+
+          // Ejecutar todas las peticiones en paralelo
+          forkJoin(estimationRequests).subscribe({
+            next: (responses) => {
+              const allEstimations: KlocEstimation[] = [];
+              
+              responses.forEach(response => {
+                if (response.success && response.data) {
+                  allEstimations.push(...response.data);
+                }
+              });
+
+              this.estimations.set(allEstimations);
+              this.loading.set(false);
+            },
+            error: (err) => {
+              console.error('Error loading estimations:', err);
+              this.error.set('Error al cargar las estimaciones. Por favor, intenta nuevamente.');
+              this.loading.set(false);
+            }
+          });
+        } else {
+          this.error.set('Error al cargar los proyectos');
+          this.loading.set(false);
+        }
+      },
+      error: (err) => {
+        console.error('Error loading projects:', err);
+        this.error.set('Error al cargar los proyectos. Por favor, intenta nuevamente.');
+        this.loading.set(false);
+      }
+    });
   }
 
   openCreateFlow() {

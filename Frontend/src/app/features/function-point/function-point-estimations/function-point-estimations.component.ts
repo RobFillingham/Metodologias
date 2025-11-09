@@ -5,6 +5,9 @@ import { NavbarComponent } from '../../../shared/components/navbar/navbar.compon
 import { SelectProjectDialogComponent } from '../../../shared/components/select-project-dialog/select-project-dialog.component';
 import { FunctionPointEstimationDialogComponent } from '../function-point-estimation-dialog/function-point-estimation-dialog.component';
 import { FunctionPointEstimationService } from '../../../core/services/function-point/function-point-estimation.service';
+import { ProjectService } from '../../../core/services/cocomo2/project.service';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { 
   FunctionPointEstimation, 
   Project, 
@@ -802,6 +805,7 @@ import {
 })
 export class FunctionPointEstimationsComponent implements OnInit {
   private fpService = inject(FunctionPointEstimationService);
+  private projectService = inject(ProjectService);
   private router = inject(Router);
 
   estimations = signal<FunctionPointEstimation[]>([]);
@@ -816,12 +820,73 @@ export class FunctionPointEstimationsComponent implements OnInit {
   selectedEstimation = signal<FunctionPointEstimation | null>(null);
 
   ngOnInit() {
-    this.loading.set(false);
+    this.loadAllEstimations();
   }
 
   loadAllEstimations() {
-    this.loading.set(false);
+    this.loading.set(true);
     this.error.set(null);
+
+    // Primero, obtener todos los proyectos del usuario
+    this.projectService.getProjects().subscribe({
+      next: (response) => {
+        if (response.success && response.data) {
+          const userProjects = response.data;
+          
+          // Guardar nombres de proyectos en el mapa
+          const projectsMap = new Map<number, string>();
+          userProjects.forEach(project => {
+            projectsMap.set(project.projectId, project.projectName);
+          });
+          this.projects.set(projectsMap);
+
+          // Si no hay proyectos, mostrar empty state
+          if (userProjects.length === 0) {
+            this.loading.set(false);
+            return;
+          }
+
+          // Crear observables para cargar estimaciones de cada proyecto
+          const estimationRequests = userProjects.map(project =>
+            this.fpService.getEstimationsByProject(project.projectId).pipe(
+              catchError(err => {
+                console.error(`Error loading estimations for project ${project.projectId}:`, err);
+                return of({ success: false, data: [] as FunctionPointEstimation[], message: '' });
+              })
+            )
+          );
+
+          // Ejecutar todas las peticiones en paralelo
+          forkJoin(estimationRequests).subscribe({
+            next: (responses) => {
+              const allEstimations: FunctionPointEstimation[] = [];
+              
+              responses.forEach(response => {
+                if (response.success && response.data) {
+                  allEstimations.push(...response.data);
+                }
+              });
+
+              this.estimations.set(allEstimations);
+              this.loading.set(false);
+            },
+            error: (err) => {
+              console.error('Error loading estimations:', err);
+              this.error.set('Error al cargar las estimaciones. Por favor, intenta nuevamente.');
+              this.loading.set(false);
+            }
+          });
+        } else {
+          this.error.set('Error al cargar los proyectos');
+          this.loading.set(false);
+        }
+      },
+      error: (err) => {
+        console.error('Error loading projects:', err);
+        this.error.set('Error al cargar los proyectos. Por favor, intenta nuevamente.');
+        this.loading.set(false);
+      }
+    });
   }
 
   openCreateFlow() {

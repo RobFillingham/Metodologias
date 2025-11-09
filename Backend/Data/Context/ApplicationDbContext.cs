@@ -482,6 +482,202 @@ public class ApplicationDbContext : DbContext
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
+        // KlocEstimation entity configuration
+        modelBuilder.Entity<KlocEstimation>(entity =>
+        {
+            entity.HasKey(e => e.KlocEstimationId);
+
+            entity.Property(e => e.EstimationName)
+                .IsRequired()
+                .HasMaxLength(255);
+
+            entity.Property(e => e.LinesOfCode)
+                .IsRequired();
+
+            entity.Property(e => e.EstimatedEffort)
+                .HasPrecision(10, 2);
+
+            entity.Property(e => e.EstimatedCost)
+                .HasPrecision(10, 2);
+
+            entity.Property(e => e.EstimatedTime)
+                .HasPrecision(10, 2);
+
+            entity.Property(e => e.Notes)
+                .HasColumnType("TEXT");
+
+            entity.Property(e => e.CreatedAt)
+                .IsRequired()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+            entity.Property(e => e.UpdatedAt)
+                .IsRequired()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)");
+        });
+
+        // FunctionPointEstimation entity configuration
+        modelBuilder.Entity<FunctionPointEstimation>(entity =>
+        {
+            entity.HasKey(e => e.FpEstimationId);
+
+            entity.Property(e => e.EstimationName)
+                .IsRequired()
+                .HasMaxLength(255);
+
+            entity.Property(e => e.ComplexityLevel)
+                .HasConversion<string>()
+                .HasMaxLength(20);
+
+            entity.Property(e => e.UnadjustedFp)
+                .HasPrecision(10, 2);
+
+            entity.Property(e => e.ValueAdjustmentFactor)
+                .HasPrecision(10, 4);
+
+            entity.Property(e => e.AdjustedFp)
+                .HasPrecision(10, 2);
+
+            entity.Property(e => e.EstimatedEffort)
+                .HasPrecision(10, 2);
+
+            entity.Property(e => e.EstimatedCost)
+                .HasPrecision(10, 2);
+
+            entity.Property(e => e.EstimatedTime)
+                .HasPrecision(10, 2);
+
+            entity.Property(e => e.Notes)
+                .HasColumnType("TEXT");
+
+            entity.Property(e => e.CreatedAt)
+                .IsRequired()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+            entity.Property(e => e.UpdatedAt)
+                .IsRequired()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)");
+        });
+
+        // FunctionPointCharacteristic entity configuration
+        modelBuilder.Entity<FunctionPointCharacteristic>(entity =>
+        {
+            entity.HasKey(e => e.FpCharId);
+
+            entity.Property(e => e.CharacteristicName)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            entity.Property(e => e.InfluenceLevel)
+                .HasMaxLength(20);
+
+            entity.Property(e => e.CreatedAt)
+                .IsRequired()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+            entity.Property(e => e.UpdatedAt)
+                .IsRequired()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)");
+
+            // Foreign key relationship
+            entity.HasOne(e => e.FunctionPointEstimation)
+                .WithMany(fp => fp.Characteristics)
+                .HasForeignKey(e => e.FpEstimationId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // UseCasePointEstimation entity configuration
+        modelBuilder.Entity<UseCasePointEstimation>(entity =>
+        {
+            entity.HasKey(e => e.UcpEstimationId);
+
+            entity.Property(e => e.EstimationName)
+                .IsRequired()
+                .HasMaxLength(255);
+
+            entity.Property(e => e.UnadjustedUcp)
+                .HasPrecision(10, 2);
+
+            entity.Property(e => e.TechnicalComplexityFactor)
+                .HasPrecision(10, 4);
+
+            entity.Property(e => e.EnvironmentFactor)
+                .HasPrecision(10, 4);
+
+            entity.Property(e => e.AdjustedUcp)
+                .HasPrecision(10, 2);
+
+            entity.Property(e => e.EstimatedEffort)
+                .HasPrecision(10, 2);
+
+            entity.Property(e => e.EstimatedEffortPm)
+                .HasPrecision(10, 2);
+
+            entity.Property(e => e.EstimatedCost)
+                .HasPrecision(10, 2);
+
+            entity.Property(e => e.EstimatedTime)
+                .HasPrecision(10, 2);
+
+            entity.Property(e => e.Notes)
+                .HasColumnType("TEXT");
+
+            entity.Property(e => e.CreatedAt)
+                .IsRequired()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+            entity.Property(e => e.UpdatedAt)
+                .IsRequired()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)");
+        });
+
+        // UseCaseTechnicalFactor entity configuration
+        modelBuilder.Entity<UseCaseTechnicalFactor>(entity =>
+        {
+            entity.HasKey(e => e.UcpTechFactorId);
+
+            entity.Property(e => e.FactorName)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            entity.Property(e => e.CreatedAt)
+                .IsRequired()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+            entity.Property(e => e.UpdatedAt)
+                .IsRequired()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)");
+
+            // Foreign key relationship
+            entity.HasOne(e => e.UseCasePointEstimation)
+                .WithMany(ucp => ucp.TechnicalFactors)
+                .HasForeignKey(e => e.UcpEstimationId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // UseCaseEnvironmentFactor entity configuration
+        modelBuilder.Entity<UseCaseEnvironmentFactor>(entity =>
+        {
+            entity.HasKey(e => e.UcpEnvFactorId);
+
+            entity.Property(e => e.FactorName)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            entity.Property(e => e.CreatedAt)
+                .IsRequired()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+            entity.Property(e => e.UpdatedAt)
+                .IsRequired()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)");
+
+            // Foreign key relationship
+            entity.HasOne(e => e.UseCasePointEstimation)
+                .WithMany(ucp => ucp.EnvironmentFactors)
+                .HasForeignKey(e => e.UcpEstimationId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
         // COCOMO 2 Stage 1 entity configurations
         // ParameterSetCocomo2Stage1 configuration
         modelBuilder.Entity<Models.Entities.CocomoTwoStageOne.ParameterSetCocomo2Stage1>(entity =>
