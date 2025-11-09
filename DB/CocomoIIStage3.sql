@@ -47,44 +47,44 @@ CREATE TABLE ParameterSetCocomoIIStage3 (
     sf_team_vlo DECIMAL(10, 4) NULL, sf_team_lo DECIMAL(10, 4) NULL, sf_team_nom DECIMAL(10, 4) NULL, sf_team_hi DECIMAL(10, 4) NULL, sf_team_vhi DECIMAL(10, 4) NULL, sf_team_xhi DECIMAL(10, 4) NULL,
     sf_pmat_vlo DECIMAL(10, 4) NULL, sf_pmat_lo DECIMAL(10, 4) NULL, sf_pmat_nom DECIMAL(10, 4) NULL, sf_pmat_hi DECIMAL(10, 4) NULL, sf_pmat_vhi DECIMAL(10, 4) NULL, sf_pmat_xhi DECIMAL(10, 4) NULL,
 
-    /* -- Multiplicadores de Esfuerzo (EMs) - 17 factores con 6 ratings cada uno
-     -- (VLO, LO, NOM, HI, VHI, XHI)
+    /* -- Multiplicadores de Esfuerzo (EMs) - 17 factores con 7 ratings cada uno
+     -- (XLO, VLO, LO, NOM, HI, VHI, XHI)
      -- Los campos son NULLables porque algunos ratings no aplican
     */
     -- RELY (Required Reliability)
-    em_rely_vlo DECIMAL(10, 4) NULL, em_rely_lo DECIMAL(10, 4) NULL, em_rely_nom DECIMAL(10, 4) NULL, em_rely_hi DECIMAL(10, 4) NULL, em_rely_vhi DECIMAL(10, 4) NULL, em_rely_xhi DECIMAL(10, 4) NULL,
+    em_rely_xlo DECIMAL(10, 4) NULL, em_rely_vlo DECIMAL(10, 4) NULL, em_rely_lo DECIMAL(10, 4) NULL, em_rely_nom DECIMAL(10, 4) NULL, em_rely_hi DECIMAL(10, 4) NULL, em_rely_vhi DECIMAL(10, 4) NULL, em_rely_xhi DECIMAL(10, 4) NULL,
     -- DATA (Database Size)
-    em_data_vlo DECIMAL(10, 4) NULL, em_data_lo DECIMAL(10, 4) NULL, em_data_nom DECIMAL(10, 4) NULL, em_data_hi DECIMAL(10, 4) NULL, em_data_vhi DECIMAL(10, 4) NULL, em_data_xhi DECIMAL(10, 4) NULL,
+    em_data_xlo DECIMAL(10, 4) NULL, em_data_vlo DECIMAL(10, 4) NULL, em_data_lo DECIMAL(10, 4) NULL, em_data_nom DECIMAL(10, 4) NULL, em_data_hi DECIMAL(10, 4) NULL, em_data_vhi DECIMAL(10, 4) NULL, em_data_xhi DECIMAL(10, 4) NULL,
     -- CPLX (Product Complexity)
-    em_cplx_vlo DECIMAL(10, 4) NULL, em_cplx_lo DECIMAL(10, 4) NULL, em_cplx_nom DECIMAL(10, 4) NULL, em_cplx_hi DECIMAL(10, 4) NULL, em_cplx_vhi DECIMAL(10, 4) NULL, em_cplx_xhi DECIMAL(10, 4) NULL,
+    em_cplx_xlo DECIMAL(10, 4) NULL, em_cplx_vlo DECIMAL(10, 4) NULL, em_cplx_lo DECIMAL(10, 4) NULL, em_cplx_nom DECIMAL(10, 4) NULL, em_cplx_hi DECIMAL(10, 4) NULL, em_cplx_vhi DECIMAL(10, 4) NULL, em_cplx_xhi DECIMAL(10, 4) NULL,
     -- RUSE (Required Reusability)
-    em_ruse_vlo DECIMAL(10, 4) NULL, em_ruse_lo DECIMAL(10, 4) NULL, em_ruse_nom DECIMAL(10, 4) NULL, em_ruse_hi DECIMAL(10, 4) NULL, em_ruse_vhi DECIMAL(10, 4) NULL, em_ruse_xhi DECIMAL(10, 4) NULL,
+    em_ruse_xlo DECIMAL(10, 4) NULL, em_ruse_vlo DECIMAL(10, 4) NULL, em_ruse_lo DECIMAL(10, 4) NULL, em_ruse_nom DECIMAL(10, 4) NULL, em_ruse_hi DECIMAL(10, 4) NULL, em_ruse_vhi DECIMAL(10, 4) NULL, em_ruse_xhi DECIMAL(10, 4) NULL,
     -- DOCU (Documentation Match to Life-Cycle Needs)
-    em_docu_vlo DECIMAL(10, 4) NULL, em_docu_lo DECIMAL(10, 4) NULL, em_docu_nom DECIMAL(10, 4) NULL, em_docu_hi DECIMAL(10, 4) NULL, em_docu_vhi DECIMAL(10, 4) NULL, em_docu_xhi DECIMAL(10, 4) NULL,
+    em_docu_xlo DECIMAL(10, 4) NULL, em_docu_vlo DECIMAL(10, 4) NULL, em_docu_lo DECIMAL(10, 4) NULL, em_docu_nom DECIMAL(10, 4) NULL, em_docu_hi DECIMAL(10, 4) NULL, em_docu_vhi DECIMAL(10, 4) NULL, em_docu_xhi DECIMAL(10, 4) NULL,
     -- TIME (Execution Time Constraint)
-    em_time_vlo DECIMAL(10, 4) NULL, em_time_lo DECIMAL(10, 4) NULL, em_time_nom DECIMAL(10, 4) NULL, em_time_hi DECIMAL(10, 4) NULL, em_time_vhi DECIMAL(10, 4) NULL, em_time_xhi DECIMAL(10, 4) NULL,
+    em_time_xlo DECIMAL(10, 4) NULL, em_time_vlo DECIMAL(10, 4) NULL, em_time_lo DECIMAL(10, 4) NULL, em_time_nom DECIMAL(10, 4) NULL, em_time_hi DECIMAL(10, 4) NULL, em_time_vhi DECIMAL(10, 4) NULL, em_time_xhi DECIMAL(10, 4) NULL,
     -- STOR (Main Memory Constraint)
-    em_stor_vlo DECIMAL(10, 4) NULL, em_stor_lo DECIMAL(10, 4) NULL, em_stor_nom DECIMAL(10, 4) NULL, em_stor_hi DECIMAL(10, 4) NULL, em_stor_vhi DECIMAL(10, 4) NULL, em_stor_xhi DECIMAL(10, 4) NULL,
+    em_stor_xlo DECIMAL(10, 4) NULL, em_stor_vlo DECIMAL(10, 4) NULL, em_stor_lo DECIMAL(10, 4) NULL, em_stor_nom DECIMAL(10, 4) NULL, em_stor_hi DECIMAL(10, 4) NULL, em_stor_vhi DECIMAL(10, 4) NULL, em_stor_xhi DECIMAL(10, 4) NULL,
     -- PVOL (Platform Volatility)
-    em_pvol_vlo DECIMAL(10, 4) NULL, em_pvol_lo DECIMAL(10, 4) NULL, em_pvol_nom DECIMAL(10, 4) NULL, em_pvol_hi DECIMAL(10, 4) NULL, em_pvol_vhi DECIMAL(10, 4) NULL, em_pvol_xhi DECIMAL(10, 4) NULL,
+    em_pvol_xlo DECIMAL(10, 4) NULL, em_pvol_vlo DECIMAL(10, 4) NULL, em_pvol_lo DECIMAL(10, 4) NULL, em_pvol_nom DECIMAL(10, 4) NULL, em_pvol_hi DECIMAL(10, 4) NULL, em_pvol_vhi DECIMAL(10, 4) NULL, em_pvol_xhi DECIMAL(10, 4) NULL,
     -- ACAP (Analyst Capability)
-    em_acap_vlo DECIMAL(10, 4) NULL, em_acap_lo DECIMAL(10, 4) NULL, em_acap_nom DECIMAL(10, 4) NULL, em_acap_hi DECIMAL(10, 4) NULL, em_acap_vhi DECIMAL(10, 4) NULL, em_acap_xhi DECIMAL(10, 4) NULL,
+    em_acap_xlo DECIMAL(10, 4) NULL, em_acap_vlo DECIMAL(10, 4) NULL, em_acap_lo DECIMAL(10, 4) NULL, em_acap_nom DECIMAL(10, 4) NULL, em_acap_hi DECIMAL(10, 4) NULL, em_acap_vhi DECIMAL(10, 4) NULL, em_acap_xhi DECIMAL(10, 4) NULL,
     -- PCAP (Programmer Capability)
-    em_pcap_vlo DECIMAL(10, 4) NULL, em_pcap_lo DECIMAL(10, 4) NULL, em_pcap_nom DECIMAL(10, 4) NULL, em_pcap_hi DECIMAL(10, 4) NULL, em_pcap_vhi DECIMAL(10, 4) NULL, em_pcap_xhi DECIMAL(10, 4) NULL,
+    em_pcap_xlo DECIMAL(10, 4) NULL, em_pcap_vlo DECIMAL(10, 4) NULL, em_pcap_lo DECIMAL(10, 4) NULL, em_pcap_nom DECIMAL(10, 4) NULL, em_pcap_hi DECIMAL(10, 4) NULL, em_pcap_vhi DECIMAL(10, 4) NULL, em_pcap_xhi DECIMAL(10, 4) NULL,
     -- PCON (Personnel Continuity)
-    em_pcon_vlo DECIMAL(10, 4) NULL, em_pcon_lo DECIMAL(10, 4) NULL, em_pcon_nom DECIMAL(10, 4) NULL, em_pcon_hi DECIMAL(10, 4) NULL, em_pcon_vhi DECIMAL(10, 4) NULL, em_pcon_xhi DECIMAL(10, 4) NULL,
+    em_pcon_xlo DECIMAL(10, 4) NULL, em_pcon_vlo DECIMAL(10, 4) NULL, em_pcon_lo DECIMAL(10, 4) NULL, em_pcon_nom DECIMAL(10, 4) NULL, em_pcon_hi DECIMAL(10, 4) NULL, em_pcon_vhi DECIMAL(10, 4) NULL, em_pcon_xhi DECIMAL(10, 4) NULL,
     -- APEX (Applications Experience)
-    em_apex_vlo DECIMAL(10, 4) NULL, em_apex_lo DECIMAL(10, 4) NULL, em_apex_nom DECIMAL(10, 4) NULL, em_apex_hi DECIMAL(10, 4) NULL, em_apex_vhi DECIMAL(10, 4) NULL, em_apex_xhi DECIMAL(10, 4) NULL,
+    em_apex_xlo DECIMAL(10, 4) NULL, em_apex_vlo DECIMAL(10, 4) NULL, em_apex_lo DECIMAL(10, 4) NULL, em_apex_nom DECIMAL(10, 4) NULL, em_apex_hi DECIMAL(10, 4) NULL, em_apex_vhi DECIMAL(10, 4) NULL, em_apex_xhi DECIMAL(10, 4) NULL,
     -- PLEX (Platform Experience)
-    em_plex_vlo DECIMAL(10, 4) NULL, em_plex_lo DECIMAL(10, 4) NULL, em_plex_nom DECIMAL(10, 4) NULL, em_plex_hi DECIMAL(10, 4) NULL, em_plex_vhi DECIMAL(10, 4) NULL, em_plex_xhi DECIMAL(10, 4) NULL,
+    em_plex_xlo DECIMAL(10, 4) NULL, em_plex_vlo DECIMAL(10, 4) NULL, em_plex_lo DECIMAL(10, 4) NULL, em_plex_nom DECIMAL(10, 4) NULL, em_plex_hi DECIMAL(10, 4) NULL, em_plex_vhi DECIMAL(10, 4) NULL, em_plex_xhi DECIMAL(10, 4) NULL,
     -- LTEX (Language and Tool Experience)
-    em_ltex_vlo DECIMAL(10, 4) NULL, em_ltex_lo DECIMAL(10, 4) NULL, em_ltex_nom DECIMAL(10, 4) NULL, em_ltex_hi DECIMAL(10, 4) NULL, em_ltex_vhi DECIMAL(10, 4) NULL, em_ltex_xhi DECIMAL(10, 4) NULL,
+    em_ltex_xlo DECIMAL(10, 4) NULL, em_ltex_vlo DECIMAL(10, 4) NULL, em_ltex_lo DECIMAL(10, 4) NULL, em_ltex_nom DECIMAL(10, 4) NULL, em_ltex_hi DECIMAL(10, 4) NULL, em_ltex_vhi DECIMAL(10, 4) NULL, em_ltex_xhi DECIMAL(10, 4) NULL,
     -- TOOL (Use of Software Tools)
-    em_tool_vlo DECIMAL(10, 4) NULL, em_tool_lo DECIMAL(10, 4) NULL, em_tool_nom DECIMAL(10, 4) NULL, em_tool_hi DECIMAL(10, 4) NULL, em_tool_vhi DECIMAL(10, 4) NULL, em_tool_xhi DECIMAL(10, 4) NULL,
+    em_tool_xlo DECIMAL(10, 4) NULL, em_tool_vlo DECIMAL(10, 4) NULL, em_tool_lo DECIMAL(10, 4) NULL, em_tool_nom DECIMAL(10, 4) NULL, em_tool_hi DECIMAL(10, 4) NULL, em_tool_vhi DECIMAL(10, 4) NULL, em_tool_xhi DECIMAL(10, 4) NULL,
     -- SITE (Multisite Development)
-    em_site_vlo DECIMAL(10, 4) NULL, em_site_lo DECIMAL(10, 4) NULL, em_site_nom DECIMAL(10, 4) NULL, em_site_hi DECIMAL(10, 4) NULL, em_site_vhi DECIMAL(10, 4) NULL, em_site_xhi DECIMAL(10, 4) NULL,
+    em_site_xlo DECIMAL(10, 4) NULL, em_site_vlo DECIMAL(10, 4) NULL, em_site_lo DECIMAL(10, 4) NULL, em_site_nom DECIMAL(10, 4) NULL, em_site_hi DECIMAL(10, 4) NULL, em_site_vhi DECIMAL(10, 4) NULL, em_site_xhi DECIMAL(10, 4) NULL,
     -- SCED (Schedule Pressure)
-    em_sced_vlo DECIMAL(10, 4) NULL, em_sced_lo DECIMAL(10, 4) NULL, em_sced_nom DECIMAL(10, 4) NULL, em_sced_hi DECIMAL(10, 4) NULL, em_sced_vhi DECIMAL(10, 4) NULL, em_sced_xhi DECIMAL(10, 4) NULL,
+    em_sced_xlo DECIMAL(10, 4) NULL, em_sced_vlo DECIMAL(10, 4) NULL, em_sced_lo DECIMAL(10, 4) NULL, em_sced_nom DECIMAL(10, 4) NULL, em_sced_hi DECIMAL(10, 4) NULL, em_sced_vhi DECIMAL(10, 4) NULL, em_sced_xhi DECIMAL(10, 4) NULL,
 
     FOREIGN KEY (UserId) REFERENCES Users(Id) -- Modificado
 );
@@ -194,39 +194,39 @@ INSERT INTO ParameterSetCocomoIIStage3 (
 
     -- Multiplicadores de Esfuerzo (EM) - Valores para COCOMO II Stage 3
     -- RELY (Required Reliability)
-    em_rely_vlo, em_rely_lo, em_rely_nom, em_rely_hi, em_rely_vhi, em_rely_xhi,
+    em_rely_xlo, em_rely_vlo, em_rely_lo, em_rely_nom, em_rely_hi, em_rely_vhi, em_rely_xhi,
     -- DATA (Database Size)
-    em_data_vlo, em_data_lo, em_data_nom, em_data_hi, em_data_vhi, em_data_xhi,
+    em_data_xlo, em_data_vlo, em_data_lo, em_data_nom, em_data_hi, em_data_vhi, em_data_xhi,
     -- CPLX (Product Complexity)
-    em_cplx_vlo, em_cplx_lo, em_cplx_nom, em_cplx_hi, em_cplx_vhi, em_cplx_xhi,
+    em_cplx_xlo, em_cplx_vlo, em_cplx_lo, em_cplx_nom, em_cplx_hi, em_cplx_vhi, em_cplx_xhi,
     -- RUSE (Required Reusability)
-    em_ruse_vlo, em_ruse_lo, em_ruse_nom, em_ruse_hi, em_ruse_vhi, em_ruse_xhi,
+    em_ruse_xlo, em_ruse_vlo, em_ruse_lo, em_ruse_nom, em_ruse_hi, em_ruse_vhi, em_ruse_xhi,
     -- DOCU (Documentation Match to Life-Cycle Needs)
-    em_docu_vlo, em_docu_lo, em_docu_nom, em_docu_hi, em_docu_vhi, em_docu_xhi,
+    em_docu_xlo, em_docu_vlo, em_docu_lo, em_docu_nom, em_docu_hi, em_docu_vhi, em_docu_xhi,
     -- TIME (Execution Time Constraint)
-    em_time_vlo, em_time_lo, em_time_nom, em_time_hi, em_time_vhi, em_time_xhi,
+    em_time_xlo, em_time_vlo, em_time_lo, em_time_nom, em_time_hi, em_time_vhi, em_time_xhi,
     -- STOR (Main Memory Constraint)
-    em_stor_vlo, em_stor_lo, em_stor_nom, em_stor_hi, em_stor_vhi, em_stor_xhi,
+    em_stor_xlo, em_stor_vlo, em_stor_lo, em_stor_nom, em_stor_hi, em_stor_vhi, em_stor_xhi,
     -- PVOL (Platform Volatility)
-    em_pvol_vlo, em_pvol_lo, em_pvol_nom, em_pvol_hi, em_pvol_vhi, em_pvol_xhi,
+    em_pvol_xlo, em_pvol_vlo, em_pvol_lo, em_pvol_nom, em_pvol_hi, em_pvol_vhi, em_pvol_xhi,
     -- ACAP (Analyst Capability)
-    em_acap_vlo, em_acap_lo, em_acap_nom, em_acap_hi, em_acap_vhi, em_acap_xhi,
+    em_acap_xlo, em_acap_vlo, em_acap_lo, em_acap_nom, em_acap_hi, em_acap_vhi, em_acap_xhi,
     -- PCAP (Programmer Capability)
-    em_pcap_vlo, em_pcap_lo, em_pcap_nom, em_pcap_hi, em_pcap_vhi, em_pcap_xhi,
+    em_pcap_xlo, em_pcap_vlo, em_pcap_lo, em_pcap_nom, em_pcap_hi, em_pcap_vhi, em_pcap_xhi,
     -- PCON (Personnel Continuity)
-    em_pcon_vlo, em_pcon_lo, em_pcon_nom, em_pcon_hi, em_pcon_vhi, em_pcon_xhi,
+    em_pcon_xlo, em_pcon_vlo, em_pcon_lo, em_pcon_nom, em_pcon_hi, em_pcon_vhi, em_pcon_xhi,
     -- APEX (Applications Experience)
-    em_apex_vlo, em_apex_lo, em_apex_nom, em_apex_hi, em_apex_vhi, em_apex_xhi,
+    em_apex_xlo, em_apex_vlo, em_apex_lo, em_apex_nom, em_apex_hi, em_apex_vhi, em_apex_xhi,
     -- PLEX (Platform Experience)
-    em_plex_vlo, em_plex_lo, em_plex_nom, em_plex_hi, em_plex_vhi, em_plex_xhi,
+    em_plex_xlo, em_plex_vlo, em_plex_lo, em_plex_nom, em_plex_hi, em_plex_vhi, em_plex_xhi,
     -- LTEX (Language and Tool Experience)
-    em_ltex_vlo, em_ltex_lo, em_ltex_nom, em_ltex_hi, em_ltex_vhi, em_ltex_xhi,
+    em_ltex_xlo, em_ltex_vlo, em_ltex_lo, em_ltex_nom, em_ltex_hi, em_ltex_vhi, em_ltex_xhi,
     -- TOOL (Use of Software Tools)
-    em_tool_vlo, em_tool_lo, em_tool_nom, em_tool_hi, em_tool_vhi, em_tool_xhi,
+    em_tool_xlo, em_tool_vlo, em_tool_lo, em_tool_nom, em_tool_hi, em_tool_vhi, em_tool_xhi,
     -- SITE (Multisite Development)
-    em_site_vlo, em_site_lo, em_site_nom, em_site_hi, em_site_vhi, em_site_xhi,
+    em_site_xlo, em_site_vlo, em_site_lo, em_site_nom, em_site_hi, em_site_vhi, em_site_xhi,
     -- SCED (Schedule Pressure)
-    em_sced_vlo, em_sced_lo, em_sced_nom, em_sced_hi, em_sced_vhi, em_sced_xhi
+    em_sced_xlo, em_sced_vlo, em_sced_lo, em_sced_nom, em_sced_hi, em_sced_vhi, em_sced_xhi
 ) VALUES (
     NULL, 'Default COCOMO II Stage 3', TRUE,
     2.94, 0.91, 3.67, 0.28, -- Constantes A, B, C, D del ejemplo
@@ -243,39 +243,39 @@ INSERT INTO ParameterSetCocomoIIStage3 (
     1.30, 1.10, 1.00, 0.87, 0.73, 0.62,
 
     -- EM: RELY
-    0.82, 0.92, 1.00, 1.10, 1.26, NULL,
+    NULL, 0.82, 0.92, 1.00, 1.10, 1.26, NULL,
     -- EM: DATA
-    NULL, 0.90, 1.00, 1.14, 1.28, NULL,
+    NULL, NULL, 0.90, 1.00, 1.14, 1.28, NULL,
     -- EM: CPLX
-    0.73, 0.87, 1.00, 1.17, 1.34, 1.74,
+    NULL, 0.73, 0.87, 1.00, 1.17, 1.34, 1.74,
     -- EM: RUSE
-    NULL, 0.95, 1.00, 1.07, 1.15, 1.24,
+    NULL, NULL, 0.95, 1.00, 1.07, 1.15, 1.24,
     -- EM: DOCU
-    0.81, 0.91, 1.00, 1.11, 1.23, NULL,
+    NULL, 0.81, 0.91, 1.00, 1.11, 1.23, NULL,
     -- EM: TIME
-    NULL, NULL, 1.00, 1.11, 1.29, 1.63,
+    NULL, NULL, NULL, 1.00, 1.11, 1.29, 1.63,
     -- EM: STOR
-    NULL, NULL, 1.00, 1.05, 1.17, 1.46,
+    NULL, NULL, NULL, 1.00, 1.05, 1.17, 1.46,
     -- EM: PVOL
-    NULL, 0.87, 1.00, 1.15, 1.30, NULL,
+    NULL, NULL, 0.87, 1.00, 1.15, 1.30, NULL,
     -- EM: ACAP
-    1.42, 1.19, 1.00, 0.85, 0.71, NULL,
+    NULL, 1.42, 1.19, 1.00, 0.85, 0.71, NULL,
     -- EM: PCAP
-    1.34, 1.15, 1.00, 0.88, 0.76, NULL,
+    NULL, 1.34, 1.15, 1.00, 0.88, 0.76, NULL,
     -- EM: PCON
-    1.29, 1.12, 1.00, 0.90, 0.81, NULL,
+    NULL, 1.29, 1.12, 1.00, 0.90, 0.81, NULL,
     -- EM: APEX
-    1.22, 1.10, 1.00, 0.88, 0.81, NULL,
+    NULL, 1.22, 1.10, 1.00, 0.88, 0.81, NULL,
     -- EM: PLEX
-    1.19, 1.09, 1.00, 0.91, 0.85, NULL,
+    NULL, 1.19, 1.09, 1.00, 0.91, 0.85, NULL,
     -- EM: LTEX
-    1.20, 1.09, 1.00, 0.91, 0.84, NULL,
+    NULL, 1.20, 1.09, 1.00, 0.91, 0.84, NULL,
     -- EM: TOOL
-    1.17, 1.09, 1.00, 0.90, 0.78, NULL,
+    NULL, 1.17, 1.09, 1.00, 0.90, 0.78, NULL,
     -- EM: SITE
-    1.22, 1.09, 1.00, 0.93, 0.86, 0.80,
+    NULL, 1.22, 1.09, 1.00, 0.93, 0.86, 0.80,
     -- EM: SCED
-    1.43, 1.14, 1.00, 1.00, 1.00, NULL
+    NULL, 1.43, 1.14, 1.00, 1.00, 1.00, NULL
 );
 
 -- 2. Datos iniciales para Lenguajes (ejemplo)
