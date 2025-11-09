@@ -56,14 +56,14 @@ This plan outlines the steps to replicate the existing COCOMO2 frontend for the 
 - [x] Update component selectors and references to use `cocomo-ii-stage3` naming
 
 ### Phase 2: Create COCOMO II Stage 3 Services
-- [ ] Create `core/services/cocomo-ii-stage3/` directory
-- [ ] Copy all services from `cocomo2/` services
-- [ ] Update API endpoints to use COCOMO II Stage 3 routes:
-  - [ ] `estimation.service.ts`: Change routes to include `/CocomoIIStage3/`
-  - [ ] `estimation-function.service.ts`: Change routes to include `/CocomoIIStage3/`
-  - [ ] `language.service.ts`: Change routes to include `/CocomoIIStage3/`
-  - [ ] `parameter-set.service.ts`: Change routes to include `/CocomoIIStage3/`
-  - [ ] `project.service.ts`: Keep same (projects are shared)
+- [x] Create `core/services/cocomo-ii-stage3/` directory
+- [x] Copy all services from `cocomo2/` services
+- [x] Update API endpoints to use COCOMO II Stage 3 routes:
+  - [x] `estimation.service.ts`: Change routes to include `/CocomoIIStage3/`
+  - [x] `estimation-function.service.ts`: Change routes to include `/CocomoIIStage3/`
+  - [x] `language.service.ts`: Change routes to include `/CocomoIIStage3/`
+  - [x] `parameter-set.service.ts`: Change routes to include `/CocomoIIStage3/`
+  - [x] `project.service.ts`: Change routes to include `/CocomoIIStage3/`
 
 ### Phase 3: Create COCOMO II Stage 3 Models
 - [ ] Create `core/models/cocomo-ii-stage3/cocomo.models.ts`
