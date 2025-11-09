@@ -1,29 +1,31 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { RegisterRequest } from '../../../core/models/auth.models';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   template: `
     <div class="register-container">
+      <div class="back-button">
+        <a routerLink="/home" class="btn btn-secondary">← Regreso</a>
+      </div>
       <div class="register-card">
-        <h2>Create Account</h2>
-        <p class="subtitle">Join COCOMO II for project estimation</p>
+        <h2>Crear Cuenta</h2>
+        <p class="subtitle">Únete a la herramienta de estimación de proyectos</p>
 
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
-          <!-- First Name Field -->
           <div class="form-group">
-            <label for="firstName">First Name</label>
+            <label for="firstName">Nombre</label>
             <input
               type="text"
               id="firstName"
               formControlName="firstName"
-              placeholder="Enter your first name"
+              placeholder="Ingresa tu nombre"
               class="form-control"
               [class.error]="isFieldInvalid('firstName')"
             />
@@ -32,14 +34,13 @@ import { RegisterRequest } from '../../../core/models/auth.models';
             </div>
           </div>
 
-          <!-- Last Name Field -->
           <div class="form-group">
-            <label for="lastName">Last Name</label>
+            <label for="lastName">Apellido</label>
             <input
               type="text"
               id="lastName"
               formControlName="lastName"
-              placeholder="Enter your last name"
+              placeholder="Ingresa tu apellido"
               class="form-control"
               [class.error]="isFieldInvalid('lastName')"
             />
@@ -48,14 +49,13 @@ import { RegisterRequest } from '../../../core/models/auth.models';
             </div>
           </div>
 
-          <!-- Email Field -->
           <div class="form-group">
-            <label for="email">Email</label>
+            <label for="email">Correo</label>
             <input
               type="email"
               id="email"
               formControlName="email"
-              placeholder="Enter your email"
+              placeholder="Ingresa tu correo"
               class="form-control"
               [class.error]="isFieldInvalid('email')"
             />
@@ -64,14 +64,13 @@ import { RegisterRequest } from '../../../core/models/auth.models';
             </div>
           </div>
 
-          <!-- Password Field -->
           <div class="form-group">
-            <label for="password">Password</label>
+            <label for="password">Contraseña</label>
             <input
               type="password"
               id="password"
               formControlName="password"
-              placeholder="Create a password (min 6 characters)"
+              placeholder="Crea una contraseña (mín 6 caracteres)"
               class="form-control"
               [class.error]="isFieldInvalid('password')"
             />
@@ -80,14 +79,13 @@ import { RegisterRequest } from '../../../core/models/auth.models';
             </div>
           </div>
 
-          <!-- Confirm Password Field -->
           <div class="form-group">
-            <label for="confirmPassword">Confirm Password</label>
+            <label for="confirmPassword">Confirmar Contraseña</label>
             <input
               type="password"
               id="confirmPassword"
               formControlName="confirmPassword"
-              placeholder="Confirm your password"
+              placeholder="Confirma tu contraseña"
               class="form-control"
               [class.error]="isFieldInvalid('confirmPassword')"
             />
@@ -96,26 +94,23 @@ import { RegisterRequest } from '../../../core/models/auth.models';
             </div>
           </div>
 
-          <!-- Submit Button -->
           <button
             type="submit"
             class="btn btn-primary"
             [disabled]="registerForm.invalid || isLoading"
           >
-            <span *ngIf="isLoading">Creating Account...</span>
-            <span *ngIf="!isLoading">Create Account</span>
+            <span *ngIf="isLoading">Creando cuenta...</span>
+            <span *ngIf="!isLoading">Crear Cuenta</span>
           </button>
         </form>
 
-        <!-- Error Message -->
         <div class="alert alert-error" *ngIf="errorMessage">
           {{ errorMessage }}
         </div>
 
-        <!-- Login Link -->
         <div class="auth-links">
-          <p>Already have an account?
-            <a routerLink="/login" class="link">Login here</a>
+          <p>¿Ya tienes cuenta?
+            <a routerLink="../login" class="link">Iniciar Sesión</a>
           </p>
         </div>
       </div>
@@ -123,21 +118,29 @@ import { RegisterRequest } from '../../../core/models/auth.models';
   `,
   styles: [`
     .register-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
       min-height: 100vh;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      /* very light blue background */
+      background: #f0f7ff;
       padding: 1rem;
+      position: relative;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      z-index: 10;
     }
 
     .register-card {
       background: white;
       border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
       padding: 2rem;
       width: 100%;
       max-width: 400px;
+      margin: 4rem auto 0;
+      border: 1px solid #e1e5e9;
     }
 
     h2 {
@@ -181,7 +184,7 @@ import { RegisterRequest } from '../../../core/models/auth.models';
 
     .form-control:focus {
       outline: none;
-      border-color: #667eea;
+      border-color: #2563eb;
     }
 
     .form-control.error {
@@ -202,16 +205,29 @@ import { RegisterRequest } from '../../../core/models/auth.models';
       font-weight: 500;
       cursor: pointer;
       transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
     }
 
     .btn-primary {
-      background: #667eea;
+      background: #2563eb;
       color: white;
     }
 
     .btn-primary:hover:not(:disabled) {
-      background: #5a6fd8;
+      background: #1d4ed8;
       transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #2563eb;
+      border: 2px solid #2563eb;
+    }
+
+    .btn-secondary:hover {
+      background: #2563eb;
+      color: white;
     }
 
     .btn:disabled {
@@ -240,7 +256,7 @@ import { RegisterRequest } from '../../../core/models/auth.models';
     }
 
     .link {
-      color: #667eea;
+      color: #2563eb;
       text-decoration: none;
       font-weight: 500;
     }
@@ -325,20 +341,21 @@ export class RegisterComponent {
   getFieldError(fieldName: string): string {
     const field = this.registerForm.get(fieldName);
     if (field && field.errors && field.touched) {
+      const display = this.getFieldDisplayName(fieldName);
       if (field.errors['required']) {
-        return `${this.getFieldDisplayName(fieldName)} is required`;
+        return `${display} es obligatorio`;
       }
       if (field.errors['email']) {
-        return 'Please enter a valid email address';
+        return 'Por favor ingresa un correo válido';
       }
       if (field.errors['minlength']) {
-        return `${this.getFieldDisplayName(fieldName)} must be at least ${field.errors['minlength'].requiredLength} characters`;
+        return `${display} debe tener al menos ${field.errors['minlength'].requiredLength} caracteres`;
       }
       if (field.errors['maxlength']) {
-        return `${this.getFieldDisplayName(fieldName)} cannot exceed ${field.errors['maxlength'].requiredLength} characters`;
+        return `${display} no puede exceder ${field.errors['maxlength'].requiredLength} caracteres`;
       }
       if (field.errors['mismatch']) {
-        return 'Passwords do not match';
+        return 'Las contraseñas no coinciden';
       }
     }
     return '';
@@ -346,11 +363,11 @@ export class RegisterComponent {
 
   private getFieldDisplayName(fieldName: string): string {
     const names: { [key: string]: string } = {
-      firstName: 'First name',
-      lastName: 'Last name',
-      email: 'Email',
-      password: 'Password',
-      confirmPassword: 'Confirm password'
+      firstName: 'Nombre',
+      lastName: 'Apellido',
+      email: 'Correo',
+      password: 'Contraseña',
+      confirmPassword: 'Confirmar contraseña'
     };
     return names[fieldName] || fieldName;
   }

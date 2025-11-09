@@ -24,7 +24,6 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
         <!-- Main Action -->
         <div class="main-action">
           <div class="action-card primary">
-            <div class="card-icon">🔬</div>
             <h2>COCOMO II</h2>
             <p>Accede a todas las herramientas de estimación y gestión de proyectos</p>
             <button class="btn btn-primary" (click)="goToCocomoII()">Comenzar</button>
@@ -37,7 +36,7 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
   styles: [`
     /* Welcome Header */
     .welcome-header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
       color: white;
       padding: 3rem 2rem;
       text-align: center;
@@ -58,7 +57,7 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
 
     /* Dashboard Container */
     .dashboard-container {
-      background: #f8f9fa;
+      background: #f0f7ff;
       min-height: calc(100vh - 200px);
       padding: 3rem 0;
     }
@@ -78,17 +77,18 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
 
     .action-card {
       background: white;
-      padding: 3rem;
-      border-radius: 16px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
       text-align: center;
-      max-width: 500px;
+      max-width: 400px;
       width: 100%;
       transition: all 0.3s ease;
+      border: 1px solid #e1e5e9;
     }
 
     .action-card.primary {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
       color: white;
       position: relative;
       overflow: hidden;
@@ -107,7 +107,7 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
 
     .action-card.primary:hover {
       transform: translateY(-4px);
-      box-shadow: 0 16px 48px rgba(102, 126, 234, 0.3);
+      box-shadow: 0 16px 48px rgba(37, 99, 235, 0.3);
     }
 
     .card-icon {
@@ -139,9 +139,10 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
       background: white;
       padding: 2.5rem;
       border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
       max-width: 600px;
       width: 100%;
+      border: 1px solid #e1e5e9;
     }
 
     .info-card h3 {
@@ -158,13 +159,12 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
       font-size: 1rem;
     }
 
-    /* Buttons */
     .btn {
-      padding: 1rem 2.5rem;
+      padding: 0.75rem 1.5rem;
       border: none;
       border-radius: 8px;
-      font-size: 1.1rem;
-      font-weight: 600;
+      font-size: 1rem;
+      font-weight: 500;
       cursor: pointer;
       transition: all 0.3s ease;
       text-decoration: none;
@@ -178,12 +178,27 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
       color: white;
       border: 2px solid rgba(255, 255, 255, 0.3);
       backdrop-filter: blur(10px);
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 500;
     }
 
     .btn-primary:hover {
       background: rgba(255, 255, 255, 0.3);
-      transform: translateY(-2px);
+      transform: translateY(-1px);
       box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #2563eb;
+      border: 2px solid #2563eb;
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
     }
 
     /* Responsive Design */

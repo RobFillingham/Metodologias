@@ -11,31 +11,20 @@ import { AuthService } from '../../../core/services/auth.service';
     <nav class="navbar">
       <div class="nav-container">
         <div class="nav-brand">
-          <a routerLink="/home" class="brand-link">
-            <span class="brand-text">COCOMO II</span>
-          </a>
-        </div>
-
-        <div class="nav-menu">
-          <a routerLink="/home" class="nav-link">Home</a>
-
-          <!-- Show these links only when authenticated -->
-          <ng-container *ngIf="authService.isAuthenticated">
-            <a routerLink="/dashboard" class="nav-link">Dashboard</a>
-          </ng-container>
+          <span class="brand-text">Herramienta de Estimación</span>
         </div>
 
         <div class="nav-actions">
           <ng-container *ngIf="!authService.isAuthenticated">
-            <a routerLink="/auth/login" class="btn btn-outline">Login</a>
-            <a routerLink="/auth/register" class="btn btn-primary">Register</a>
+            <a routerLink="/auth/login" class="btn btn-outline">Iniciar Sesión</a>
+            <a routerLink="/auth/register" class="btn btn-primary">Registrarse</a>
           </ng-container>
 
           <ng-container *ngIf="authService.isAuthenticated">
             <span class="user-greeting">
-              Hello, {{ authService.currentUserValue?.firstName }}
+              Hola, {{ authService.currentUserValue?.firstName }}
             </span>
-            <button (click)="logout()" class="btn btn-outline">Logout</button>
+            <button (click)="logout()" class="btn btn-outline">Cerrar Sesión</button>
           </ng-container>
         </div>
       </div>
@@ -61,33 +50,14 @@ import { AuthService } from '../../../core/services/auth.service';
       height: 60px;
     }
 
-    .nav-brand .brand-link {
-      text-decoration: none;
-      color: #667eea;
+    .nav-brand {
+      text-align: left;
+    }
+
+    .brand-text {
+      color: #2563eb;
       font-weight: bold;
       font-size: 1.25rem;
-    }
-
-    .nav-menu {
-      display: flex;
-      gap: 2rem;
-      align-items: center;
-    }
-
-    .nav-link {
-      color: #666;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-
-    .nav-link:hover:not(:disabled) {
-      color: #667eea;
-    }
-
-    .nav-link:disabled {
-      color: #ccc;
-      cursor: not-allowed;
     }
 
     .nav-actions {
@@ -115,24 +85,24 @@ import { AuthService } from '../../../core/services/auth.service';
 
     .btn-outline {
       background: transparent;
-      color: #667eea;
-      border-color: #667eea;
+      color: #2563eb;
+      border-color: #2563eb;
     }
 
     .btn-outline:hover {
-      background: #667eea;
+      background: #2563eb;
       color: white;
     }
 
     .btn-primary {
-      background: #667eea;
+      background: #2563eb;
       color: white;
-      border-color: #667eea;
+      border-color: #2563eb;
     }
 
     .btn-primary:hover {
-      background: #5a6fd8;
-      border-color: #5a6fd8;
+      background: #1d4ed8;
+      border-color: #1d4ed8;
     }
 
     @media (max-width: 768px) {
@@ -142,9 +112,9 @@ import { AuthService } from '../../../core/services/auth.service';
         padding: 1rem;
       }
 
-      .nav-menu {
-        margin: 1rem 0;
-        gap: 1rem;
+      .nav-brand {
+        text-align: center;
+        margin-bottom: 1rem;
       }
 
       .nav-actions {
