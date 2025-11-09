@@ -1,0 +1,129 @@
+<div class="parameter-editor-container">
+  <!-- Header with Edit/Cancel Button -->
+  <div class="parameter-header">
+    <h4>
+      <i class="bi bi-sliders"></i>
+      Parámetros de Calificación
+    </h4>
+    <button 
+      *ngIf="!isEditing()" 
+      class="btn btn-sm btn-primary" 
+      (click)="toggleEdit()">
+      <i class="bi bi-pencil"></i>
+      Editar Calificaciones
+    </button>
+    <button 
+      *ngIf="isEditing()" 
+      class="btn btn-sm btn-secondary" 
+      (click)="toggleEdit()"
+      [disabled]="isSaving()">
+      <i class="bi bi-x-lg"></i>
+      Cancelar
+    </button>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage()" class="alert alert-danger" role="alert">
+    <i class="bi bi-exclamation-triangle-fill"></i>
+    {{ errorMessage() }}
+  </div>
+
+  <!-- Scale Factors Section -->
+  <div class="ratings-section">
+    <h5><i class="bi bi-graph-up"></i> Factores de Escala (SF)</h5>
+    <div class="ratings-grid">
+      <div *ngFor="let rating of sfRatings" class="rating-item">
+        <label class="rating-label">{{ rating.label }}</label>
+        
+        <!-- View Mode -->
+        <div *ngIf="!isEditing()" class="rating-value-display">
+          <span class="badge bg-info">{{ ratings[rating.field] || 'No establecido' }}</span>
+        </div>
+
+        <!-- Edit Mode -->
+        <select 
+          *ngIf="isEditing()"
+          class="form-select"
+          [(ngModel)]="ratings[rating.field]"
+          [disabled]="isSaving()">
+          <option value="" disabled>Seleccionar...</option>
+          <option *ngFor="let option of rating.options" [value]="option.value">
+            {{ option.value }} - {{ option.label }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Effort Multipliers Section -->
+  <div class="ratings-section">
+    <h5><i class="bi bi-speedometer2"></i> Multiplicadores de Esfuerzo (EM)</h5>
+    <div class="ratings-grid">
+      <div *ngFor="let rating of emRatings" class="rating-item">
+        <label class="rating-label">{{ rating.label }}</label>
+        
+        <!-- View Mode -->
+        <div *ngIf="!isEditing()" class="rating-value-display">
+          <span class="badge bg-success">{{ ratings[rating.field] || 'No establecido' }}</span>
+        </div>
+
+        <!-- Edit Mode -->
+        <select 
+          *ngIf="isEditing()"
+          class="form-select"
+          [(ngModel)]="ratings[rating.field]"
+          [disabled]="isSaving()">
+          <option value="" disabled>Seleccionar...</option>
+          <option *ngFor="let option of rating.options" [value]="option.value">
+            {{ option.value }} - {{ option.label }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary Info (Always Visible) -->
+  <div class="summary-info">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="info-card">
+          <div class="info-icon">
+            <i class="bi bi-calculator"></i>
+          </div>
+          <div class="info-content">
+            <label>Suma de SF</label>
+            <span class="value">{{ estimation.sumSf?.toFixed(2) || 'N/A' }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="info-card">
+          <div class="info-icon">
+            <i class="bi bi-gear-fill"></i>
+          </div>
+          <div class="info-content">
+            <label>Factor de Ajuste (EAF)</label>
+            <span class="value">{{ estimation.eaf?.toFixed(3) || 'N/A' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Save Button (Only in Edit Mode) -->
+  <div *ngIf="isEditing()" class="action-buttons">
+    <button 
+      class="btn btn-success btn-lg"
+      (click)="saveRatings()"
+      [disabled]="isSaving()">
+      <span *ngIf="!isSaving()">
+        <i class="bi bi-check-lg"></i>
+        Guardar Cambios
+      </span>
+      <span *ngIf="isSaving()">
+        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        Guardando...
+      </span>
+    </button>
+  </div>
+</div>

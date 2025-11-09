@@ -1,0 +1,176 @@
+# COCOMO II Stage 3 Frontend Replication Plan
+
+## Overview
+This plan outlines the steps to replicate the existing COCOMO2 frontend for the COCOMO II Stage 3 backend. Since both use the same estimation process (function points, ratings, calculations), the frontend will be nearly identical with only API endpoint changes.
+
+## Current COCOMO2 Frontend Structure
+- **Feature Module**: `features/cocomo2/`
+- **Services**: `core/services/cocomo2/` (connects to COCOMO3 backend)
+- **Models**: `core/models/cocomo2/cocomo.models.ts`
+- **Components**: Landing page, estimations, parameter sets, languages management
+
+## COCOMO II Stage 3 Backend API Differences
+**Route Changes:**
+- COCOMO3: `api/Projects/{projectId}/Estimations`
+- COCOMO II Stage 3: `api/Projects/{projectId}/CocomoIIStage3/Estimations`
+
+- COCOMO3: `api/Estimations/{estimationId}/Functions`
+- COCOMO II Stage 3: `api/Estimations/{estimationId}/CocomoIIStage3/Functions`
+
+- COCOMO3: `api/Languages`
+- COCOMO II Stage 3: `api/CocomoIIStage3/Languages`
+
+- COCOMO3: `api/ParameterSets`
+- COCOMO II Stage 3: `api/CocomoIIStage3/ParameterSets`
+
+# COCOMO II Stage 3 Frontend Replication Plan
+
+## Overview
+This plan outlines the steps to replicate the existing COCOMO2 frontend for the COCOMO II Stage 3 backend. Since both use the same estimation process (function points, ratings, calculations), the frontend will be nearly identical with only API endpoint changes.
+
+## Current COCOMO2 Frontend Structure
+- **Feature Module**: `features/cocomo2/`
+- **Services**: `core/services/cocomo2/` (connects to COCOMO3 backend)
+- **Models**: `core/models/cocomo2/cocomo.models.ts`
+- **Components**: Landing page, estimations, parameter sets, languages management
+
+## COCOMO II Stage 3 Backend API Differences
+**Route Changes:**
+- COCOMO3: `api/Projects/{projectId}/Estimations`
+- COCOMO II Stage 3: `api/Projects/{projectId}/CocomoIIStage3/Estimations`
+
+- COCOMO3: `api/Estimations/{estimationId}/Functions`
+- COCOMO II Stage 3: `api/Estimations/{estimationId}/CocomoIIStage3/Functions`
+
+- COCOMO3: `api/Languages`
+- COCOMO II Stage 3: `api/CocomoIIStage3/Languages`
+
+- COCOMO3: `api/ParameterSets`
+- COCOMO II Stage 3: `api/CocomoIIStage3/ParameterSets`
+
+## Implementation Plan
+
+### Phase 1: Create COCOMO II Stage 3 Feature Module Structure
+- [x] Create `features/cocomo-ii-stage3/` directory
+- [x] Copy all components from `cocomo2/` to `cocomo-ii-stage3/`
+- [x] Update component selectors and references to use `cocomo-ii-stage3` naming
+
+### Phase 2: Create COCOMO II Stage 3 Services
+- [ ] Create `core/services/cocomo-ii-stage3/` directory
+- [ ] Copy all services from `cocomo2/` services
+- [ ] Update API endpoints to use COCOMO II Stage 3 routes:
+  - [ ] `estimation.service.ts`: Change routes to include `/CocomoIIStage3/`
+  - [ ] `estimation-function.service.ts`: Change routes to include `/CocomoIIStage3/`
+  - [ ] `language.service.ts`: Change routes to include `/CocomoIIStage3/`
+  - [ ] `parameter-set.service.ts`: Change routes to include `/CocomoIIStage3/`
+  - [ ] `project.service.ts`: Keep same (projects are shared)
+
+### Phase 3: Create COCOMO II Stage 3 Models
+- [ ] Create `core/models/cocomo-ii-stage3/cocomo.models.ts`
+- [ ] Copy all models from `cocomo2/cocomo.models.ts`
+- [ ] Update any backend-specific differences if needed
+
+### Phase 4: Update Component Imports and References
+- [ ] Update all components to import from new services and models
+- [ ] Change service injection to use COCOMO II Stage 3 services
+- [ ] Update any hardcoded references to COCOMO2 to COCOMO II Stage 3
+
+### Phase 5: Update Routing
+- [ ] Create `features/cocomo-ii-stage3/cocomo-ii-stage3.routes.ts`
+- [ ] Copy routes from COCOMO2 and update paths
+- [ ] Add routes to main app routing
+
+### Phase 6: Update Navigation and Landing Pages
+- [ ] Update main navigation to include COCOMO II Stage 3 option
+- [ ] Create/update landing page for COCOMO II Stage 3
+- [ ] Update dashboard/home page to show both COCOMO2 and COCOMO II Stage 3 options
+
+### Phase 7: Shared Components Compatibility
+- [ ] Verify that shared components (function-point-entry, parameter-editor, etc.) work with both
+- [ ] Update any service dependencies in shared components to be injectable/configurable
+
+### Phase 8: Testing and Validation
+- [ ] Test all CRUD operations for estimations
+- [ ] Test parameter set management
+- [ ] Test language management
+- [ ] Test function point calculations
+- [ ] Test rating updates and recalculation
+- [ ] Verify navigation between COCOMO2 and COCOMO II Stage 3
+
+## File Structure to Create
+
+```
+features/cocomo-ii-stage3/
+├── cocomo-ii-stage3-landing/
+│   └── cocomo-ii-stage3-landing.component.ts
+├── components/
+│   └── parameter-editor/
+│       └── parameter-editor.component.ts (shared)
+├── estimations/
+│   ├── estimation-detail/
+│   ├── estimation-form/
+│   ├── estimation-list/
+│   └── estimations.routes.ts
+├── languages/
+│   ├── language-detail/
+│   ├── language-form/
+│   └── languages.component.ts
+├── parameter-sets/
+│   ├── parameter-set-detail/
+│   ├── parameter-set-form/
+│   └── parameter-sets.component.ts
+└── cocomo-ii-stage3.routes.ts
+
+core/services/cocomo-ii-stage3/
+├── estimation.service.ts
+├── estimation-function.service.ts
+├── language.service.ts
+├── parameter-set.service.ts
+└── index.ts
+
+core/models/cocomo-ii-stage3/
+└── cocomo.models.ts
+```
+
+## Key Implementation Notes
+
+### Service Changes Required
+- [ ] **EstimationService**: Update all API calls to include `/CocomoIIStage3/` in paths
+- [ ] **EstimationFunctionService**: Update all API calls to include `/CocomoIIStage3/` in paths
+- [ ] **LanguageService**: Update base path to `/CocomoIIStage3/Languages`
+- [ ] **ParameterSetService**: Update base path to `/CocomoIIStage3/ParameterSets`
+
+### Component Changes Required
+- [ ] Update service imports to use `cocomo-ii-stage3` services
+- [ ] Update model imports to use `cocomo-ii-stage3` models
+- [ ] Update any UI text from "COCOMO II" to "COCOMO II Stage 3"
+- [ ] Update navigation breadcrumbs and titles
+
+### Shared Components
+- [ ] `function-point-entry` component can be reused (already shared)
+- [ ] `parameter-editor` component can be reused (already shared)
+- [ ] `navbar` component may need updates for navigation
+
+### Routing Changes
+- [ ] Main app routes need to include COCOMO II Stage 3 feature routes
+- [ ] Update navigation links in templates
+
+## Benefits of This Approach
+- [ ] **Code Reuse**: 90%+ of code can be copied and modified
+- [ ] **Consistency**: Same user experience for both COCOMO variants
+- [ ] **Maintainability**: Changes to one can be easily applied to both
+- [ ] **Testing**: Existing test patterns can be reused
+
+## Potential Challenges
+- [ ] **Service Injection**: Ensure proper dependency injection for different services
+- [ ] **Model Compatibility**: Verify that COCOMO II Stage 3 models match COCOMO3 models
+- [ ] **Shared State**: Handle any shared state between COCOMO2 and COCOMO II Stage 3
+- [ ] **Navigation**: Ensure clear distinction in UI between the two variants
+
+## Success Criteria
+- [ ] All CRUD operations work for COCOMO II Stage 3 estimations
+- [ ] Function point calculations work correctly
+- [ ] Parameter sets and languages are manageable
+- [ ] Navigation between COCOMO2 and COCOMO II Stage 3 is clear
+- [ ] No breaking changes to existing COCOMO2 functionality</content>
+<parameter name="filePath">C:\Users\Rober\OneDrive - Universidad Autónoma de Aguascalientes\UAA\S9\Metodología de Desarrollo\Proyecto\Code\Metodologias\COCOMOIISTAGE3_FRONTEND_REPLICATION_PLAN.txt
