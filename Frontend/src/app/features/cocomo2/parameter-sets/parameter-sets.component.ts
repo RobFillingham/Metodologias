@@ -445,7 +445,7 @@ export class ParameterSetsComponent implements OnInit {
           } else if (err.error && typeof err.error === 'string') {
             alert('Failed to delete parameter set: ' + err.error);
           } else {
-            alert('Failed to delete parameter set. Please try again.');
+            alert('Failed to delete parameter set. Please try again. Cannot delete a parameter set in use.');
           }
           console.error('Error deleting parameter set:', err);
         }
