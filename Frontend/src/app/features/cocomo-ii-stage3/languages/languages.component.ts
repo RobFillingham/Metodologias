@@ -2,7 +2,7 @@ import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { LanguageService } from '../../../core/services/cocomo-ii-stage3/language.service';
-import { Language, ApiResponse } from '../../../core/models/cocomo-ii-stage3/cocomo.models';
+import { ApiResponse, Language } from '../../../core/models/cocomo-ii-stage3/cocomo-ii-stage3.models';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 
 @Component({
@@ -533,7 +533,7 @@ export class LanguagesComponent implements OnInit {
         this.loading.set(false);
         if (response.success && response.data) {
           // Sort languages by SLOC per UFP (ascending)
-          const sortedLanguages = response.data.sort((a, b) => a.slocPerUfp - b.slocPerUfp);
+          const sortedLanguages = response.data.sort((a: Language, b: Language) => a.slocPerUfp - b.slocPerUfp);
           this.languages.set(sortedLanguages);
         } else {
           this.error.set(response.errors?.[0] || 'Failed to load languages');

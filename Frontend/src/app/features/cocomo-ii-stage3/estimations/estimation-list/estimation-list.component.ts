@@ -6,7 +6,7 @@ import { EstimationFormComponent } from '../estimation-form/estimation-form.comp
 import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { EstimationService } from '../../../../core/services/cocomo-ii-stage3/estimation.service';
 import { ProjectService } from '../../../../core/services/cocomo-ii-stage3/project.service';
-import { Estimation, Project, ApiResponse } from '../../../../core/models/cocomo-ii-stage3/cocomo.models';
+import { Estimation, Project, ApiResponse } from '../../../../core/models/cocomo-ii-stage3/cocomo-ii-stage3.models';
 
 @Component({
   selector: 'app-estimation-list',

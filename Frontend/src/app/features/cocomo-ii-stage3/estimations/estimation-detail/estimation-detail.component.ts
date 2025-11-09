@@ -5,7 +5,7 @@ import { NavbarComponent } from '../../../../shared/components/navbar/navbar.com
 import { FunctionPointEntryComponent } from '../../../../shared/components/function-point-entry/function-point-entry.component';
 import { ParameterEditorComponent } from '../../components/parameter-editor/parameter-editor.component';
 import { EstimationService } from '../../../../core/services/cocomo-ii-stage3/estimation.service';
-import { Estimation, ApiResponse } from '../../../../core/models/cocomo-ii-stage3/cocomo.models';
+import { Estimation, ApiResponse } from '../../../../core/models/cocomo-ii-stage3/cocomo-ii-stage3.models';
 
 @Component({
   selector: 'app-estimation-detail',

@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { EstimationService } from '../../../../core/services/cocomo-ii-stage3/estimation.service';
 import { LanguageService } from '../../../../core/services/cocomo-ii-stage3/language.service';
 import { ParameterSetService } from '../../../../core/services/cocomo-ii-stage3/parameter-set.service';
-import { Language, ParameterSet, CreateEstimationRequest, ApiResponse } from '../../../../core/models/cocomo-ii-stage3/cocomo.models';
+import { Language, ParameterSet, CreateEstimationRequest, ApiResponse } from '../../../../core/models/cocomo-ii-stage3/cocomo-ii-stage3.models';
 
 type RatingValue = 'VLO' | 'LO' | 'NOM' | 'HI' | 'VHI' | 'XHI' | 'XLO';
 

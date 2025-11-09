@@ -2,7 +2,7 @@ import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ParameterSetService } from '../../../core/services/cocomo-ii-stage3/parameter-set.service';
-import { ParameterSet, ApiResponse } from '../../../core/models/cocomo-ii-stage3/cocomo.models';
+import { ApiResponse, ParameterSet } from '../../../core/models/cocomo-ii-stage3/cocomo-ii-stage3.models';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 
 @Component({

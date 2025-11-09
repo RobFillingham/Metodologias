@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from '../api.service';
-import { ApiResponse, EstimationFunction, CreateEstimationFunctionRequest, UpdateEstimationFunctionRequest, BatchCreateEstimationFunctionsRequest } from '../../models/cocomo-ii-stage3/cocomo.models';
+import { ApiResponse, EstimationFunction, CreateEstimationFunctionRequest, UpdateEstimationFunctionRequest, BatchCreateEstimationFunctionsRequest } from '../../models/cocomo-ii-stage3/cocomo-ii-stage3.models';
 
 /**
  * Service for estimation function-related operations

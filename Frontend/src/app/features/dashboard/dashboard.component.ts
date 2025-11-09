@@ -74,6 +74,14 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
               <p>Modelo de Composición de Aplicaciones</p>
               <button class="btn btn-outline" (click)="goToCocomo2Stage1()">Ir a COCOMO II Stage 1 →</button>
             </div>
+
+            <!-- COCOMO II Stage 3 Card -->
+            <div class="method-card">
+              <div class="method-icon">🔬</div>
+              <h3>COCOMO II Estadio 3</h3>
+              <p>Modelo de Estimación Temprana</p>
+              <button class="btn btn-outline" (click)="goToCocomoIIStage3()">Ir a COCOMO II Stage 3 →</button>
+            </div>
           </div>
         </div>
 
@@ -409,5 +417,9 @@ export class DashboardComponent {
 
   goToCocomo2Stage1() {
     this.router.navigate(['/cocomo2-stage1']);
+  }
+
+  goToCocomoIIStage3() {
+    this.router.navigate(['/cocomo-ii-stage3']);
   }
 }

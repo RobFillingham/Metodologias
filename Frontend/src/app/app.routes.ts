@@ -63,6 +63,28 @@ export const routes: Routes = [
     loadComponent: () => import('./features/use-case-point/use-case-point-estimations/use-case-point-estimations.component').then(m => m.UseCasePointEstimationsComponent)
   },
   {
+    path: 'cocomo-ii-stage3',
+    canActivate: [authGuard],
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./features/cocomo-ii-stage3/cocomo-ii-stage3-landing/cocomo-ii-stage3-landing.component').then(m => m.CocomoIIStage3LandingComponent)
+      },
+      {
+        path: 'parameter-sets',
+        loadChildren: () => import('./features/cocomo-ii-stage3/parameter-sets/parameter-sets.routes').then(m => m.PARAMETER_SETS_ROUTES)
+      },
+      {
+        path: 'languages',
+        loadChildren: () => import('./features/cocomo-ii-stage3/languages/languages.routes').then(m => m.LANGUAGES_ROUTES)
+      },
+      {
+        path: 'estimations/:projectId',
+        loadChildren: () => import('./features/cocomo-ii-stage3/estimations/estimations.routes').then(m => m.ESTIMATIONS_ROUTES)
+      }
+    ]
+  },
+  {
     path: 'cocomo2-stage1',
     canActivate: [authGuard],
     loadComponent: () => import('./features/cocomo2-stage1/cocomo2-stage1-estimations/cocomo2-stage1-estimations.component').then(m => m.Cocomo2Stage1EstimationsComponent)
