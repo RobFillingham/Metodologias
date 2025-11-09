@@ -1,8 +1,8 @@
 import { Component, Input, Output, EventEmitter, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Estimation, UpdateEstimationRatingsRequest } from '../../../../core/models/cocomo2/cocomo.models';
-import { EstimationService } from '../../../../core/services/cocomo2/estimation.service';
+import { Estimation, UpdateEstimationRatingsRequest } from '../../../../core/models/cocomo-ii-stage3/cocomo-ii-stage3.models';
+import { EstimationService } from '../../../../core/services/cocomo-ii-stage3/estimation.service';
 
 interface RatingDefinition {
   key: string;
@@ -101,53 +101,33 @@ export class ParameterEditorComponent implements OnInit {
   // Effort Multiplier definitions
   emRatings: RatingDefinition[] = [
     {
-      key: 'PERS',
-      label: 'Personnel Capability (PERS)',
-      field: 'selectedEmPers',
+      key: 'RELY',
+      label: 'Required Software Reliability (RELY)',
+      field: 'selectedEmRely',
       options: [
-        { value: 'XLO', label: 'Extra Bajo' },
         { value: 'VLO', label: 'Muy Bajo' },
         { value: 'LO', label: 'Bajo' },
         { value: 'NOM', label: 'Nominal' },
         { value: 'HI', label: 'Alto' },
-        { value: 'VHI', label: 'Muy Alto' },
-        { value: 'XHI', label: 'Extra Alto' }
+        { value: 'VHI', label: 'Muy Alto' }
       ]
     },
     {
-      key: 'RCPX',
-      label: 'Product Reliability and Complexity (RCPX)',
-      field: 'selectedEmRcpx',
+      key: 'DATA',
+      label: 'Data Base Size (DATA)',
+      field: 'selectedEmData',
       options: [
-        { value: 'XLO', label: 'Extra Bajo' },
-        { value: 'VLO', label: 'Muy Bajo' },
         { value: 'LO', label: 'Bajo' },
         { value: 'NOM', label: 'Nominal' },
         { value: 'HI', label: 'Alto' },
-        { value: 'VHI', label: 'Muy Alto' },
-        { value: 'XHI', label: 'Extra Alto' }
+        { value: 'VHI', label: 'Muy Alto' }
       ]
     },
     {
-      key: 'PDIF',
-      label: 'Platform Difficulty (PDIF)',
-      field: 'selectedEmPdif',
+      key: 'CPLX',
+      label: 'Product Complexity (CPLX)',
+      field: 'selectedEmCplx',
       options: [
-        { value: 'XLO', label: 'Extra Bajo' },
-        { value: 'VLO', label: 'Muy Bajo' },
-        { value: 'LO', label: 'Bajo' },
-        { value: 'NOM', label: 'Nominal' },
-        { value: 'HI', label: 'Alto' },
-        { value: 'VHI', label: 'Muy Alto' },
-        { value: 'XHI', label: 'Extra Alto' }
-      ]
-    },
-    {
-      key: 'PREX',
-      label: 'Personnel Experience (PREX)',
-      field: 'selectedEmPrex',
-      options: [
-        { value: 'XLO', label: 'Extra Bajo' },
         { value: 'VLO', label: 'Muy Bajo' },
         { value: 'LO', label: 'Bajo' },
         { value: 'NOM', label: 'Nominal' },
@@ -158,12 +138,32 @@ export class ParameterEditorComponent implements OnInit {
     },
     {
       key: 'RUSE',
-      label: 'Reusability (RUSE)',
+      label: 'Required Reusability (RUSE)',
       field: 'selectedEmRuse',
       options: [
-        { value: 'XLO', label: 'Extra Bajo' },
+        { value: 'LO', label: 'Bajo' },
+        { value: 'NOM', label: 'Nominal' },
+        { value: 'HI', label: 'Alto' },
+        { value: 'VHI', label: 'Muy Alto' }
+      ]
+    },
+    {
+      key: 'DOCU',
+      label: 'Documentation Match to Life-Cycle Needs (DOCU)',
+      field: 'selectedEmDocu',
+      options: [
         { value: 'VLO', label: 'Muy Bajo' },
         { value: 'LO', label: 'Bajo' },
+        { value: 'NOM', label: 'Nominal' },
+        { value: 'HI', label: 'Alto' },
+        { value: 'VHI', label: 'Muy Alto' }
+      ]
+    },
+    {
+      key: 'TIME',
+      label: 'Execution Time Constraint (TIME)',
+      field: 'selectedEmTime',
+      options: [
         { value: 'NOM', label: 'Nominal' },
         { value: 'HI', label: 'Alto' },
         { value: 'VHI', label: 'Muy Alto' },
@@ -171,11 +171,115 @@ export class ParameterEditorComponent implements OnInit {
       ]
     },
     {
-      key: 'FCIL',
-      label: 'Facilities (FCIL)',
-      field: 'selectedEmFcil',
+      key: 'STOR',
+      label: 'Main Storage Constraint (STOR)',
+      field: 'selectedEmStor',
       options: [
-        { value: 'XLO', label: 'Extra Bajo' },
+        { value: 'NOM', label: 'Nominal' },
+        { value: 'HI', label: 'Alto' },
+        { value: 'VHI', label: 'Muy Alto' },
+        { value: 'XHI', label: 'Extra Alto' }
+      ]
+    },
+    {
+      key: 'PVOL',
+      label: 'Platform Volatility (PVOL)',
+      field: 'selectedEmPvol',
+      options: [
+        { value: 'LO', label: 'Bajo' },
+        { value: 'NOM', label: 'Nominal' },
+        { value: 'HI', label: 'Alto' }
+      ]
+    },
+    {
+      key: 'ACAP',
+      label: 'Analyst Capability (ACAP)',
+      field: 'selectedEmAcap',
+      options: [
+        { value: 'VLO', label: 'Muy Bajo' },
+        { value: 'LO', label: 'Bajo' },
+        { value: 'NOM', label: 'Nominal' },
+        { value: 'HI', label: 'Alto' },
+        { value: 'VHI', label: 'Muy Alto' }
+      ]
+    },
+    {
+      key: 'PCAP',
+      label: 'Programmer Capability (PCAP)',
+      field: 'selectedEmPcap',
+      options: [
+        { value: 'VLO', label: 'Muy Bajo' },
+        { value: 'LO', label: 'Bajo' },
+        { value: 'NOM', label: 'Nominal' },
+        { value: 'HI', label: 'Alto' },
+        { value: 'VHI', label: 'Muy Alto' }
+      ]
+    },
+    {
+      key: 'PCON',
+      label: 'Personnel Continuity (PCON)',
+      field: 'selectedEmPcon',
+      options: [
+        { value: 'VLO', label: 'Muy Bajo' },
+        { value: 'LO', label: 'Bajo' },
+        { value: 'NOM', label: 'Nominal' },
+        { value: 'HI', label: 'Alto' },
+        { value: 'VHI', label: 'Muy Alto' }
+      ]
+    },
+    {
+      key: 'APEX',
+      label: 'Applications Experience (APEX)',
+      field: 'selectedEmApex',
+      options: [
+        { value: 'VLO', label: 'Muy Bajo' },
+        { value: 'LO', label: 'Bajo' },
+        { value: 'NOM', label: 'Nominal' },
+        { value: 'HI', label: 'Alto' },
+        { value: 'VHI', label: 'Muy Alto' }
+      ]
+    },
+    {
+      key: 'PLEX',
+      label: 'Platform Experience (PLEX)',
+      field: 'selectedEmPlex',
+      options: [
+        { value: 'VLO', label: 'Muy Bajo' },
+        { value: 'LO', label: 'Bajo' },
+        { value: 'NOM', label: 'Nominal' },
+        { value: 'HI', label: 'Alto' },
+        { value: 'VHI', label: 'Muy Alto' }
+      ]
+    },
+    {
+      key: 'LTEX',
+      label: 'Language and Tool Experience (LTEX)',
+      field: 'selectedEmLtex',
+      options: [
+        { value: 'VLO', label: 'Muy Bajo' },
+        { value: 'LO', label: 'Bajo' },
+        { value: 'NOM', label: 'Nominal' },
+        { value: 'HI', label: 'Alto' },
+        { value: 'VHI', label: 'Muy Alto' }
+      ]
+    },
+    {
+      key: 'TOOL',
+      label: 'Use of Software Tools (TOOL)',
+      field: 'selectedEmTool',
+      options: [
+        { value: 'VLO', label: 'Muy Bajo' },
+        { value: 'LO', label: 'Bajo' },
+        { value: 'NOM', label: 'Nominal' },
+        { value: 'HI', label: 'Alto' },
+        { value: 'VHI', label: 'Muy Alto' }
+      ]
+    },
+    {
+      key: 'SITE',
+      label: 'Multisite Development (SITE)',
+      field: 'selectedEmSite',
+      options: [
         { value: 'VLO', label: 'Muy Bajo' },
         { value: 'LO', label: 'Bajo' },
         { value: 'NOM', label: 'Nominal' },
@@ -189,13 +293,11 @@ export class ParameterEditorComponent implements OnInit {
       label: 'Required Development Schedule (SCED)',
       field: 'selectedEmSced',
       options: [
-        { value: 'XLO', label: 'Extra Bajo' },
         { value: 'VLO', label: 'Muy Bajo' },
         { value: 'LO', label: 'Bajo' },
         { value: 'NOM', label: 'Nominal' },
         { value: 'HI', label: 'Alto' },
-        { value: 'VHI', label: 'Muy Alto' },
-        { value: 'XHI', label: 'Extra Alto' }
+        { value: 'VHI', label: 'Muy Alto' }
       ]
     }
   ];
@@ -216,12 +318,22 @@ export class ParameterEditorComponent implements OnInit {
       selectedSfResl: this.estimation.selectedSfResl,
       selectedSfTeam: this.estimation.selectedSfTeam,
       selectedSfPmat: this.estimation.selectedSfPmat,
-      selectedEmPers: this.estimation.selectedEmPers,
-      selectedEmRcpx: this.estimation.selectedEmRcpx,
-      selectedEmPdif: this.estimation.selectedEmPdif,
-      selectedEmPrex: this.estimation.selectedEmPrex,
+      selectedEmRely: this.estimation.selectedEmRely,
+      selectedEmData: this.estimation.selectedEmData,
+      selectedEmCplx: this.estimation.selectedEmCplx,
       selectedEmRuse: this.estimation.selectedEmRuse,
-      selectedEmFcil: this.estimation.selectedEmFcil,
+      selectedEmDocu: this.estimation.selectedEmDocu,
+      selectedEmTime: this.estimation.selectedEmTime,
+      selectedEmStor: this.estimation.selectedEmStor,
+      selectedEmPvol: this.estimation.selectedEmPvol,
+      selectedEmAcap: this.estimation.selectedEmAcap,
+      selectedEmPcap: this.estimation.selectedEmPcap,
+      selectedEmPcon: this.estimation.selectedEmPcon,
+      selectedEmApex: this.estimation.selectedEmApex,
+      selectedEmPlex: this.estimation.selectedEmPlex,
+      selectedEmLtex: this.estimation.selectedEmLtex,
+      selectedEmTool: this.estimation.selectedEmTool,
+      selectedEmSite: this.estimation.selectedEmSite,
       selectedEmSced: this.estimation.selectedEmSced
     };
   }

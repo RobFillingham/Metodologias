@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavbarComponent } from '../../../../shared/components/navbar/navbar.component';
-import { FunctionPointEntryComponent } from '../../../../shared/components/function-point-entry/function-point-entry.component';
+import { FunctionPointEntryStage3Component } from '../../components/function-point-entry/function-point-entry.component';
 import { ParameterEditorComponent } from '../../components/parameter-editor/parameter-editor.component';
 import { EstimationService } from '../../../../core/services/cocomo-ii-stage3/estimation.service';
 import { Estimation, ApiResponse } from '../../../../core/models/cocomo-ii-stage3/cocomo-ii-stage3.models';
@@ -10,7 +10,7 @@ import { Estimation, ApiResponse } from '../../../../core/models/cocomo-ii-stage
 @Component({
   selector: 'app-estimation-detail',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, FunctionPointEntryComponent, ParameterEditorComponent],
+  imports: [CommonModule, NavbarComponent, FunctionPointEntryStage3Component, ParameterEditorComponent],
   template: `
     <app-navbar></app-navbar>
 
@@ -76,10 +76,10 @@ import { Estimation, ApiResponse } from '../../../../core/models/cocomo-ii-stage
         </div>
 
         <!-- Function Points Entry -->
-        <app-function-point-entry
+        <app-function-point-entry-stage3
           [estimationId]="estimationId"
           (functionsUpdated)="onFunctionsUpdated()"
-        ></app-function-point-entry>
+        ></app-function-point-entry-stage3>
       </div>
     </div>
   `,
