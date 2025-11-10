@@ -191,8 +191,8 @@ interface RatingOption {
                 <h3>Multiplicadores de Esfuerzo (EM)</h3>
                 
                 <div class="form-group">
-                  <label>PERS - Capacidad del Personal</label>
-                  <select formControlName="selectedEmPers" class="form-control">
+                  <label>RELY - Confiabilidad Requerida</label>
+                  <select formControlName="selectedEmRely" class="form-control">
                     <option *ngFor="let opt of emRatings" [value]="opt.value">
                       {{ opt.label }} - {{ opt.description }}
                     </option>
@@ -200,8 +200,8 @@ interface RatingOption {
                 </div>
 
                 <div class="form-group">
-                  <label>RCPX - Confiabilidad y Complejidad del Producto</label>
-                  <select formControlName="selectedEmRcpx" class="form-control">
+                  <label>DATA - Tamaño de la Base de Datos</label>
+                  <select formControlName="selectedEmData" class="form-control">
                     <option *ngFor="let opt of emRatings" [value]="opt.value">
                       {{ opt.label }} - {{ opt.description }}
                     </option>
@@ -209,17 +209,8 @@ interface RatingOption {
                 </div>
 
                 <div class="form-group">
-                  <label>PDIF - Dificultad de la Plataforma</label>
-                  <select formControlName="selectedEmPdif" class="form-control">
-                    <option *ngFor="let opt of emRatings" [value]="opt.value">
-                      {{ opt.label }} - {{ opt.description }}
-                    </option>
-                  </select>
-                </div>
-
-                <div class="form-group">
-                  <label>PREX - Experiencia del Personal</label>
-                  <select formControlName="selectedEmPrex" class="form-control">
+                  <label>CPLX - Complejidad del Producto</label>
+                  <select formControlName="selectedEmCplx" class="form-control">
                     <option *ngFor="let opt of emRatings" [value]="opt.value">
                       {{ opt.label }} - {{ opt.description }}
                     </option>
@@ -236,8 +227,8 @@ interface RatingOption {
                 </div>
 
                 <div class="form-group">
-                  <label>FCIL - Facilidades</label>
-                  <select formControlName="selectedEmFcil" class="form-control">
+                  <label>DOCU - Documentación</label>
+                  <select formControlName="selectedEmDocu" class="form-control">
                     <option *ngFor="let opt of emRatings" [value]="opt.value">
                       {{ opt.label }} - {{ opt.description }}
                     </option>
@@ -245,7 +236,106 @@ interface RatingOption {
                 </div>
 
                 <div class="form-group">
-                  <label>SCED - Restricción de Cronograma</label>
+                  <label>TIME - Restricción de Tiempo de Ejecución</label>
+                  <select formControlName="selectedEmTime" class="form-control">
+                    <option *ngFor="let opt of emRatings" [value]="opt.value">
+                      {{ opt.label }} - {{ opt.description }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>STOR - Restricción de Almacenamiento Principal</label>
+                  <select formControlName="selectedEmStor" class="form-control">
+                    <option *ngFor="let opt of emRatings" [value]="opt.value">
+                      {{ opt.label }} - {{ opt.description }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>PVOL - Volatilidad de la Plataforma</label>
+                  <select formControlName="selectedEmPvol" class="form-control">
+                    <option *ngFor="let opt of emRatings" [value]="opt.value">
+                      {{ opt.label }} - {{ opt.description }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>ACAP - Capacidad del Analista</label>
+                  <select formControlName="selectedEmAcap" class="form-control">
+                    <option *ngFor="let opt of emRatings" [value]="opt.value">
+                      {{ opt.label }} - {{ opt.description }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>PCAP - Capacidad del Programador</label>
+                  <select formControlName="selectedEmPcap" class="form-control">
+                    <option *ngFor="let opt of emRatings" [value]="opt.value">
+                      {{ opt.label }} - {{ opt.description }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>PCON - Continuidad del Personal</label>
+                  <select formControlName="selectedEmPcon" class="form-control">
+                    <option *ngFor="let opt of emRatings" [value]="opt.value">
+                      {{ opt.label }} - {{ opt.description }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>APEX - Experiencia en Aplicaciones</label>
+                  <select formControlName="selectedEmApex" class="form-control">
+                    <option *ngFor="let opt of emRatings" [value]="opt.value">
+                      {{ opt.label }} - {{ opt.description }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>PLEX - Experiencia en Plataforma</label>
+                  <select formControlName="selectedEmPlex" class="form-control">
+                    <option *ngFor="let opt of emRatings" [value]="opt.value">
+                      {{ opt.label }} - {{ opt.description }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>LTEX - Experiencia en Lenguaje y Herramientas</label>
+                  <select formControlName="selectedEmLtex" class="form-control">
+                    <option *ngFor="let opt of emRatings" [value]="opt.value">
+                      {{ opt.label }} - {{ opt.description }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>TOOL - Uso de Herramientas de Software</label>
+                  <select formControlName="selectedEmTool" class="form-control">
+                    <option *ngFor="let opt of emRatings" [value]="opt.value">
+                      {{ opt.label }} - {{ opt.description }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>SITE - Desarrollo Multi-sitio</label>
+                  <select formControlName="selectedEmSite" class="form-control">
+                    <option *ngFor="let opt of emRatings" [value]="opt.value">
+                      {{ opt.label }} - {{ opt.description }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>SCED - Restricción de Cronograma de Desarrollo</label>
                   <select formControlName="selectedEmSced" class="form-control">
                     <option *ngFor="let opt of emRatings" [value]="opt.value">
                       {{ opt.label }} - {{ opt.description }}
@@ -681,12 +771,22 @@ export class EstimationFormComponent implements OnInit {
       selectedSfResl: ['NOM'],
       selectedSfTeam: ['NOM'],
       selectedSfPmat: ['NOM'],
-      selectedEmPers: ['NOM'],
-      selectedEmRcpx: ['NOM'],
-      selectedEmPdif: ['NOM'],
-      selectedEmPrex: ['NOM'],
+      selectedEmRely: ['NOM'],
+      selectedEmData: ['NOM'],
+      selectedEmCplx: ['NOM'],
       selectedEmRuse: ['NOM'],
-      selectedEmFcil: ['NOM'],
+      selectedEmDocu: ['NOM'],
+      selectedEmTime: ['NOM'],
+      selectedEmStor: ['NOM'],
+      selectedEmPvol: ['NOM'],
+      selectedEmAcap: ['NOM'],
+      selectedEmPcap: ['NOM'],
+      selectedEmPcon: ['NOM'],
+      selectedEmApex: ['NOM'],
+      selectedEmPlex: ['NOM'],
+      selectedEmLtex: ['NOM'],
+      selectedEmTool: ['NOM'],
+      selectedEmSite: ['NOM'],
       selectedEmSced: ['NOM']
     });
   }
