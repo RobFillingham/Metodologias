@@ -1,8 +1,8 @@
 import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ParameterSetService } from '../../../../core/services/cocomo2/parameter-set.service';
-import { ParameterSet, ApiResponse } from '../../../../core/models/cocomo2/cocomo.models';
+import { ParameterSetService } from '../../../../core/services/cocomo-ii-stage3/parameter-set.service';
+import { ParameterSet, ApiResponse } from '../../../../core/models/cocomo-ii-stage3/cocomo-ii-stage3.models';
 import { NavbarComponent } from '../../../../shared/components/navbar/navbar.component';
 
 interface RatingDisplay {
@@ -557,60 +557,47 @@ export class ParameterSetDetailComponent implements OnInit {
     // Build Effort Multipliers display
     this.effortMultipliers = [
       {
-        factor: 'PERS',
-        label: 'Personnel Capability (PERS)',
+        factor: 'RELY',
+        label: 'Required Software Reliability (RELY)',
         ratings: [
-          { level: 'XLO', value: parameterSet.emPersXlo },
-          { level: 'VLO', value: parameterSet.emPersVlo },
-          { level: 'LO', value: parameterSet.emPersLo },
-          { level: 'NOM', value: parameterSet.emPersNom },
-          { level: 'HI', value: parameterSet.emPersHi },
-          { level: 'VHI', value: parameterSet.emPersVhi },
-          { level: 'XHI', value: parameterSet.emPersXhi }
+          { level: 'XLO', value: parameterSet.emRelyXlo },
+          { level: 'VLO', value: parameterSet.emRelyVlo },
+          { level: 'LO', value: parameterSet.emRelyLo },
+          { level: 'NOM', value: parameterSet.emRelyNom },
+          { level: 'HI', value: parameterSet.emRelyHi },
+          { level: 'VHI', value: parameterSet.emRelyVhi },
+          { level: 'XHI', value: parameterSet.emRelyXhi }
         ]
       },
       {
-        factor: 'RCPX',
-        label: 'Product Reliability and Complexity (RCPX)',
+        factor: 'DATA',
+        label: 'Database Size (DATA)',
         ratings: [
-          { level: 'XLO', value: parameterSet.emRcpxXlo },
-          { level: 'VLO', value: parameterSet.emRcpxVlo },
-          { level: 'LO', value: parameterSet.emRcpxLo },
-          { level: 'NOM', value: parameterSet.emRcpxNom },
-          { level: 'HI', value: parameterSet.emRcpxHi },
-          { level: 'VHI', value: parameterSet.emRcpxVhi },
-          { level: 'XHI', value: parameterSet.emRcpxXhi }
+          { level: 'XLO', value: parameterSet.emDataXlo },
+          { level: 'VLO', value: parameterSet.emDataVlo },
+          { level: 'LO', value: parameterSet.emDataLo },
+          { level: 'NOM', value: parameterSet.emDataNom },
+          { level: 'HI', value: parameterSet.emDataHi },
+          { level: 'VHI', value: parameterSet.emDataVhi },
+          { level: 'XHI', value: parameterSet.emDataXhi }
         ]
       },
       {
-        factor: 'PDIF',
-        label: 'Platform Difficulty (PDIF)',
+        factor: 'CPLX',
+        label: 'Product Complexity (CPLX)',
         ratings: [
-          { level: 'XLO', value: parameterSet.emPdifXlo },
-          { level: 'VLO', value: parameterSet.emPdifVlo },
-          { level: 'LO', value: parameterSet.emPdifLo },
-          { level: 'NOM', value: parameterSet.emPdifNom },
-          { level: 'HI', value: parameterSet.emPdifHi },
-          { level: 'VHI', value: parameterSet.emPdifVhi },
-          { level: 'XHI', value: parameterSet.emPdifXhi }
-        ]
-      },
-      {
-        factor: 'PREX',
-        label: 'Personnel Experience (PREX)',
-        ratings: [
-          { level: 'XLO', value: parameterSet.emPrexXlo },
-          { level: 'VLO', value: parameterSet.emPrexVlo },
-          { level: 'LO', value: parameterSet.emPrexLo },
-          { level: 'NOM', value: parameterSet.emPrexNom },
-          { level: 'HI', value: parameterSet.emPrexHi },
-          { level: 'VHI', value: parameterSet.emPrexVhi },
-          { level: 'XHI', value: parameterSet.emPrexXhi }
+          { level: 'XLO', value: parameterSet.emCplxXlo },
+          { level: 'VLO', value: parameterSet.emCplxVlo },
+          { level: 'LO', value: parameterSet.emCplxLo },
+          { level: 'NOM', value: parameterSet.emCplxNom },
+          { level: 'HI', value: parameterSet.emCplxHi },
+          { level: 'VHI', value: parameterSet.emCplxVhi },
+          { level: 'XHI', value: parameterSet.emCplxXhi }
         ]
       },
       {
         factor: 'RUSE',
-        label: 'Reusability (RUSE)',
+        label: 'Required Reusability (RUSE)',
         ratings: [
           { level: 'XLO', value: parameterSet.emRuseXlo },
           { level: 'VLO', value: parameterSet.emRuseVlo },
@@ -622,16 +609,159 @@ export class ParameterSetDetailComponent implements OnInit {
         ]
       },
       {
-        factor: 'FCIL',
-        label: 'Facilities (FCIL)',
+        factor: 'DOCU',
+        label: 'Documentation Match to Life-Cycle Needs (DOCU)',
         ratings: [
-          { level: 'XLO', value: parameterSet.emFcilXlo },
-          { level: 'VLO', value: parameterSet.emFcilVlo },
-          { level: 'LO', value: parameterSet.emFcilLo },
-          { level: 'NOM', value: parameterSet.emFcilNom },
-          { level: 'HI', value: parameterSet.emFcilHi },
-          { level: 'VHI', value: parameterSet.emFcilVhi },
-          { level: 'XHI', value: parameterSet.emFcilXhi }
+          { level: 'XLO', value: parameterSet.emDocuXlo },
+          { level: 'VLO', value: parameterSet.emDocuVlo },
+          { level: 'LO', value: parameterSet.emDocuLo },
+          { level: 'NOM', value: parameterSet.emDocuNom },
+          { level: 'HI', value: parameterSet.emDocuHi },
+          { level: 'VHI', value: parameterSet.emDocuVhi },
+          { level: 'XHI', value: parameterSet.emDocuXhi }
+        ]
+      },
+      {
+        factor: 'TIME',
+        label: 'Execution Time Constraint (TIME)',
+        ratings: [
+          { level: 'XLO', value: parameterSet.emTimeXlo },
+          { level: 'VLO', value: parameterSet.emTimeVlo },
+          { level: 'LO', value: parameterSet.emTimeLo },
+          { level: 'NOM', value: parameterSet.emTimeNom },
+          { level: 'HI', value: parameterSet.emTimeHi },
+          { level: 'VHI', value: parameterSet.emTimeVhi },
+          { level: 'XHI', value: parameterSet.emTimeXhi }
+        ]
+      },
+      {
+        factor: 'STOR',
+        label: 'Main Storage Constraint (STOR)',
+        ratings: [
+          { level: 'XLO', value: parameterSet.emStorXlo },
+          { level: 'VLO', value: parameterSet.emStorVlo },
+          { level: 'LO', value: parameterSet.emStorLo },
+          { level: 'NOM', value: parameterSet.emStorNom },
+          { level: 'HI', value: parameterSet.emStorHi },
+          { level: 'VHI', value: parameterSet.emStorVhi },
+          { level: 'XHI', value: parameterSet.emStorXhi }
+        ]
+      },
+      {
+        factor: 'PVOL',
+        label: 'Platform Volatility (PVOL)',
+        ratings: [
+          { level: 'XLO', value: parameterSet.emPvolXlo },
+          { level: 'VLO', value: parameterSet.emPvolVlo },
+          { level: 'LO', value: parameterSet.emPvolLo },
+          { level: 'NOM', value: parameterSet.emPvolNom },
+          { level: 'HI', value: parameterSet.emPvolHi },
+          { level: 'VHI', value: parameterSet.emPvolVhi },
+          { level: 'XHI', value: parameterSet.emPvolXhi }
+        ]
+      },
+      {
+        factor: 'ACAP',
+        label: 'Analyst Capability (ACAP)',
+        ratings: [
+          { level: 'XLO', value: parameterSet.emAcapXlo },
+          { level: 'VLO', value: parameterSet.emAcapVlo },
+          { level: 'LO', value: parameterSet.emAcapLo },
+          { level: 'NOM', value: parameterSet.emAcapNom },
+          { level: 'HI', value: parameterSet.emAcapHi },
+          { level: 'VHI', value: parameterSet.emAcapVhi },
+          { level: 'XHI', value: parameterSet.emAcapXhi }
+        ]
+      },
+      {
+        factor: 'PCAP',
+        label: 'Programmer Capability (PCAP)',
+        ratings: [
+          { level: 'XLO', value: parameterSet.emPcapXlo },
+          { level: 'VLO', value: parameterSet.emPcapVlo },
+          { level: 'LO', value: parameterSet.emPcapLo },
+          { level: 'NOM', value: parameterSet.emPcapNom },
+          { level: 'HI', value: parameterSet.emPcapHi },
+          { level: 'VHI', value: parameterSet.emPcapVhi },
+          { level: 'XHI', value: parameterSet.emPcapXhi }
+        ]
+      },
+      {
+        factor: 'PCON',
+        label: 'Personnel Continuity (PCON)',
+        ratings: [
+          { level: 'XLO', value: parameterSet.emPconXlo },
+          { level: 'VLO', value: parameterSet.emPconVlo },
+          { level: 'LO', value: parameterSet.emPconLo },
+          { level: 'NOM', value: parameterSet.emPconNom },
+          { level: 'HI', value: parameterSet.emPconHi },
+          { level: 'VHI', value: parameterSet.emPconVhi },
+          { level: 'XHI', value: parameterSet.emPconXhi }
+        ]
+      },
+      {
+        factor: 'APEX',
+        label: 'Applications Experience (APEX)',
+        ratings: [
+          { level: 'XLO', value: parameterSet.emApexXlo },
+          { level: 'VLO', value: parameterSet.emApexVlo },
+          { level: 'LO', value: parameterSet.emApexLo },
+          { level: 'NOM', value: parameterSet.emApexNom },
+          { level: 'HI', value: parameterSet.emApexHi },
+          { level: 'VHI', value: parameterSet.emApexVhi },
+          { level: 'XHI', value: parameterSet.emApexXhi }
+        ]
+      },
+      {
+        factor: 'PLEX',
+        label: 'Platform Experience (PLEX)',
+        ratings: [
+          { level: 'XLO', value: parameterSet.emPlexXlo },
+          { level: 'VLO', value: parameterSet.emPlexVlo },
+          { level: 'LO', value: parameterSet.emPlexLo },
+          { level: 'NOM', value: parameterSet.emPlexNom },
+          { level: 'HI', value: parameterSet.emPlexHi },
+          { level: 'VHI', value: parameterSet.emPlexVhi },
+          { level: 'XHI', value: parameterSet.emPlexXhi }
+        ]
+      },
+      {
+        factor: 'LTEX',
+        label: 'Language and Tool Experience (LTEX)',
+        ratings: [
+          { level: 'XLO', value: parameterSet.emLtexXlo },
+          { level: 'VLO', value: parameterSet.emLtexVlo },
+          { level: 'LO', value: parameterSet.emLtexLo },
+          { level: 'NOM', value: parameterSet.emLtexNom },
+          { level: 'HI', value: parameterSet.emLtexHi },
+          { level: 'VHI', value: parameterSet.emLtexVhi },
+          { level: 'XHI', value: parameterSet.emLtexXhi }
+        ]
+      },
+      {
+        factor: 'TOOL',
+        label: 'Use of Software Tools (TOOL)',
+        ratings: [
+          { level: 'XLO', value: parameterSet.emToolXlo },
+          { level: 'VLO', value: parameterSet.emToolVlo },
+          { level: 'LO', value: parameterSet.emToolLo },
+          { level: 'NOM', value: parameterSet.emToolNom },
+          { level: 'HI', value: parameterSet.emToolHi },
+          { level: 'VHI', value: parameterSet.emToolVhi },
+          { level: 'XHI', value: parameterSet.emToolXhi }
+        ]
+      },
+      {
+        factor: 'SITE',
+        label: 'Multi-site Development (SITE)',
+        ratings: [
+          { level: 'XLO', value: parameterSet.emSiteXlo },
+          { level: 'VLO', value: parameterSet.emSiteVlo },
+          { level: 'LO', value: parameterSet.emSiteLo },
+          { level: 'NOM', value: parameterSet.emSiteNom },
+          { level: 'HI', value: parameterSet.emSiteHi },
+          { level: 'VHI', value: parameterSet.emSiteVhi },
+          { level: 'XHI', value: parameterSet.emSiteXhi }
         ]
       },
       {
@@ -652,7 +782,7 @@ export class ParameterSetDetailComponent implements OnInit {
 
   editParameterSet() {
     if (this.parameterSet()) {
-      this.router.navigate(['/cocomo2/parameter-sets', this.parameterSet()!.paramSetId, 'edit']);
+      this.router.navigate(['/cocomo-ii-stage3/parameter-sets', this.parameterSet()!.paramSetId, 'edit']);
     }
   }
 
@@ -662,7 +792,7 @@ export class ParameterSetDetailComponent implements OnInit {
         this.parameterSetService.deleteParameterSet(this.parameterSet()!.paramSetId).subscribe({
           next: (response) => {
             if (response.success) {
-              this.router.navigate(['/cocomo2/parameter-sets']);
+              this.router.navigate(['/cocomo-ii-stage3/parameter-sets']);
             } else {
               alert('Failed to delete parameter set: ' + (response.errors?.[0] || response.message || 'Unknown error'));
             }
@@ -701,7 +831,7 @@ export class ParameterSetDetailComponent implements OnInit {
     });
 
     // Count EM ratings
-    const emFields = ['emPers', 'emRcpx', 'emPdif', 'emPrex', 'emRuse', 'emFcil', 'emSced'];
+    const emFields = ['emRely', 'emData', 'emCplx', 'emRuse', 'emDocu', 'emTime', 'emStor', 'emPvol', 'emAcap', 'emPcap', 'emPcon', 'emApex', 'emPlex', 'emLtex', 'emTool', 'emSite', 'emSced'];
     emFields.forEach(field => {
       ['Xlo', 'Vlo', 'Lo', 'Nom', 'Hi', 'Vhi', 'Xhi'].forEach(level => {
         const key = `${field}${level}` as keyof ParameterSet;
@@ -715,7 +845,7 @@ export class ParameterSetDetailComponent implements OnInit {
   }
 
   getTotalPossibleRatings(): number {
-    return (5 * 6) + (7 * 7); // 30 SF + 49 EM = 79 total
+    return (5 * 6) + (17 * 7); // 30 SF + 119 EM = 149 total
   }
 
   getCompletionPercentage(): number {
@@ -725,6 +855,6 @@ export class ParameterSetDetailComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/cocomo2/parameter-sets']);
+    this.router.navigate(['/cocomo-ii-stage3/parameter-sets']);
   }
 }

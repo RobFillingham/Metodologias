@@ -412,15 +412,15 @@ export class ParameterSetsComponent implements OnInit {
 
   createNewParameterSet() {
     // Navigate to create parameter set page
-    this.router.navigate(['/cocomo2/parameter-sets/create']);
+    this.router.navigate(['/cocomo-ii-stage3/parameter-sets/create']);
   }
 
   viewParameterSet(paramSet: ParameterSet) {
-    this.router.navigate(['/cocomo2/parameter-sets', paramSet.paramSetId]);
+    this.router.navigate(['/cocomo-ii-stage3/parameter-sets', paramSet.paramSetId]);
   }
 
   editParameterSet(paramSet: ParameterSet) {
-    this.router.navigate(['/cocomo2/parameter-sets', paramSet.paramSetId, 'edit']);
+    this.router.navigate(['/cocomo-ii-stage3/parameter-sets', paramSet.paramSetId, 'edit']);
   }
 
   deleteParameterSet(paramSet: ParameterSet) {

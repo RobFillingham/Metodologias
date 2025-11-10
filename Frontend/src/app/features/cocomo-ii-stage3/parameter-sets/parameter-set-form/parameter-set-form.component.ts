@@ -2,8 +2,8 @@ import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ParameterSetService } from '../../../../core/services/cocomo2/parameter-set.service';
-import { ParameterSet, CreateParameterSetRequest, ApiResponse } from '../../../../core/models/cocomo2/cocomo.models';
+import { ParameterSetService } from '../../../../core/services/cocomo-ii-stage3/parameter-set.service';
+import { ParameterSet, CreateParameterSetRequest, ApiResponse } from '../../../../core/models/cocomo-ii-stage3/cocomo-ii-stage3.models';
 import { NavbarComponent } from '../../../../shared/components/navbar/navbar.component';
 
 interface RatingDefinition {
@@ -576,9 +576,9 @@ export class ParameterSetFormComponent implements OnInit {
   // Effort Multipliers definitions
   effortMultipliers: RatingDefinition[] = [
     {
-      key: 'PERS',
-      label: 'Personnel Capability (PERS)',
-      fieldPrefix: 'emPers',
+      key: 'RELY',
+      label: 'Required Software Reliability (RELY)',
+      fieldPrefix: 'emRely',
       options: [
         { value: 'Xlo', label: 'Extra Low' },
         { value: 'Vlo', label: 'Very Low' },
@@ -590,9 +590,9 @@ export class ParameterSetFormComponent implements OnInit {
       ]
     },
     {
-      key: 'RCPX',
-      label: 'Product Reliability and Complexity (RCPX)',
-      fieldPrefix: 'emRcpx',
+      key: 'DATA',
+      label: 'Database Size (DATA)',
+      fieldPrefix: 'emData',
       options: [
         { value: 'Xlo', label: 'Extra Low' },
         { value: 'Vlo', label: 'Very Low' },
@@ -604,23 +604,9 @@ export class ParameterSetFormComponent implements OnInit {
       ]
     },
     {
-      key: 'PDIF',
-      label: 'Platform Difficulty (PDIF)',
-      fieldPrefix: 'emPdif',
-      options: [
-        { value: 'Xlo', label: 'Extra Low' },
-        { value: 'Vlo', label: 'Very Low' },
-        { value: 'Lo', label: 'Low' },
-        { value: 'Nom', label: 'Nominal' },
-        { value: 'Hi', label: 'High' },
-        { value: 'Vhi', label: 'Very High' },
-        { value: 'Xhi', label: 'Extra High' }
-      ]
-    },
-    {
-      key: 'PREX',
-      label: 'Personnel Experience (PREX)',
-      fieldPrefix: 'emPrex',
+      key: 'CPLX',
+      label: 'Product Complexity (CPLX)',
+      fieldPrefix: 'emCplx',
       options: [
         { value: 'Xlo', label: 'Extra Low' },
         { value: 'Vlo', label: 'Very Low' },
@@ -633,7 +619,7 @@ export class ParameterSetFormComponent implements OnInit {
     },
     {
       key: 'RUSE',
-      label: 'Reusability (RUSE)',
+      label: 'Required Reusability (RUSE)',
       fieldPrefix: 'emRuse',
       options: [
         { value: 'Xlo', label: 'Extra Low' },
@@ -646,9 +632,163 @@ export class ParameterSetFormComponent implements OnInit {
       ]
     },
     {
-      key: 'FCIL',
-      label: 'Facilities (FCIL)',
-      fieldPrefix: 'emFcil',
+      key: 'DOCU',
+      label: 'Documentation Match to Life-Cycle Needs (DOCU)',
+      fieldPrefix: 'emDocu',
+      options: [
+        { value: 'Xlo', label: 'Extra Low' },
+        { value: 'Vlo', label: 'Very Low' },
+        { value: 'Lo', label: 'Low' },
+        { value: 'Nom', label: 'Nominal' },
+        { value: 'Hi', label: 'High' },
+        { value: 'Vhi', label: 'Very High' },
+        { value: 'Xhi', label: 'Extra High' }
+      ]
+    },
+    {
+      key: 'TIME',
+      label: 'Execution Time Constraint (TIME)',
+      fieldPrefix: 'emTime',
+      options: [
+        { value: 'Xlo', label: 'Extra Low' },
+        { value: 'Vlo', label: 'Very Low' },
+        { value: 'Lo', label: 'Low' },
+        { value: 'Nom', label: 'Nominal' },
+        { value: 'Hi', label: 'High' },
+        { value: 'Vhi', label: 'Very High' },
+        { value: 'Xhi', label: 'Extra High' }
+      ]
+    },
+    {
+      key: 'STOR',
+      label: 'Main Storage Constraint (STOR)',
+      fieldPrefix: 'emStor',
+      options: [
+        { value: 'Xlo', label: 'Extra Low' },
+        { value: 'Vlo', label: 'Very Low' },
+        { value: 'Lo', label: 'Low' },
+        { value: 'Nom', label: 'Nominal' },
+        { value: 'Hi', label: 'High' },
+        { value: 'Vhi', label: 'Very High' },
+        { value: 'Xhi', label: 'Extra High' }
+      ]
+    },
+    {
+      key: 'PVOL',
+      label: 'Platform Volatility (PVOL)',
+      fieldPrefix: 'emPvol',
+      options: [
+        { value: 'Xlo', label: 'Extra Low' },
+        { value: 'Vlo', label: 'Very Low' },
+        { value: 'Lo', label: 'Low' },
+        { value: 'Nom', label: 'Nominal' },
+        { value: 'Hi', label: 'High' },
+        { value: 'Vhi', label: 'Very High' },
+        { value: 'Xhi', label: 'Extra High' }
+      ]
+    },
+    {
+      key: 'ACAP',
+      label: 'Analyst Capability (ACAP)',
+      fieldPrefix: 'emAcap',
+      options: [
+        { value: 'Xlo', label: 'Extra Low' },
+        { value: 'Vlo', label: 'Very Low' },
+        { value: 'Lo', label: 'Low' },
+        { value: 'Nom', label: 'Nominal' },
+        { value: 'Hi', label: 'High' },
+        { value: 'Vhi', label: 'Very High' },
+        { value: 'Xhi', label: 'Extra High' }
+      ]
+    },
+    {
+      key: 'PCAP',
+      label: 'Programmer Capability (PCAP)',
+      fieldPrefix: 'emPcap',
+      options: [
+        { value: 'Xlo', label: 'Extra Low' },
+        { value: 'Vlo', label: 'Very Low' },
+        { value: 'Lo', label: 'Low' },
+        { value: 'Nom', label: 'Nominal' },
+        { value: 'Hi', label: 'High' },
+        { value: 'Vhi', label: 'Very High' },
+        { value: 'Xhi', label: 'Extra High' }
+      ]
+    },
+    {
+      key: 'PCON',
+      label: 'Personnel Continuity (PCON)',
+      fieldPrefix: 'emPcon',
+      options: [
+        { value: 'Xlo', label: 'Extra Low' },
+        { value: 'Vlo', label: 'Very Low' },
+        { value: 'Lo', label: 'Low' },
+        { value: 'Nom', label: 'Nominal' },
+        { value: 'Hi', label: 'High' },
+        { value: 'Vhi', label: 'Very High' },
+        { value: 'Xhi', label: 'Extra High' }
+      ]
+    },
+    {
+      key: 'APEX',
+      label: 'Applications Experience (APEX)',
+      fieldPrefix: 'emApex',
+      options: [
+        { value: 'Xlo', label: 'Extra Low' },
+        { value: 'Vlo', label: 'Very Low' },
+        { value: 'Lo', label: 'Low' },
+        { value: 'Nom', label: 'Nominal' },
+        { value: 'Hi', label: 'High' },
+        { value: 'Vhi', label: 'Very High' },
+        { value: 'Xhi', label: 'Extra High' }
+      ]
+    },
+    {
+      key: 'PLEX',
+      label: 'Platform Experience (PLEX)',
+      fieldPrefix: 'emPlex',
+      options: [
+        { value: 'Xlo', label: 'Extra Low' },
+        { value: 'Vlo', label: 'Very Low' },
+        { value: 'Lo', label: 'Low' },
+        { value: 'Nom', label: 'Nominal' },
+        { value: 'Hi', label: 'High' },
+        { value: 'Vhi', label: 'Very High' },
+        { value: 'Xhi', label: 'Extra High' }
+      ]
+    },
+    {
+      key: 'LTEX',
+      label: 'Language and Tool Experience (LTEX)',
+      fieldPrefix: 'emLtex',
+      options: [
+        { value: 'Xlo', label: 'Extra Low' },
+        { value: 'Vlo', label: 'Very Low' },
+        { value: 'Lo', label: 'Low' },
+        { value: 'Nom', label: 'Nominal' },
+        { value: 'Hi', label: 'High' },
+        { value: 'Vhi', label: 'Very High' },
+        { value: 'Xhi', label: 'Extra High' }
+      ]
+    },
+    {
+      key: 'TOOL',
+      label: 'Use of Software Tools (TOOL)',
+      fieldPrefix: 'emTool',
+      options: [
+        { value: 'Xlo', label: 'Extra Low' },
+        { value: 'Vlo', label: 'Very Low' },
+        { value: 'Lo', label: 'Low' },
+        { value: 'Nom', label: 'Nominal' },
+        { value: 'Hi', label: 'High' },
+        { value: 'Vhi', label: 'Very High' },
+        { value: 'Xhi', label: 'Extra High' }
+      ]
+    },
+    {
+      key: 'SITE',
+      label: 'Multi-site Development (SITE)',
+      fieldPrefix: 'emSite',
       options: [
         { value: 'Xlo', label: 'Extra Low' },
         { value: 'Vlo', label: 'Very Low' },
@@ -793,7 +933,7 @@ export class ParameterSetFormComponent implements OnInit {
       next: (response) => {
         this.saving.set(false);
         if (response.success) {
-          this.router.navigate(['/cocomo2/parameter-sets']);
+          this.router.navigate(['/cocomo-ii-stage3/parameter-sets']);
         } else {
           this.error.set(response.errors?.[0] || `Failed to ${this.isEdit ? 'update' : 'create'} parameter set`);
         }
@@ -836,6 +976,6 @@ export class ParameterSetFormComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/cocomo2/parameter-sets']);
+    this.router.navigate(['/cocomo-ii-stage3/parameter-sets']);
   }
 }
