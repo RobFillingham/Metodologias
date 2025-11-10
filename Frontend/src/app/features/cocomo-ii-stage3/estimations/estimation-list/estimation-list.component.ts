@@ -489,7 +489,7 @@ export class EstimationListComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/projects']);
+    this.router.navigate(['/projects'], { queryParams: { variant: 'cocomo-ii-stage3' } });
   }
 
   formatDate(dateString: string): string {
