@@ -548,15 +548,15 @@ export class LanguagesComponent implements OnInit {
   }
 
   viewLanguageDetails(language: Language) {
-    this.router.navigate(['/cocomo2/languages', language.languageId]);
+    this.router.navigate(['/cocomo-ii-stage3/languages', language.languageId]);
   }
 
   createLanguage() {
-    this.router.navigate(['/cocomo2/languages/new']);
+    this.router.navigate(['/cocomo-ii-stage3/languages/new']);
   }
 
   editLanguage(language: Language) {
-    this.router.navigate(['/cocomo2/languages', language.languageId, 'edit']);
+    this.router.navigate(['/cocomo-ii-stage3/languages', language.languageId, 'edit']);
   }
 
   confirmDelete(language: Language) {

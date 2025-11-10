@@ -1,8 +1,8 @@
 import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LanguageService } from '../../../../core/services/cocomo2/language.service';
-import { Language, ApiResponse } from '../../../../core/models/cocomo2/cocomo.models';
+import { LanguageService } from '../../../../core/services/cocomo-ii-stage3/language.service';
+import { Language, ApiResponse } from '../../../../core/models/cocomo-ii-stage3/cocomo-ii-stage3.models';
 import { NavbarComponent } from '../../../../shared/components/navbar/navbar.component';
 
 @Component({
@@ -530,6 +530,6 @@ export class LanguageDetailComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/cocomo2/languages']);
+    this.router.navigate(['/cocomo-ii-stage3/languages']);
   }
 }
