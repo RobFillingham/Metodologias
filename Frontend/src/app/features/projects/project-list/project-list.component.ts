@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 import { ProjectService } from '../../../core/services/cocomo2/project.service';
 import { Project } from '../../../core/models/cocomo2/cocomo.models';
@@ -446,6 +446,7 @@ import { ProjectFormComponent } from '../project-form/project-form.component';
 export class ProjectListComponent implements OnInit {
   private projectService = inject(ProjectService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   // Signals for reactive state
   projects = signal<Project[]>([]);
@@ -530,9 +531,17 @@ export class ProjectListComponent implements OnInit {
   viewEstimations(project: Project) {
     // Set as current project
     this.projectService.setCurrentProject(project);
-    
-    // Navigate to estimations list
-    this.router.navigate(['/cocomo2/estimations', project.projectId]);
+
+    // Check for variant query parameter to determine which COCOMO variant to use
+    const variant = this.route.snapshot.queryParams['variant'];
+
+    // Navigate to the appropriate estimations route based on variant
+    if (variant === 'cocomo-ii-stage3') {
+      this.router.navigate(['/cocomo-ii-stage3/estimations', project.projectId]);
+    } else {
+      // Default to COCOMO2
+      this.router.navigate(['/cocomo2/estimations', project.projectId]);
+    }
   }
 
   formatDate(dateString: string): string {

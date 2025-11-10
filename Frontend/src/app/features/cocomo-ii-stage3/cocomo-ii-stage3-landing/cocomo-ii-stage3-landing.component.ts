@@ -177,7 +177,7 @@ export class CocomoIIStage3LandingComponent {
   router = inject(Router);
 
   goToProjects() {
-    this.router.navigate(['/projects']);
+    this.router.navigate(['/projects'], { queryParams: { variant: 'cocomo-ii-stage3' } });
   }
 
   goToParameterSets() {

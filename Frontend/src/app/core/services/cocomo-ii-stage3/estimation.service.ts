@@ -54,41 +54,41 @@ export class EstimationService {
    * Get all estimations for a project
    */
   getEstimationsByProject(projectId: number): Observable<ApiResponse<Estimation[]>> {
-    return this.apiService.get<Estimation[]>(`CocomoIIStage3/Projects/${projectId}/Estimations`);
+    return this.apiService.get<Estimation[]>(`Projects/${projectId}/CocomoIIStage3/Estimations`);
   }
 
   /**
    * Get a specific estimation
    */
   getEstimation(projectId: number, estimationId: number): Observable<ApiResponse<Estimation>> {
-    return this.apiService.get<Estimation>(`CocomoIIStage3/Projects/${projectId}/Estimations/${estimationId}`);
+    return this.apiService.get<Estimation>(`Projects/${projectId}/CocomoIIStage3/Estimations/${estimationId}`);
   }
 
   /**
    * Create a new estimation
    */
   createEstimation(projectId: number, request: CreateEstimationRequest): Observable<ApiResponse<Estimation>> {
-    return this.apiService.post<Estimation>(`CocomoIIStage3/Projects/${projectId}/Estimations`, request);
+    return this.apiService.post<Estimation>(`Projects/${projectId}/CocomoIIStage3/Estimations`, request);
   }
 
   /**
    * Update estimation ratings (triggers recalculation)
    */
   updateEstimationRatings(projectId: number, estimationId: number, request: UpdateEstimationRatingsRequest): Observable<ApiResponse<Estimation>> {
-    return this.apiService.put<Estimation>(`CocomoIIStage3/Projects/${projectId}/Estimations/${estimationId}/Ratings`, request);
+    return this.apiService.put<Estimation>(`Projects/${projectId}/CocomoIIStage3/Estimations/${estimationId}/Ratings`, request);
   }
 
   /**
    * Update actual results
    */
   updateEstimationActualResults(projectId: number, estimationId: number, request: UpdateEstimationActualResultsRequest): Observable<ApiResponse<Estimation>> {
-    return this.apiService.put<Estimation>(`CocomoIIStage3/Projects/${projectId}/Estimations/${estimationId}/ActualResults`, request);
+    return this.apiService.put<Estimation>(`Projects/${projectId}/CocomoIIStage3/Estimations/${estimationId}/ActualResults`, request);
   }
 
   /**
    * Delete an estimation
    */
   deleteEstimation(projectId: number, estimationId: number): Observable<ApiResponse<void>> {
-    return this.apiService.delete<void>(`CocomoIIStage3/Projects/${projectId}/Estimations/${estimationId}`);
+    return this.apiService.delete<void>(`Projects/${projectId}/CocomoIIStage3/Estimations/${estimationId}`);
   }
 }
