@@ -452,7 +452,7 @@ export class LanguageFormComponent implements OnInit {
       next: (response: ApiResponse<Language>) => {
         this.submitting.set(false);
         if (response.success) {
-          this.router.navigate(['/cocomo2/languages']);
+          this.router.navigate(['/cocomo-ii-stage3/languages']);
         } else {
           this.error.set(response.errors?.[0] || 'Error al crear el lenguaje');
         }
@@ -473,7 +473,7 @@ export class LanguageFormComponent implements OnInit {
       next: (response: ApiResponse<Language>) => {
         this.submitting.set(false);
         if (response.success) {
-          this.router.navigate(['/cocomo2/languages']);
+          this.router.navigate(['/cocomo-ii-stage3/languages']);
         } else {
           this.error.set(response.errors?.[0] || 'Error al actualizar el lenguaje');
         }
@@ -487,6 +487,6 @@ export class LanguageFormComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/cocomo2/languages']);
+    this.router.navigate(['/cocomo-ii-stage3/languages']);
   }
 }
