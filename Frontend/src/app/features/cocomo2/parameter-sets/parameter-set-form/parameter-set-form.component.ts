@@ -693,8 +693,8 @@ export class ParameterSetFormComponent implements OnInit {
     // Add form controls for all SF ratings with default values
     this.scaleFactors.forEach(sf => {
       sf.options.forEach(option => {
-        // Set nominal values to 1.0 as default
-        const defaultValue = option.value === 'Nom' ? 1.0 : null;
+        // Set nominal values to 1.0, others to 0 (but will be overridden by default parameter set)
+        const defaultValue = option.value === 'Nom' ? 1.0 : 0;
         this.parameterSetForm.addControl(`${sf.fieldPrefix}${option.value}`, this.fb.control(defaultValue));
       });
     });
@@ -702,8 +702,8 @@ export class ParameterSetFormComponent implements OnInit {
     // Add form controls for all EM ratings with default values
     this.effortMultipliers.forEach(em => {
       em.options.forEach(option => {
-        // Set nominal values to 1.0 as default
-        const defaultValue = option.value === 'Nom' ? 1.0 : null;
+        // Set nominal values to 1.0, others to 0 (but will be overridden by default parameter set)
+        const defaultValue = option.value === 'Nom' ? 1.0 : 0;
         this.parameterSetForm.addControl(`${em.fieldPrefix}${option.value}`, this.fb.control(defaultValue));
       });
     });
@@ -846,19 +846,19 @@ export class ParameterSetFormComponent implements OnInit {
   private extractRatings(formValue: any): Partial<CreateParameterSetRequest> {
     const ratings: any = {};
 
-    // Extract SF ratings
+    // Extract SF ratings - ensure all values are sent
     this.scaleFactors.forEach(sf => {
       sf.options.forEach(option => {
         const fieldName = `${sf.fieldPrefix}${option.value}`;
-        ratings[fieldName] = formValue[fieldName] || null;
+        ratings[fieldName] = formValue[fieldName];
       });
     });
 
-    // Extract EM ratings
+    // Extract EM ratings - ensure all values are sent
     this.effortMultipliers.forEach(em => {
       em.options.forEach(option => {
         const fieldName = `${em.fieldPrefix}${option.value}`;
-        ratings[fieldName] = formValue[fieldName] || null;
+        ratings[fieldName] = formValue[fieldName];
       });
     });
 
