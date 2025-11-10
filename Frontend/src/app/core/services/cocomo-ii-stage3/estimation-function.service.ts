@@ -16,41 +16,41 @@ export class EstimationFunctionService {
    * Get all functions for an estimation
    */
   getFunctions(estimationId: number): Observable<ApiResponse<EstimationFunction[]>> {
-    return this.apiService.get<EstimationFunction[]>(`CocomoIIStage3/Estimations/${estimationId}/Functions`);
+    return this.apiService.get<EstimationFunction[]>(`Estimations/${estimationId}/CocomoIIStage3/Functions`);
   }
 
   /**
    * Get a specific function
    */
   getFunction(estimationId: number, functionId: number): Observable<ApiResponse<EstimationFunction>> {
-    return this.apiService.get<EstimationFunction>(`CocomoIIStage3/Estimations/${estimationId}/Functions/${functionId}`);
+    return this.apiService.get<EstimationFunction>(`Estimations/${estimationId}/CocomoIIStage3/Functions/${functionId}`);
   }
 
   /**
    * Add a new function (triggers recalculation)
    */
   addFunction(estimationId: number, request: CreateEstimationFunctionRequest): Observable<ApiResponse<EstimationFunction>> {
-    return this.apiService.post<EstimationFunction>(`CocomoIIStage3/Estimations/${estimationId}/Functions`, request);
+    return this.apiService.post<EstimationFunction>(`Estimations/${estimationId}/CocomoIIStage3/Functions`, request);
   }
 
   /**
    * Add multiple functions in batch (triggers single recalculation)
    */
   addFunctionsBatch(estimationId: number, request: BatchCreateEstimationFunctionsRequest): Observable<ApiResponse<any>> {
-    return this.apiService.post<any>(`CocomoIIStage3/Estimations/${estimationId}/Functions/Batch`, request);
+    return this.apiService.post<any>(`Estimations/${estimationId}/CocomoIIStage3/Functions/Batch`, request);
   }
 
   /**
    * Update an existing function (triggers recalculation)
    */
   updateFunction(estimationId: number, functionId: number, request: UpdateEstimationFunctionRequest): Observable<ApiResponse<EstimationFunction>> {
-    return this.apiService.put<EstimationFunction>(`CocomoIIStage3/Estimations/${estimationId}/Functions/${functionId}`, request);
+    return this.apiService.put<EstimationFunction>(`Estimations/${estimationId}/CocomoIIStage3/Functions/${functionId}`, request);
   }
 
   /**
    * Delete a function (triggers recalculation)
    */
   deleteFunction(estimationId: number, functionId: number): Observable<ApiResponse<void>> {
-    return this.apiService.delete<void>(`CocomoIIStage3/Estimations/${estimationId}/Functions/${functionId}`);
+    return this.apiService.delete<void>(`Estimations/${estimationId}/CocomoIIStage3/Functions/${functionId}`);
   }
 }
