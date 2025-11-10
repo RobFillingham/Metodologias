@@ -830,17 +830,21 @@ export class ParameterSetFormComponent implements OnInit {
       constD: [0.28, [Validators.required, Validators.min(0)]]
     });
 
-    // Add form controls for all SF ratings
+    // Add form controls for all SF ratings with default values
     this.scaleFactors.forEach(sf => {
       sf.options.forEach(option => {
-        this.parameterSetForm.addControl(`${sf.fieldPrefix}${option.value}`, this.fb.control(null));
+        // Set nominal values to 1.0 as default
+        const defaultValue = option.value === 'Nom' ? 1.0 : null;
+        this.parameterSetForm.addControl(`${sf.fieldPrefix}${option.value}`, this.fb.control(defaultValue));
       });
     });
 
-    // Add form controls for all EM ratings
+    // Add form controls for all EM ratings with default values
     this.effortMultipliers.forEach(em => {
       em.options.forEach(option => {
-        this.parameterSetForm.addControl(`${em.fieldPrefix}${option.value}`, this.fb.control(null));
+        // Set nominal values to 1.0 as default
+        const defaultValue = option.value === 'Nom' ? 1.0 : null;
+        this.parameterSetForm.addControl(`${em.fieldPrefix}${option.value}`, this.fb.control(defaultValue));
       });
     });
   }
@@ -853,6 +857,9 @@ export class ParameterSetFormComponent implements OnInit {
       this.isEdit = true;
       this.parameterSetId = +id;
       this.loadParameterSet(this.parameterSetId);
+    } else {
+      // For create mode, load default parameter set values
+      this.loadDefaultParameterSet();
     }
   }
 
@@ -862,7 +869,7 @@ export class ParameterSetFormComponent implements OnInit {
       next: (response) => {
         this.loading.set(false);
         if (response.success && response.data) {
-          this.populateForm(response.data);
+          this.populateForm(response.data, true);
         } else {
           this.error.set(response.errors?.[0] || 'Failed to load parameter set');
         }
@@ -875,10 +882,36 @@ export class ParameterSetFormComponent implements OnInit {
     });
   }
 
-  populateForm(parameterSet: ParameterSet) {
+  loadDefaultParameterSet() {
+    this.loading.set(true);
+    this.parameterSetService.getDefaultParameterSets().subscribe({
+      next: (response) => {
+        this.loading.set(false);
+        if (response.success && response.data && response.data.length > 0) {
+          // Use the first default parameter set, but don't populate name and isDefault
+          this.populateForm(response.data[0], false);
+        } else {
+          // If no default parameter set found, keep the form with default constants
+          console.log('No default parameter set found, using default constants');
+        }
+      },
+      error: (err) => {
+        this.loading.set(false);
+        console.error('Error loading default parameter set:', err);
+        // If loading fails, keep the form with default constants
+      }
+    });
+  }
+
+  populateForm(parameterSet: ParameterSet, includeMetadata: boolean = true) {
+    if (includeMetadata) {
+      this.parameterSetForm.patchValue({
+        setName: parameterSet.setName,
+        isDefault: parameterSet.isDefault,
+      });
+    }
+
     this.parameterSetForm.patchValue({
-      setName: parameterSet.setName,
-      isDefault: parameterSet.isDefault,
       constA: parameterSet.constA,
       constB: parameterSet.constB,
       constC: parameterSet.constC,
@@ -889,8 +922,10 @@ export class ParameterSetFormComponent implements OnInit {
     this.scaleFactors.forEach(sf => {
       sf.options.forEach(option => {
         const fieldName = `${sf.fieldPrefix}${option.value}`;
-        const value = (parameterSet as any)[fieldName.toLowerCase()];
-        this.parameterSetForm.get(fieldName)?.setValue(value);
+        const value = (parameterSet as any)[fieldName];
+        if (value !== null && value !== undefined) {
+          this.parameterSetForm.get(fieldName)?.setValue(value);
+        }
       });
     });
 
@@ -898,8 +933,10 @@ export class ParameterSetFormComponent implements OnInit {
     this.effortMultipliers.forEach(em => {
       em.options.forEach(option => {
         const fieldName = `${em.fieldPrefix}${option.value}`;
-        const value = (parameterSet as any)[fieldName.toLowerCase()];
-        this.parameterSetForm.get(fieldName)?.setValue(value);
+        const value = (parameterSet as any)[fieldName];
+        if (value !== null && value !== undefined) {
+          this.parameterSetForm.get(fieldName)?.setValue(value);
+        }
       });
     });
   }
