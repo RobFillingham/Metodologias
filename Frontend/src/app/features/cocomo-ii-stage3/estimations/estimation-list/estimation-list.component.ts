@@ -448,7 +448,7 @@ export class EstimationListComponent implements OnInit {
   }
 
   viewEstimation(estimation: Estimation) {
-    this.router.navigate(['/cocomo2/estimations', this.projectId, estimation.estimationId]);
+    this.router.navigate(['/cocomo-ii-stage3/estimations', this.projectId, estimation.estimationId]);
   }
 
   confirmDelete(estimation: Estimation) {
